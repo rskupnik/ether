@@ -2,20 +2,14 @@
   hosts: ether_nodes
   become: true
   vars:
-    boot_partition_size_mb: 256
-    root_partition_size_mb: 20480  # 20 GB = 20480 MB
+    boot_partition_size_mb: 538     # 538 MiB = 512 MB
+    root_partition_size_mb: 21475   # 21475 MiB = 20 GB
   tasks:
     - name: Ask for confirmation
       ansible.builtin.pause:
         prompt: |
           WARNING: This will destroy all data on the NVMe disk!
-          Type "yes" to continue:
-      register: confirm_wipe
-
-    - name: Fail if not confirmed
-      ansible.builtin.fail:
-        msg: "Disk wipe not confirmed. Exiting."
-      when: confirm_wipe.user_input != 'yes'
+          Type 'yes' to continue, anything else to abort:
 
     - name: Find the NVMe device
       ansible.builtin.command: lsblk -ndo NAME,TYPE,MODEL
@@ -25,7 +19,7 @@
       ansible.builtin.set_fact:
         nvme_device: "/dev/{{ item.split()[0] }}"
       loop: "{{ lsblk_output.stdout_lines }}"
-      when: "'disk' in item and 'NVMe' in item"
+      when: "'disk' in item.lower() and 'nvme' in item.lower()"
       loop_control:
         loop_var: item
 
@@ -36,22 +30,25 @@
     - name: Ask for confirmation of NVMe device
       ansible.builtin.pause:
         prompt: |
-          WARNING: Is this the correct NVMe device?
-          Type "yes" to continue:
-      register: confirm_nvme
+          WARNING: Is this the correct NVMe device ({{ nvme_device }})?
+          Type 'yes' to continue, anything else to abort:
 
-    - name: Fail if device not confirmed
-      ansible.builtin.fail:
-        msg: "Device not confirmed, exiting"
-      when: confirm_nvme.user_input != 'yes'
+    - name: Check existing partition table
+      ansible.builtin.command: lsblk -o NAME,PTTYPE -dn "{{ nvme_device }}"
+      register: partition_table_info
 
-    - name: Create partition table (GPT)
-      community.general.parted:
-        device: "{{ nvme_device }}"
-        label: gpt
-        state: present
+    - name: Create partition table (GPT) if needed
+      ansible.builtin.shell: |
+        parted --script {{ nvme_device }} mklabel gpt
+      args:
+        executable: /bin/bash
+      when: "'gpt' not in partition_table_info.stdout"
 
-    - name: Create first partition (256MB FAT32)
+    - name: Check existing partitions
+      ansible.builtin.command: lsblk -ndo NAME "{{ nvme_device }}"
+      register: partition_list
+
+    - name: Create first partition (FAT32) if missing
       community.general.parted:
         device: "{{ nvme_device }}"
         number: 1
@@ -59,8 +56,10 @@
         part_end: "{{ boot_partition_size_mb }}MB"
         fs_type: fat32
         state: present
+      when: (nvme_device | basename ~ "1") not in partition_list.stdout_lines
 
-    - name: Create second partition (20GB EXT4)
+
+    - name: Create second partition (20GB EXT4) if missing
       community.general.parted:
         device: "{{ nvme_device }}"
         number: 2
@@ -68,13 +67,24 @@
         part_end: "{{ boot_partition_size_mb + root_partition_size_mb }}MB"
         fs_type: ext4
         state: present
+      when: (nvme_device | basename ~ "2") not in partition_list.stdout_lines
 
-    - name: Format first partition as FAT32
+
+    - name: Check filesystems on partitions
+      ansible.builtin.command: lsblk -ndo NAME,FSTYPE "{{ nvme_device }}"
+      register: partition_fs_list
+
+    - name: Format first partition as FAT32 if needed
       ansible.builtin.filesystem:
         fstype: vfat
-        dev: "{{ nvme_device }}1"
+        dev: "{{ nvme_device }}p1"
+        force: true
+      when: "'vfat' not in partition_fs_list.stdout"
 
-    - name: Format second partition as EXT4
+    - name: Format second partition as EXT4 if needed
       ansible.builtin.filesystem:
         fstype: ext4
-        dev: "{{ nvme_device }}2"
+        dev: "{{ nvme_device }}p2"
+        force: true
+      when: "'ext4' not in partition_fs_list.stdout"
+

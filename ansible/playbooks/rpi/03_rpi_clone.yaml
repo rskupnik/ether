@@ -3,9 +3,6 @@
 - name: Clone Raspberry Pi system onto NVMe using rpi-clone
   hosts: ether_nodes
   become: true
-  vars:
-    boot_partition_size_mb: 256
-    root_partition_size_mb: 20480  # (only needed if re-using previous tasks)
   tasks:
     - name: Find NVMe device
       ansible.builtin.command: lsblk -ndo NAME,TYPE,MODEL
@@ -15,7 +12,7 @@
       ansible.builtin.set_fact:
         nvme_device: "/dev/{{ item.split()[0] }}"
       loop: "{{ lsblk_output.stdout_lines }}"
-      when: "'disk' in item and 'NVMe' in item"
+      when: "'disk' in item and 'nvme' in item"
       loop_control:
         loop_var: item
 
@@ -44,7 +41,7 @@
 
     - name: Clone rpi-clone repository
       ansible.builtin.git:
-        repo: 'https://github.com/billw2/rpi-clone.git'
+        repo: 'https://github.com/geerlingguy/rpi-clone.git'
         dest: '/opt/rpi-clone'
         update: no
 
@@ -57,7 +54,7 @@
 
     - name: Run rpi-clone to clone system onto NVMe
       ansible.builtin.command: >
-        /opt/rpi-clone/rpi-clone {{ nvme_device }} -U -l
+        /opt/rpi-clone/rpi-clone {{ nvme_device }} -U
       environment:
         PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       register: clone_output

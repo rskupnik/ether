@@ -8,7 +8,7 @@
         insertafter: EOF
         line: 'dtoverlay=disable-wifi'
         state: present
-        backup: yes
+        backup: no
 
     - name: Reboot nodes to apply Wi-Fi disable
       ansible.builtin.reboot:
