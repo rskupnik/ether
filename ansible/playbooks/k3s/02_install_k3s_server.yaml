@@ -1,0 +1,25 @@
+- name: Install k3s server (control plane)
+  hosts: ethernode1
+  become: true
+  vars:
+    k3s_version: "v1.29.0+k3s1"  # pick your desired version
+  tasks:
+    - name: Install k3s server
+      ansible.builtin.shell: |
+        curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} sh -
+      args:
+        executable: /bin/bash
+
+    - name: Fetch node-token
+      ansible.builtin.slurp:
+        src: /var/lib/rancher/k3s/server/node-token
+      register: k3s_node_token
+
+    - name: Set fact for node-token
+      ansible.builtin.set_fact:
+        k3s_token_decoded: "{{ k3s_node_token['content'] | b64decode | trim }}"
+
+    - name: Save token for other playbooks
+      ansible.builtin.copy:
+        dest: /tmp/k3s_token.txt
+        content: "{{ k3s_token_decoded }}"

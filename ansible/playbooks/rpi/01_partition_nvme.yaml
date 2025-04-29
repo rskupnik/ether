@@ -1,0 +1,80 @@
+- name: Partition and format NVMe disks for Raspberry Pi
+  hosts: ether_nodes
+  become: true
+  vars:
+    boot_partition_size_mb: 256
+    root_partition_size_mb: 20480  # 20 GB = 20480 MB
+  tasks:
+    - name: Ask for confirmation
+      ansible.builtin.pause:
+        prompt: |
+          WARNING: This will destroy all data on the NVMe disk!
+          Type "yes" to continue:
+      register: confirm_wipe
+
+    - name: Fail if not confirmed
+      ansible.builtin.fail:
+        msg: "Disk wipe not confirmed. Exiting."
+      when: confirm_wipe.user_input != 'yes'
+
+    - name: Find the NVMe device
+      ansible.builtin.command: lsblk -ndo NAME,TYPE,MODEL
+      register: lsblk_output
+
+    - name: Set NVMe device variable
+      ansible.builtin.set_fact:
+        nvme_device: "/dev/{{ item.split()[0] }}"
+      loop: "{{ lsblk_output.stdout_lines }}"
+      when: "'disk' in item and 'NVMe' in item"
+      loop_control:
+        loop_var: item
+
+    - name: Debug NVMe device found
+      ansible.builtin.debug:
+        msg: "Detected NVMe device: {{ nvme_device }}"
+    
+    - name: Ask for confirmation of NVMe device
+      ansible.builtin.pause:
+        prompt: |
+          WARNING: Is this the correct NVMe device?
+          Type "yes" to continue:
+      register: confirm_nvme
+
+    - name: Fail if device not confirmed
+      ansible.builtin.fail:
+        msg: "Device not confirmed, exiting"
+      when: confirm_nvme.user_input != 'yes'
+
+    - name: Create partition table (GPT)
+      community.general.parted:
+        device: "{{ nvme_device }}"
+        label: gpt
+        state: present
+
+    - name: Create first partition (256MB FAT32)
+      community.general.parted:
+        device: "{{ nvme_device }}"
+        number: 1
+        part_start: 0%
+        part_end: "{{ boot_partition_size_mb }}MB"
+        fs_type: fat32
+        state: present
+
+    - name: Create second partition (20GB EXT4)
+      community.general.parted:
+        device: "{{ nvme_device }}"
+        number: 2
+        part_start: "{{ boot_partition_size_mb }}MB"
+        part_end: "{{ boot_partition_size_mb + root_partition_size_mb }}MB"
+        fs_type: ext4
+        state: present
+
+    - name: Format first partition as FAT32
+      ansible.builtin.filesystem:
+        fstype: vfat
+        dev: "{{ nvme_device }}1"
+
+    - name: Format second partition as EXT4
+      ansible.builtin.filesystem:
+        fstype: ext4
+        dev: "{{ nvme_device }}2"

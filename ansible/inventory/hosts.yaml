@@ -1,0 +1,10 @@
+all:
+  children:
+    ether_nodes:
+      vars:
+        ansible_user: pi
+      hosts:
+        ethernode1:
+          ansible_host: 192.168.1.101
+        ethernode2:
+          ansible_host: 192.168.1.102

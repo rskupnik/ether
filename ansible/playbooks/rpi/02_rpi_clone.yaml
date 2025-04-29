@@ -1,0 +1,79 @@
+# Prerequisite: partition_nvme.yaml
+
+- name: Clone Raspberry Pi system onto NVMe using rpi-clone
+  hosts: ether_nodes
+  become: true
+  vars:
+    boot_partition_size_mb: 256
+    root_partition_size_mb: 20480  # (only needed if re-using previous tasks)
+  tasks:
+    - name: Find NVMe device
+      ansible.builtin.command: lsblk -ndo NAME,TYPE,MODEL
+      register: lsblk_output
+
+    - name: Set NVMe device variable
+      ansible.builtin.set_fact:
+        nvme_device: "/dev/{{ item.split()[0] }}"
+      loop: "{{ lsblk_output.stdout_lines }}"
+      when: "'disk' in item and 'NVMe' in item"
+      loop_control:
+        loop_var: item
+
+    - name: Fail if no NVMe device found
+      ansible.builtin.fail:
+        msg: "No NVMe device found! Cannot continue."
+      when: nvme_device is not defined
+
+    - name: Confirm NVMe device before cloning
+      ansible.builtin.pause:
+        prompt: |
+          Detected NVMe device: {{ nvme_device }}
+          WARNING: Cloning will overwrite partitions!
+          Type 'clone' to proceed:
+      register: clone_confirm
+
+    - name: Fail if cloning not confirmed
+      ansible.builtin.fail:
+        msg: "Cloning not confirmed. Exiting."
+      when: clone_confirm.user_input != 'clone'
+
+    - name: Ensure git is installed
+      ansible.builtin.package:
+        name: git
+        state: present
+
+    - name: Clone rpi-clone repository
+      ansible.builtin.git:
+        repo: 'https://github.com/billw2/rpi-clone.git'
+        dest: '/opt/rpi-clone'
+        update: no
+
+    - name: Ensure rpi-clone script is executable
+      ansible.builtin.file:
+        path: /opt/rpi-clone/rpi-clone
+        mode: '0755'
+        owner: root
+        group: root
+
+    - name: Run rpi-clone to clone system onto NVMe
+      ansible.builtin.command: >
+        /opt/rpi-clone/rpi-clone {{ nvme_device }} -U -l
+      environment:
+        PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      register: clone_output
+
+    - name: Show rpi-clone output
+      ansible.builtin.debug:
+        var: clone_output.stdout
+
+    - name: Ask for reboot after cloning
+      ansible.builtin.pause:
+        prompt: |
+          Cloning complete.
+          If you want to reboot and start using NVMe, type 'reboot' now:
+      register: reboot_confirm
+
+    - name: Reboot system if confirmed
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+      when: reboot_confirm.user_input == 'reboot'
