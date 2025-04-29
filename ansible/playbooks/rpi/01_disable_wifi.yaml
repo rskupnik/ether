@@ -1,0 +1,15 @@
+- name: Disable Wi-Fi on Raspberry Pi nodes
+  hosts: ether_nodes
+  become: true
+  tasks:
+    - name: Ensure Wi-Fi is disabled in /boot/firmware/config.txt
+      ansible.builtin.lineinfile:
+        path: /boot/firmware/config.txt
+        insertafter: EOF
+        line: 'dtoverlay=disable-wifi'
+        state: present
+        backup: yes
+
+    - name: Reboot nodes to apply Wi-Fi disable
+      ansible.builtin.reboot:
+        reboot_timeout: 600
