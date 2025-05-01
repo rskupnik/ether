@@ -2,20 +2,25 @@
   hosts: ether_nodes
   become: true
   tasks:
-    - name: Ensure cgroups enabled in /boot/cmdline.txt
+    - name: Read /boot/firmware/cmdline.txt
+      ansible.builtin.slurp:
+        path: /boot/firmware/cmdline.txt
+      register: cmdline_raw
+
+    - name: Decode cmdline
+      ansible.builtin.set_fact:
+        cmdline_content: "{{ cmdline_raw.content | b64decode }}"
+
+    - name: Add cgroup params if missing
       ansible.builtin.lineinfile:
-        path: /boot/cmdline.txt
-        backrefs: yes
+        path: /boot/firmware/cmdline.txt
         regexp: '^(.*)$'
         line: '\1 cgroup_memory=1 cgroup_enable=memory'
+        backrefs: yes
+      when: >
+        'cgroup_memory=1' not in cmdline_content
+        or 'cgroup_enable=memory' not in cmdline_content
       notify: Reboot required
-
-    - name: Set iptables to legacy
-      ansible.builtin.shell: |
-        update-alternatives --set iptables /usr/sbin/iptables-legacy
-        update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-      args:
-        executable: /bin/bash
 
   handlers:
     - name: Reboot required

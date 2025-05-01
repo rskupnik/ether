@@ -3,12 +3,12 @@
   become: true
   vars:
     k3s_server_ip: "{{ hostvars['ethernode1']['ansible_host'] }}"
-    k3s_version: "v1.29.0+k3s1"
+    k3s_version: "v1.32.3+k3s1"
   tasks:
     - name: Fetch token from control plane node
       ansible.builtin.slurp:
         src: /tmp/k3s_token.txt
-        delegate_to: ethernode1
+      delegate_to: ethernode1
       register: k3s_node_token
 
     - name: Set fact for token
@@ -17,6 +17,6 @@
 
     - name: Install k3s agent
       ansible.builtin.shell: |
-        curl -sfL https://get.k3s.io | K3S_URL=https://{{ k3s_server_ip }}:6443 K3S_TOKEN={{ k3s_token_decoded }} INSTALL_K3S_VERSION={{ k3s_version }} sh -
+        curl -sfL https://get.k3s.io | K3S_URL=https://{{ k3s_server_ip }}:6443 K3S_TOKEN={{ k3s_token_decoded }} INSTALL_K3S_VERSION={{ k3s_version }} INSTALL_K3S_EXEC="--prefer-bundled-bin" sh -
       args:
         executable: /bin/bash
