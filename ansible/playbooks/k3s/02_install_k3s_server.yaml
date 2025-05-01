@@ -6,7 +6,7 @@
   tasks:
     - name: Install k3s server
       ansible.builtin.shell: |
-        curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} INSTALL_K3S_EXEC="--prefer-bundled-bin" sh -
+        curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} INSTALL_K3S_EXEC="--prefer-bundled-bin --disable servicelb" sh -
       args:
         executable: /bin/bash
 
