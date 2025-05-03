@@ -16,7 +16,7 @@ spec:
     metadata:
       name: '{{.path.basename}}'
     spec:
-      project: default
+      project: infra
       source:
         repoURL: https://github.com/rskupnik/grimoire.git
         targetRevision: HEAD
@@ -24,7 +24,7 @@ spec:
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{.path.basename}}'
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+      # syncPolicy:
+      #   automated:
+      #     prune: true
+      #     selfHeal: true

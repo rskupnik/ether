@@ -1,0 +1,5 @@
+install:
+    helm install argocd argo/argo-cd -f custom.yaml --namespace argocd
+
+upgrade:
+    helm upgrade argocd argo/argo-cd -f custom.yaml --namespace argocd
