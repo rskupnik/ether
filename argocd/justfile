@@ -1,5 +1,25 @@
+# Starting fresh:
+# Run "install" first to setup argo
+# Then run "bootstrap" to setup things such a custom password and ingress
+# Then run "infra" to setup infra
+#
+# Ingress requires MetalLB. Without that - use port forwarding to access Argo
+# Password is in BitWarden
+
 install:
-    helm install argocd argo/argo-cd -f custom.yaml --namespace argocd
+    helm install argocd argo/argo-cd -f custom.yaml --namespace argocd --create-namespace
+    sops --decrypt git-pat-secret.enc.yaml | kubectl apply -f -
+
+uninstall:
+    helm uninstall argocd -n argocd
+    sops --decrypt git-pat-secret.enc.yaml | kubectl delete -f -
 
 upgrade:
     helm upgrade argocd argo/argo-cd -f custom.yaml --namespace argocd
+
+bootstrap: (setup-app "bootstrap")
+
+infra: (setup-app "infra")
+
+setup-app app:
+    kubectl apply -f applications/{{app}}.yaml
