@@ -1,0 +1,40 @@
+- name: Prepare NVMe storage for Longhorn
+  hosts: ether_nodes
+  become: true
+  vars:
+    boot_partition_size_mb: 538     # 538 MiB = 512 MB
+    root_partition_size_mb: 21475   # 21475 MiB = 20 GB
+  tasks:
+    - name: Ensure parted is installed
+      package:
+        name: parted
+        state: present
+
+    - name: Create a new partition on /dev/nvme0n1
+      community.general.parted:
+        device: /dev/nvme0n1
+        number: 3
+        part_start: "{{ boot_partition_size_mb + root_partition_size_mb }}MB"
+        part_end: 100%
+        fs_type: ext4
+        state: present
+
+    - name: Format the new partition with ext4
+      ansible.builtin.filesystem:
+        fstype: ext4
+        dev: /dev/nvme0n1p3
+        # force: true
+
+    - name: Create mount point for Longhorn
+      file:
+        path: /var/lib/longhorn
+        state: directory
+        mode: '0755'
+
+    - name: Mount the partition
+      mount:
+        path: /var/lib/longhorn
+        src: /dev/nvme0n1p3
+        fstype: ext4
+        opts: defaults,noatime
+        state: mounted
