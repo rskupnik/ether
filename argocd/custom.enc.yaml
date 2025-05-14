@@ -5,11 +5,11 @@ configs:
         argocdServerAdminPassword: $2y$10$4x03OZcmTpuEcI.sk53U8.UYyTVaCJXMUgNTg81eKG.YgUwgV1tRG
         extra:
             # This comes from Authentik
-            dex.authentik.clientSecret: ENC[AES256_GCM,data:vWkRsSMd0KVSMhCrr76Sd2Ff81wGJJiBL413JVSa8MpEE7z001gN31INM60+QkSfwweMGivgod6J6Zl65vvhnFaNTKUpXMiroFhHH7/YhBuFmREUlHosAiH7oygcL+hKOxddKI/tJyNvRWlKjFCo7NYQjaiPMcIQl7aQPD1Hw5M=,iv:aeI13On/KOP8IO+rhPbrD8u/bJvhG7UYA368vFwMMlw=,tag:Ky+mVIi9PL0ngOAjw0yNeA==,type:str]
+            dex.authentik.clientSecret: ENC[AES256_GCM,data:CAcXMEXxrOtnA/izBVusrhdfWXTGoBsK+De+ce7WUBiv0F/Yk0AFaJ65nhjpSY2Ap/cMtQ8Jw91en6hF/Do9Q6xYAGF6hKYpBM1Q+ceDTYgAWQZsuC9Sq3MmgxECCikzo6N0cBkoz/h6IbG/aYKAc8vQXll2HQDLk2XIwOrGn74=,iv:eBPr46uBmVyA2bXAtQ9QTDj51/S3avI0fnqWo70DhDk=,tag:wj7xeiwqMn5dbco4aj/urw==,type:str]
     cm:
         kustomize.buildOptions: --enable-helm
         url: https://argocd.ether
-        dex.config: |-
+        dex.config: |
             connectors:
             - config:
                 issuer: https://authentik.ether/application/o/argocd
@@ -23,31 +23,32 @@ configs:
               name: authentik
               type: oidc
               id: authentik
+# issuer: http://authentik-server.authentik.svc.cluster.local/application/o/argocd
 sops:
     kms: []
     gcp_kms: []
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-05-14T13:41:17Z"
-    mac: ENC[AES256_GCM,data:S6DKybVU8B1e5km8HsZDMIoGazJKKjmmZ0k3PwdoAw0Fyrm7yT6uEQHdrNVCtGIVO+JNVhUUiAZzWYnDs3xzDYPLMln+CpNXJPYT70XRi9WMDJhjgF0QGn489FR/Lk7j07FRtdWvkeaZ5CKwU6demDAmubI6syWnAKuUmiNFnRg=,iv:uw1Lc8odpNH80dta3rLZk9ERnjODn/6nvhFHUciWq6w=,tag:8qAS13Ii2qk7PFeT4jON0w==,type:str]
+    lastmodified: "2025-05-14T13:57:17Z"
+    mac: ENC[AES256_GCM,data:ahTfecVT9RgiNDfdyUmPdW5wxMKCot/9othCWMBGDjT+P0J0FH84KRtxg7wqNMSqz2tFQn1l6/mGVZQmyyZjqFwfYJgW1YPisW6Z2OMXJCuFMnZlV3vCSGJS4AgusOvaeRwv/SuakyCqVfn6Z6yG5zKoOFPfb8tEOZLZUQIAOBc=,iv:6DmM1GSd82rx2maOMssgo7meYdd8HrYlKuAOdxyOjBA=,tag:vvKdUELrbmFej1ca74eezg==,type:str]
     pgp:
-        - created_at: "2025-05-14T13:41:17Z"
+        - created_at: "2025-05-14T13:57:17Z"
           enc: |-
             -----BEGIN PGP MESSAGE-----
 
-            hQGMA7UotOo+iXf0AQwAoTwGhx7RjYYl+tTU7aeEuCpAFgZcoOEM6WHUazvcqWrT
-            2c/blaw5dkkME/NTcQTINcUYbdnfHB6P2BacBQg+cqiP0M6dTJseUn1E9OOE1/TL
-            0yov4C0sgviP/SXQqqmjqyaWKTf6V0gEnAy3b4tz2vTpJb/lrT9OtF4/etIr6x/s
-            G7c2Yna9xO9ys33nX9VLD+IGrPlYfN+EJxGamKYcR8pbFWi4NgWluFgDRIxY28m/
-            a5uM1+o9iIC0TG4zmVVdm7QsEweVmP8LB2tkwfVfBH4ozbQr8ZR7PXfh5Sh4qSBn
-            azuzXaS076B1RrmVd3WfV6mOSQlE0n/wamXrsJo/YRM/mZ3IpezHz4eHIb/rUDK8
-            asyCG3/tLP8yl3mb6Z1XlQu/rG3HfkZtfUawsaCjI6OSYiS8/M1EE6U4+7h+w7Zs
-            0B4/5Gv20My9qqD4o7g4cgB9NjyFivpaVUCjt+/VmndX8nDZ88hSXlaKyOPeOGTy
-            oRi+Ec0YDzWUv4czF5p81GgBCQIQrobAGF4H73GlRU1ILezyNokhjGz3GVkZagKn
-            NRzHzTWkq98rzJSm0PW4WLgVUql9VkTE9zKIc74SihUX1OKwHyIk9sWPoLk0p0UA
-            pEi0NJ3DSgzgp7UdmLvjSAu+3jjddi4NgQ==
-            =3/3d
+            hQGMA7UotOo+iXf0AQwAm7bS/aZxWecayAtQ2u9Wg6nJAs7I2RoOoOaaZLy98cu0
+            XnSEVqj+55pLng0u1FoZxX3k0PgPKdPnUO0KCv9O8+KHeb4ocNlo91EPyq4uESQl
+            L1IgxhoB5vlI1EbMELDjE445ZvtnPIKtLdDQpQOq7TenjvYm8tSze9AlH/6qADs3
+            gtTpJ86kD6VN/9QaDfSxbRJIR6hy31cTe6gT0rZ80oETVM1GNPtTsF/Jilc8YEP2
+            lAdMkD7KhsXho5o5FYOGyvOPyNLVp1k0QT+XTJjVdvCM1LtXIGzsAUcrq2X/Kfqt
+            kotBaGa1fXVDkeqOStojLfHyck1TC3hvdwzF+qupz6CCIcoxkNYPZP4vePkLWbFN
+            9GPxMuDEWgx/EDKQwc6ZYI9oBDfqZPIRRhf4RRr5uFN8TRIWndyJKtAaAg/K/AJi
+            Reycf3VKOrMYmVBJF5XWwsh+R+TWYW7Yhd0UqzmTczDyuP/0hPohWgTdBFTztkuM
+            WXbpP/qMVg0ne5ipacdC1GYBCQIQziuWHnIheX2CM8+Fh9DaAgquFj+XW2oHsIlM
+            Or8jmjpA2QkxDk09OOUui+F/sfaF5IuWh1FjxyhQlOiAAFT0XMG3A6wYDXrZ+8Wx
+            Xn6o2PHvSkbCrsHckWImoMRWCsKb9Rk=
+            =e8zd
             -----END PGP MESSAGE-----
           fp: 7A3BC6EAE9EC0EF9156D6E8D0D02F4D5C2B918B5
     encrypted_regex: dex\.authentik\.clientSecret
