@@ -5,34 +5,49 @@ configs:
         argocdServerAdminPassword: $2y$10$4x03OZcmTpuEcI.sk53U8.UYyTVaCJXMUgNTg81eKG.YgUwgV1tRG
         extra:
             # This comes from Authentik
-            dex.authentik.clientSecret: ENC[AES256_GCM,data:QU171qmAbmmC0tlA/SZBKZGzGIqVYAR7hxD2riI2Cb7Fkk+05e5PfuUBy3gKqQTHm45PIyBwcpVr6j0WiuKBuGVivQEuIOVNMp959meFPUOep2IhgdzJJAEHwJMFvNhe67CQztoJI05uMnxN355QJdpzm0UkZ7FGMagOvo9fqnc=,iv:T68eA/7g9SHeZVH6K0f4V8yxg737MaDQCzv81llg710=,tag:4XbUzy+URk1BMCbShwUpdA==,type:str]
+            dex.authentik.clientSecret: ENC[AES256_GCM,data:vWkRsSMd0KVSMhCrr76Sd2Ff81wGJJiBL413JVSa8MpEE7z001gN31INM60+QkSfwweMGivgod6J6Zl65vvhnFaNTKUpXMiroFhHH7/YhBuFmREUlHosAiH7oygcL+hKOxddKI/tJyNvRWlKjFCo7NYQjaiPMcIQl7aQPD1Hw5M=,iv:aeI13On/KOP8IO+rhPbrD8u/bJvhG7UYA368vFwMMlw=,tag:Ky+mVIi9PL0ngOAjw0yNeA==,type:str]
     cm:
         kustomize.buildOptions: --enable-helm
+        url: https://argocd.ether
+        dex.config: |-
+            connectors:
+            - config:
+                issuer: https://authentik.ether/application/o/argocd
+                clientID: aFSFW4aaKGi9oizCImusjLuTBxe2xJ2SNEm9QsiO
+                clientSecret: $dex.authentik.clientSecret
+                insecureEnableGroups: true
+                scopes:
+                  - openid
+                  - profile
+                  - email
+              name: authentik
+              type: oidc
+              id: authentik
 sops:
     kms: []
     gcp_kms: []
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-05-14T13:36:13Z"
-    mac: ENC[AES256_GCM,data:c9Xl/G7WJ+fpvO/5jXDjPINi2YROEhy5HItGdbbpPvH1syub/aiE1AzDeXm2wAGHMb9W6wLFQjUCe6rHa+KSJuKdxyY0m9ORPkLyZF+MfftP4r90IUmCE4ldlIbxNTM9a3JNjQ9x75WAfvnx6v+po0pffSaeoQNb3jSltQcAkxM=,iv:+VUj/u1c1wWPjjaCjtsbDCpHdPgIUeCExE5Y5G57Ns4=,tag:vHcEAhMJuZLJ37cWUZccCA==,type:str]
+    lastmodified: "2025-05-14T13:41:17Z"
+    mac: ENC[AES256_GCM,data:S6DKybVU8B1e5km8HsZDMIoGazJKKjmmZ0k3PwdoAw0Fyrm7yT6uEQHdrNVCtGIVO+JNVhUUiAZzWYnDs3xzDYPLMln+CpNXJPYT70XRi9WMDJhjgF0QGn489FR/Lk7j07FRtdWvkeaZ5CKwU6demDAmubI6syWnAKuUmiNFnRg=,iv:uw1Lc8odpNH80dta3rLZk9ERnjODn/6nvhFHUciWq6w=,tag:8qAS13Ii2qk7PFeT4jON0w==,type:str]
     pgp:
-        - created_at: "2025-05-14T13:36:12Z"
+        - created_at: "2025-05-14T13:41:17Z"
           enc: |-
             -----BEGIN PGP MESSAGE-----
 
-            hQGMA7UotOo+iXf0AQv/VAC8+q19uZWfke+s+SkJkNdvUw/Pqd9QUFngdgxCo6nZ
-            xHHJy686bJBymQPi9Tm98CFJlFGNr9U7UMyhFomPaA5HOYciFIjklm1W0RZnG1Jd
-            MlZdSJuHDwOWIxjF4on+88JPkdlEC1xpd/9Y2LXufGhjT2Sqvz2VTquz1TWU8fkR
-            5trUQIQOYdMQA4OJ2NdAD13bsXZB92+iEJ2HEYBluYFmt07AsKN5FmhGXRSDo1pN
-            YMMJvWo7bN/vaz22zI0y5yiTe0GJseqAe4/7coSMGKk9o7hA3xja994s2yAHnWzY
-            echY2rJGI59TMQGCN94hz4Lcsr4oL/dyWcADobNs0dClvVVJHnxyDxcqkw9Es5oW
-            qXlJayngDALQvIinB0cizZKnv/EtMsGUi53kSF2J3UExQM7s042Fp2Ozx4TaAOMF
-            QRKE33j46pqQpGSnsc3/rLBRFvmsvZ0PkVNuRhvImDzTCMcPG6F36A5V9ZOfUpVz
-            NgTdI32p2yjw44n5IZIJ1GgBCQIQLTM3JQOW1HD4OBtQA9E1hMm4fevyIN8AtTzz
-            f6FDbURzvZ0Z1tutEpCDScefHU6QLXdQgXCK7/0NKAi9nZeZLFXwGwOEWTCQnc1C
-            PPWFqeyNDp+nvM1ul9pd40FuJaPgVJAQbA==
-            =HBbJ
+            hQGMA7UotOo+iXf0AQwAoTwGhx7RjYYl+tTU7aeEuCpAFgZcoOEM6WHUazvcqWrT
+            2c/blaw5dkkME/NTcQTINcUYbdnfHB6P2BacBQg+cqiP0M6dTJseUn1E9OOE1/TL
+            0yov4C0sgviP/SXQqqmjqyaWKTf6V0gEnAy3b4tz2vTpJb/lrT9OtF4/etIr6x/s
+            G7c2Yna9xO9ys33nX9VLD+IGrPlYfN+EJxGamKYcR8pbFWi4NgWluFgDRIxY28m/
+            a5uM1+o9iIC0TG4zmVVdm7QsEweVmP8LB2tkwfVfBH4ozbQr8ZR7PXfh5Sh4qSBn
+            azuzXaS076B1RrmVd3WfV6mOSQlE0n/wamXrsJo/YRM/mZ3IpezHz4eHIb/rUDK8
+            asyCG3/tLP8yl3mb6Z1XlQu/rG3HfkZtfUawsaCjI6OSYiS8/M1EE6U4+7h+w7Zs
+            0B4/5Gv20My9qqD4o7g4cgB9NjyFivpaVUCjt+/VmndX8nDZ88hSXlaKyOPeOGTy
+            oRi+Ec0YDzWUv4czF5p81GgBCQIQrobAGF4H73GlRU1ILezyNokhjGz3GVkZagKn
+            NRzHzTWkq98rzJSm0PW4WLgVUql9VkTE9zKIc74SihUX1OKwHyIk9sWPoLk0p0UA
+            pEi0NJ3DSgzgp7UdmLvjSAu+3jjddi4NgQ==
+            =3/3d
             -----END PGP MESSAGE-----
           fp: 7A3BC6EAE9EC0EF9156D6E8D0D02F4D5C2B918B5
     encrypted_regex: dex\.authentik\.clientSecret
