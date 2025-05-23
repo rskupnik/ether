@@ -8,3 +8,5 @@ all:
           ansible_host: 192.168.0.192
         ethernode2:
           ansible_host: 192.168.0.193
+        pustkow_pi:
+          ansible_host: 192.168.178.69

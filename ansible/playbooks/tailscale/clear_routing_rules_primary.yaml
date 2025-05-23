@@ -1,0 +1,29 @@
+- name: Remove iptables FORWARD rules for tailscale 
+  hosts: ethernode1
+  become: true
+  vars:
+    this_subnet_cidr: "192.168.0.0/24"
+    other_subnet_cidr: "192.168.178.0/24"
+    other_rpi_tailscale_ip: "100.121.217.85"
+    admin_ip: "100.104.91.122"
+
+  tasks:
+    - name: Remove FORWARD rules
+      ansible.builtin.iptables:
+        chain: FORWARD
+        in_interface: "{{ item.in_iface }}"
+        out_interface: "{{ item.out_iface }}"
+        source: "{{ item.source }}"
+        destination: "{{ item.dest }}"
+        jump: ACCEPT
+        ip_version: ipv4
+        state: absent
+      loop:
+        - { in_iface: "tailscale0", out_iface: "wlan0", source: "{{ other_subnet_cidr }}", dest: "{{ this_subnet_cidr }}" }
+        - { in_iface: "wlan0", out_iface: "tailscale0", source: "{{ this_subnet_cidr }}", dest: "{{ other_subnet_cidr }}" }
+
+        - { in_iface: "tailscale0", out_iface: "wlan0", source: "{{ other_rpi_tailscale_ip }}", dest: "{{ this_subnet_cidr }}" }
+        - { in_iface: "wlan0", out_iface: "tailscale0", source: "{{ this_subnet_cidr }}", dest: "{{ other_rpi_tailscale_ip }}" }
+
+        - { in_iface: "tailscale0", out_iface: "wlan0", source: "{{ admin_ip }}", dest: "{{ this_subnet_cidr }}" }
+        - { in_iface: "wlan0", out_iface: "tailscale0", source: "{{ this_subnet_cidr }}", dest: "{{ admin_ip }}" }
