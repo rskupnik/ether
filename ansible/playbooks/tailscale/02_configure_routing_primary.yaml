@@ -27,12 +27,12 @@
         ip_version: ipv4
         state: present
       loop:
-        - { in_iface: "tailscale0", out_iface: "wlan0", source: "{{ other_subnet_cidr }}", dest: "{{ this_subnet_cidr }}" }
-        - { in_iface: "wlan0", out_iface: "tailscale0", source: "{{ this_subnet_cidr }}", dest: "{{ other_subnet_cidr }}" }
-        - { in_iface: "tailscale0", out_iface: "wlan0", source: "{{ other_rpi_tailscale_ip }}", dest: "{{ this_subnet_cidr }}" }
-        - { in_iface: "wlan0", out_iface: "tailscale0", source: "{{ this_subnet_cidr }}", dest: "{{ other_rpi_tailscale_ip }}" }
-        - { in_iface: "tailscale0", out_iface: "wlan0", source: "{{ admin_ip }}", dest: "{{ this_subnet_cidr }}" }
-        - { in_iface: "wlan0", out_iface: "tailscale0", source: "{{ this_subnet_cidr }}", dest: "{{ admin_ip }}" }
+        - { in_iface: "tailscale0", out_iface: "eth0", source: "{{ other_subnet_cidr }}", dest: "{{ this_subnet_cidr }}" }
+        - { in_iface: "eth0", out_iface: "tailscale0", source: "{{ this_subnet_cidr }}", dest: "{{ other_subnet_cidr }}" }
+        - { in_iface: "tailscale0", out_iface: "eth0", source: "{{ other_rpi_tailscale_ip }}", dest: "{{ this_subnet_cidr }}" }
+        - { in_iface: "eth0", out_iface: "tailscale0", source: "{{ this_subnet_cidr }}", dest: "{{ other_rpi_tailscale_ip }}" }
+        - { in_iface: "tailscale0", out_iface: "eth0", source: "{{ admin_ip }}", dest: "{{ this_subnet_cidr }}" }
+        - { in_iface: "eth0", out_iface: "tailscale0", source: "{{ this_subnet_cidr }}", dest: "{{ admin_ip }}" }
 
     - name: Save iptables rules for persistence
       community.general.iptables_state:
