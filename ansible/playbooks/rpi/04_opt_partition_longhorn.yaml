@@ -3,7 +3,7 @@
   become: true
   vars:
     boot_partition_size_mb: 538     # 538 MiB = 512 MB
-    root_partition_size_mb: 21475   # 21475 MiB = 20 GB
+    root_partition_size_mb: 81920   # 81920 MiB = 80 GB
   tasks:
     - name: Ensure parted is installed
       package:
