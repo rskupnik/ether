@@ -1,5 +1,5 @@
 - name: Install k3s agent (worker)
-  hosts: ethernode2
+  hosts: ethernode2,ethernode3
   become: true
   vars:
     k3s_server_ip: "{{ hostvars['ethernode1']['ansible_host'] }}"
