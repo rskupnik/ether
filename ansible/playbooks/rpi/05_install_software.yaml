@@ -1,0 +1,13 @@
+- name: Install NFS client on Raspberry Pi nodes
+  hosts: ether_nodes
+  become: true
+  tasks:
+    - name: Ensure apt cache is up to date
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install NFS client (nfs-common)
+      apt:
+        name: nfs-common
+        state: present
