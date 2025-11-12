@@ -1,0 +1,37 @@
+- name: Setup Grafana kiosk
+  hosts: ethernode3
+  become: true
+
+  vars:
+    kiosk_user: "pi"
+    kiosk_url: "https://homepage.nora/"
+    autostart_path: "/home/{{ kiosk_user }}/.config/autostart"
+
+  tasks:
+    - name: Ensure Chromium and unclutter are installed
+      apt:
+        name:
+          - chromium
+          - unclutter
+        state: present
+        update_cache: yes
+
+    - name: Create autostart directory
+      file:
+        path: "{{ autostart_path }}"
+        state: directory
+        owner: "{{ kiosk_user }}"
+        group: "{{ kiosk_user }}"
+        mode: '0755'
+
+    - name: Deploy kiosk autostart file
+      copy:
+        dest: "{{ autostart_path }}/grafana-kiosk.desktop"
+        owner: "{{ kiosk_user }}"
+        group: "{{ kiosk_user }}"
+        mode: '0644'
+        content: |
+          [Desktop Entry]
+          Type=Application
+          Name=Grafana Kiosk
+          Exec=chromium --no-sandbox --kiosk --incognito --password-store=basic --ignore-certificate-errors --noerrdialogs --disable-infobars --start-fullscreen {{ kiosk_url }}
