@@ -4,15 +4,14 @@
 
   vars:
     kiosk_user: "pi"
-    kiosk_url: "https://homepage.nora/"
+    kiosk_url: "http://ether-logo.nora/?nocache=$(date +%s)"
     autostart_path: "/home/{{ kiosk_user }}/.config/autostart"
 
   tasks:
-    - name: Ensure Chromium and unclutter are installed
+    - name: Ensure Chromium is installed
       apt:
         name:
           - chromium
-          - unclutter
         state: present
         update_cache: yes
 
@@ -34,4 +33,4 @@
           [Desktop Entry]
           Type=Application
           Name=Grafana Kiosk
-          Exec=chromium --no-sandbox --kiosk --incognito --password-store=basic --ignore-certificate-errors --noerrdialogs --disable-infobars --start-fullscreen {{ kiosk_url }}
+          Exec=chromium --no-sandbox --cursor-off --ash-hide-cursor --disable-gpu --kiosk --incognito --password-store=basic --ignore-certificate-errors --noerrdialogs --disable-infobars --start-fullscreen --allow-running-insecure-content --disable-features=PowerScheduler,PowerSaverMode,TabFreeze,OptimizationGuideModelDownloading --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --disable-web-security {{ kiosk_url }} &
