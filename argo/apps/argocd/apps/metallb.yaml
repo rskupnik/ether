@@ -9,7 +9,7 @@ spec:
   project: infra
   source:
     repoURL: https://github.com/rskupnik/ether.git
-    targetRevision: HEAD
+    targetRevision: argo-migration
     path: argo/apps/metallb
   destination:
     server: https://kubernetes.default.svc

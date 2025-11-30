@@ -7,7 +7,7 @@ spec:
   project: applications
   source:
     repoURL: https://github.com/rskupnik/ether.git
-    targetRevision: HEAD
+    targetRevision: argo-migration
     path: argo/apps/pihole
   destination:
     server: https://kubernetes.default.svc
