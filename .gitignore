@@ -1,2 +1,3 @@
 *secret*
 !*.enc.*
+!argo/apps/sealed-secrets
