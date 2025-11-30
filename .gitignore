@@ -1,4 +1,3 @@
 *secret*
+!argo/**
 !*.enc.*
-!argo/apps/sealed-secrets
-!argo/apps/argocd/apps/sealed-secrets.yaml
