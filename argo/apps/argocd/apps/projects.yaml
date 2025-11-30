@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/rskupnik/ether.git
     targetRevision: argo-migration
-    path: projects
+    path: argo/projects
     directory:
       recurse: true
   destination:
