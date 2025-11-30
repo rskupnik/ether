@@ -1,0 +1,14 @@
+helmCharts:
+  - name: immich
+    repo: https://immich-app.github.io/immich-charts
+    releaseName: immich
+    namespace: immich
+    version: 0.10.0
+    valuesFile: values.yaml
+
+resources:
+  - db-credentials-secret.sealed.yaml
+  - postgres/statefulset.yaml
+  - postgres/service.yaml
+  - storage.yaml
+  - tls-cert.yaml

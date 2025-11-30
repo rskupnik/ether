@@ -1,0 +1,15 @@
+configs:
+  cm:
+    admin.enabled: true
+    oidc.config: |
+      name: Authentik
+      issuer: https://authentik.nora/application/o/argocd/
+      clientID: aFSFW4aaKGi9oizCImusjLuTBxe2xJ2SNEm9QsiO
+      clientSecret: $authentik-oidc-secrets:client-secret
+      requestedScopes: ["openid", "profile", "email", "groups"]
+    oidc.tls.insecure.skip.verify: true
+  rbac:
+    policy.csv: |
+      g, ArgoCD Admins, role:admin
+      g, ArgoCD Viewers, role:readonly
+      g, readonly, role:readonly

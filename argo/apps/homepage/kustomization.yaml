@@ -1,0 +1,11 @@
+helmCharts:
+  - name: homepage
+    repo: oci://ghcr.io/m0nsterrr/helm-charts
+    releaseName: homepage
+    namespace: homepage
+    version: 3.3.0
+    valuesFile: values.yaml
+
+resources:
+  - config.yaml
+  - secret_envvars.sealed.yaml

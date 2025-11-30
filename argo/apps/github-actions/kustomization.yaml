@@ -1,0 +1,6 @@
+resources:
+  - ci-deployment-patcher.yaml
+  - controller/app.yaml
+  - runners/edgar/app.yaml
+  - runners/myzopotamia/app.yaml
+  - runners/acolyte/app.yaml

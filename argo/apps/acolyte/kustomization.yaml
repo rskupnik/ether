@@ -1,0 +1,6 @@
+resources:
+  - dockerconfig-secret.sealed.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+  - tls-cert.yaml

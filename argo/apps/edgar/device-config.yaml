@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: edgar-device-config
+  namespace: edgar
+data:
+  device-config.json: |
+    [
+      {
+        "id": "basementCamGas",
+        "type": "Active",
+        "unresponsiveTimeout": 600,
+        "endpoints": [
+          {
+            "path": "/pic",
+            "cachePeriod": 600
+          }
+        ]
+      },
+      {
+        "id": "sideYardCam",
+        "type": "Active",
+        "unresponsiveTimeout": 600,
+        "endpoints": [
+          {
+            "path": "/pic",
+            "cachePeriod": 10
+          }
+        ]
+      },
+      {
+        "id": "lpsic",
+        "type": "Passive",
+        "processors": [
+          {
+            "id": "outputDiscordImage",
+            "user": "bla"
+          }
+        ]
+      }
+    ]

@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: umami-nora-tls-cert
+  namespace: umami
+spec:
+  secretName: umami-nora-tls
+  issuerRef:
+    name: nora-ca
+    kind: ClusterIssuer
+  commonName: umami.nora
+  dnsNames:
+    - umami.nora

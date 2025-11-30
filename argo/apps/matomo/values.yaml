@@ -1,0 +1,26 @@
+matomoUsername: myzreal
+existingSecret: "matomo-secrets-custom"
+resourcesPreset: "small"
+ingress:
+  enabled: true
+  hostname: matomo.ether
+service:
+  type: ClusterIP
+mariadb:
+  primary:
+    resourcesPreset: "small"
+persistence:
+  storageClass: longhorn
+  accessModes:
+    - ReadWriteMany
+extraEnvVars:
+  - name: MATOMO_ENABLE_PROXY_URI_HEADER
+    value: "yes"
+  - name: MATOMO_PROXY_CLIENT_HEADER
+    value: "HTTP_X_FORWARDED_FOR"
+  - name: MATOMO_PROXY_HOST_HEADER
+    value: "HTTP_X_FORWARDED_HOST"
+  - name: MATOMO_WEBSITE_NAME
+    value: "myzopotamia"
+  - name: MATOMO_WEBSITE_HOST
+    value: "https://myzopotamia.dev"

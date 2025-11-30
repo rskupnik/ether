@@ -1,0 +1,9 @@
+resources:
+  - dockerconfig-secret.sealed.yaml
+  - device-config.yaml
+  - envvars.yaml
+  - secret-envvars.sealed.yaml
+  - dashboards.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml

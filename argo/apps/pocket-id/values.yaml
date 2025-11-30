@@ -1,0 +1,17 @@
+timeZone: "Europe/Warsaw"
+analyticsDisabled: true
+host: pocket-id.nora
+
+persistence:
+  data:
+    enabled: true
+    storageClass: longhorn
+    size: 2Gi
+
+ingress:
+  enabled: true
+  className: "traefik"
+  host: pocket-id.nora
+  paths:
+    - path: /
+      pathType: ImplementationSpecific

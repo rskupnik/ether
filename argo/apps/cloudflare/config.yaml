@@ -1,0 +1,20 @@
+# 1474eb9f-1196-467c-ba5f-068b94eb374d.cfargotunnel.com
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflared
+  namespace: cloudflare
+data:
+  config.yaml: |
+    tunnel: myzopotamia_ether
+    credentials-file: /etc/cloudflared/creds/credentials.json
+    metrics: 0.0.0.0:2000
+    no-autoupdate: true
+    ingress:
+      - hostname: myzopotamia.dev
+        service: http://myzopotamia-blog.blog.svc.cluster.local:80
+      - hostname: stats.myzopotamia.dev
+        service: http://myzopotamia-blog.blog.svc.cluster.local:80
+      - hostname: n8n.myzopotamia.dev
+        service: http://n8n.n8n.svc.cluster.local:80
+      - service: http_status:404

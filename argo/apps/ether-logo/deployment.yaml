@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ether-logo
+  namespace: ether-logo
+  labels:
+    app: ether-logo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ether-logo
+  template:
+    metadata:
+      labels:
+        app: ether-logo
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:stable
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: ether.html
+      volumes:
+        - name: html
+          configMap:
+            name: ether-html
+            items:
+              - key: ether.html
+                path: ether.html

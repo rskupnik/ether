@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ether-logo
+  namespace: argocd
+spec:
+  project: applications
+  source:
+    repoURL: https://github.com/rskupnik/grimoire.git
+    targetRevision: HEAD
+    path: apps/ether-logo
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ether-logo
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

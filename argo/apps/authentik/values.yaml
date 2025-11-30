@@ -1,0 +1,34 @@
+global:
+  envFrom:
+    - secretRef:
+        name: authentik-config
+
+server:
+  ingress:
+    ingressClassName: traefik
+    annotations:
+      kubernetes.io/ingress.class: "traefik"
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    enabled: true
+    hosts:
+      - authentik.nora
+    tls:
+      - secretName: authentik-nora-tls
+        hosts:
+          - authentik.nora
+
+postgresql:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: library/postgres
+    tag: "15-bookworm"
+  auth:
+    existingSecret: authentik-postgresql-custom
+
+redis:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: library/redis
+    tag: "7.4.2"

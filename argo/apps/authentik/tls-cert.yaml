@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: authentik-nora-tls-cert
+  namespace: authentik
+spec:
+  secretName: authentik-nora-tls
+  issuerRef:
+    name: nora-ca
+    kind: ClusterIssuer
+  commonName: authentik.nora
+  dnsNames:
+    - authentik.nora

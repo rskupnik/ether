@@ -1,0 +1,13 @@
+configs:
+  params:
+    server.insecure: true
+  secret:
+    argocdServerAdminPassword: $2y$10$4x03OZcmTpuEcI.sk53U8.UYyTVaCJXMUgNTg81eKG.YgUwgV1tRG
+  cm:
+    accounts.readonly: apiKey
+    kustomize.buildOptions: --enable-helm
+    url: https://argocd.nora
+  # Uncomment if not using authentik
+  # rbac:
+  #   policy.csv: |
+  #     g, readonly, role:readonly

@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: edgar-dashboards
+  namespace: edgar
+data:
+  demo.json: |
+    {
+      "tiles": [
+        {
+          "name": "Room fan",
+          "deviceId": "testDevice",
+          "deviceType": "toggle",
+          "x": 2,
+          "y": 2,
+          "type": "single",
+          "endpoints": [
+            {
+              "id": "/toggle",
+              "activationType": "MANUAL"
+            },
+            {
+              "id": "/isEnabled",
+              "activationType": "INTERVAL",
+              "properties": {
+                "interval": 20
+              }
+            }
+          ]
+        },
+        {
+          "name": "Basement cam",
+          "deviceId": "basementCamGas",
+          "deviceType": "cam-single-image",
+          "x": 3,
+          "y": 1,
+          "type": "quad",
+          "endpoints": [
+            {
+              "id": "/pic",
+              "activationType": "INTERVAL",
+              "responseType": "arraybuffer",
+              "properties": {
+                "interval": 20
+              }
+            }
+          ]
+        },
+        {
+          "name": "Side yard cam",
+          "deviceId": "sideYardCam",
+          "deviceType": "cam-single-image",
+          "x": 5,
+          "y": 1,
+          "type": "quad",
+          "endpoints": [
+            {
+              "id": "/pic",
+              "activationType": "INTERVAL",
+              "responseType": "arraybuffer",
+              "properties": {
+                "interval": 10
+              }
+            }
+          ]
+        }
+      ]
+    }

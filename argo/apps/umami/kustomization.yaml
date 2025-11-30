@@ -1,0 +1,26 @@
+helmCharts:
+  - name: umami
+    repo: https://charts.christianhuth.de
+    releaseName: umami
+    namespace: umami
+    version: 6.0.1
+    valuesFile: values.yaml
+
+resources:
+  - postgres.yaml
+  - tls-cert.yaml
+  - db-creds-secret.sealed.yaml
+  - pvc-retain-patch.yaml
+
+# patches:
+#   - target:
+#       group: apps
+#       version: v1
+#       kind: Deployment
+#       name: umami
+#     patch: |-
+#       - op: add
+#         path: /spec/template/spec/containers/0/env/-
+#         value:
+#           name: DEBUG
+#           value: "umami:*"

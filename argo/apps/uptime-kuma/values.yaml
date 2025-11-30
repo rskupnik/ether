@@ -1,0 +1,17 @@
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  hosts:
+    - host: uptime.nora
+      paths: 
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: uptime-kuma-nora-tls
+      hosts:
+        - uptime.nora
+
+volume:
+  storageClassName: longhorn

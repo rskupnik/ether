@@ -1,0 +1,10 @@
+helmCharts:
+  - name: matomo
+    repo: oci://registry-1.docker.io/bitnamicharts
+    releaseName: matomo
+    namespace: matomo
+    version: 9.3.8
+    valuesFile: values.yaml
+
+resources:
+  - secrets.sealed.yaml

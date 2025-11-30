@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edgar
+  namespace: edgar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: edgar
+  template:
+    metadata:
+      labels:
+        app: edgar
+    spec:
+      containers:
+        - name: edgar
+          image: rskupnik/ether:edgar
+          imagePullPolicy: Always
+          args: ["--deviceConfig=/app/device-config.json", "--dashboard=/app/dashboards/demo.json"]
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: envvars
+            - secretRef:
+                name: secret-envvars
+          volumeMounts:
+            - name: device-config
+              mountPath: /app/device-config.json
+              subPath: device-config.json
+            - name: dashboards
+              mountPath: /app/dashboards
+      imagePullSecrets:
+        - name: dockerhub-credentials
+      volumes:
+        - name: device-config
+          configMap:
+            name: edgar-device-config
+        - name: dashboards
+          configMap:
+            name: edgar-dashboards

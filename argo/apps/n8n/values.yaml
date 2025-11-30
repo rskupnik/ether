@@ -1,0 +1,27 @@
+main:
+  config:
+    node_env: production
+    webhook_url: https://n8n.nora/
+    n8n:
+      host: n8n.nora
+      protocol: https
+      secure_cookie: false
+  persistence:
+    enabled: true
+    type: dynamic
+    storageClass: longhorn
+    annotations:
+      argocd.argoproj.io/sync-options: Delete=false
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  hosts:
+    - host: n8n.nora
+      paths: [ "/" ]
+  tls:
+    - secretName: n8n-nora-tls
+      hosts:
+        - n8n.nora

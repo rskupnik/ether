@@ -1,0 +1,57 @@
+configMap:
+  session:
+    cookies:
+      - domain: "authelia.nora"
+      # - subdomain: "authelia"
+  storage:
+    # local:
+    #   enabled: true
+    postgres:
+      enabled: true
+      deploy: true
+      address: "tcp://authelia-postgresql.authelia.svc.cluster.local:5432"
+      password:
+        secret_name: authelia-postgres  # storage.postgres.password.txt
+  notifier:
+    filesystem:
+      enabled: true
+  authentication_backend:
+    file:
+      enabled: true
+
+# persistence:
+#   enabled: true
+#   existingClaim: "TODO"
+#   storageClass: "longhorn"
+
+ingress:
+  enabled: true
+  className: "traefik"
+
+pod:
+  kind: StatefulSet
+  replicas: 1
+  # extraVolumes:
+  #   - name: writable-config
+  #     emptyDir: {}
+  #   - name: config
+  #     configMap:
+  #       name: config
+  # extraVolumeMounts:
+  #   - name: writable-config
+  #     mountPath: /config
+  #   - name: config
+  #     mountPath: /config-temp
+  #     readOnly: true
+
+postgresql:
+  primary:
+    persistence:
+      enabled: true
+      storageClass: "longhorn"
+  auth:
+    existingSecret: authelia-postgres
+
+secret:
+  additionalSecrets:
+    authelia-postgres: {}

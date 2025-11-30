@@ -1,0 +1,7 @@
+helmCharts:
+  - name: pocket-id
+    repo: https://anza-labs.github.io/charts
+    releaseName: pocket-id
+    namespace: pocket-id
+    version: 1.4.0
+    valuesFile: values.yaml

@@ -1,0 +1,7 @@
+helmCharts:
+  - name: loki
+    repo: https://grafana.github.io/helm-charts
+    releaseName: loki
+    namespace: loki
+    version: 6.30.1
+    valuesFile: single-binary-values.yaml
