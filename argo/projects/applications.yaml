@@ -6,7 +6,7 @@ metadata:
 spec:
   description: Regular applications
   sourceRepos:
-    - https://github.com/rskupnik/grimoire.git
+    - https://github.com/rskupnik/ether.git
   destinations:
     - namespace: '*'
       server: https://kubernetes.default.svc

@@ -6,9 +6,9 @@ metadata:
 spec:
   project: applications
   source:
-    repoURL: https://github.com/rskupnik/grimoire.git
+    repoURL: https://github.com/rskupnik/ether.git
     targetRevision: HEAD
-    path: apps/uptime-kuma
+    path: argo/apps/uptime-kuma
   destination:
     server: https://kubernetes.default.svc
     namespace: uptime-kuma

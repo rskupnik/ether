@@ -6,9 +6,9 @@ metadata:
 spec:
   project: applications
   source:
-    repoURL: https://github.com/rskupnik/grimoire.git
+    repoURL: https://github.com/rskupnik/ether.git
     targetRevision: HEAD
-    path: apps/n8n
+    path: argo/apps/n8n
   destination:
     server: https://kubernetes.default.svc
     namespace: n8n

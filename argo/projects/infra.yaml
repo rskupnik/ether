@@ -6,7 +6,7 @@ metadata:
 spec:
   description: Infra tooling like Traefik, MetalLB, etc.
   sourceRepos:
-    - https://github.com/rskupnik/grimoire.git
+    - https://github.com/rskupnik/ether.git
     - https://github.com/metallb/metallb.git
   destinations:
     - namespace: '*'
