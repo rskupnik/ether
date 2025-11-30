@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/rskupnik/grimoire.git
-    targetRevision: HEAD
-    path: apps/argocd
+    repoURL: https://github.com/rskupnik/ether.git
+    targetRevision: argo-migration
+    path: argo/apps/argocd
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
