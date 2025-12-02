@@ -8,6 +8,6 @@ helmCharts:
 
 resources:
   - iscsi.yaml
-  - password-secret.yaml
+  - password-secret.sealed.yaml
   - ingress.yaml
   - tls-cert.yaml
