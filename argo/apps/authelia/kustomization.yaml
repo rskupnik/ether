@@ -1,0 +1,11 @@
+helmCharts:
+  - name: authelia
+    repo: https://charts.authelia.com
+    releaseName: authelia
+    namespace: authelia
+    version: 0.10.42
+    valuesFile: values.yaml
+
+resources:
+  - secrets/postgres.sealed.yaml
+  # - config.yaml

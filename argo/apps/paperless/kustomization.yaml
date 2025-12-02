@@ -1,0 +1,52 @@
+helmCharts:
+  - name: paperless-ngx
+    repo: oci://codeberg.org/wrenix/helm-charts
+    releaseName: paperless
+    namespace: paperless
+    version: 0.2.1
+    valuesFile: values.yaml
+
+resources:
+  - db-creds-secret.sealed.yaml
+  - storage.yaml
+  - extra-env-secret.sealed.yaml
+  - pvc.yaml
+  - pvc-patch-job.yaml
+  - pvc-patch-rbac.yaml
+  - tls-cert.yaml
+
+patches:
+  - target:
+      group: ""
+      version: v1
+      kind: Secret
+      name: paperless
+    patch: |-
+      - op: remove
+        path: /data/PAPERLESS_REDIS
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: paperless
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/command
+        value: ["/bin/sh", "-c"]
+      - op: add
+        path: /spec/template/spec/containers/0/args
+        value:
+          - |
+            export PAPERLESS_REDIS="redis://default:${REDIS_PASSWORD}@paperless-redis-master"
+            exec /init
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: paperless
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/envFrom/-
+        value:
+          secretRef:
+            name: paperless-extra-env

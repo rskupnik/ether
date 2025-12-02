@@ -1,0 +1,39 @@
+helmCharts:
+  - name: argo-cd
+    repo: https://argoproj.github.io/argo-helm
+    releaseName: argocd
+    namespace: argocd
+    version: 8.0.4
+    valuesFile: values.yaml
+    additionalValuesFiles:
+      - authentik-values.yaml   # Comment to disable Authentik
+
+resources:
+  - ingress.yaml
+  - tls-cert.yaml
+  - apps/projects.yaml
+  - apps/authentik.yaml
+  - apps/cloudflare.yaml
+  - apps/blog.yaml
+  - apps/longhorn.yaml
+  - apps/metallb.yaml
+  - apps/pihole.yaml
+  - apps/prometheus-stack.yaml
+  - apps/sealed-secrets.yaml
+  # - apps/matomo.yaml
+  - apps/edgar.yaml
+  - apps/n8n.yaml
+  - apps/github-actions.yaml
+  - apps/uptime-kuma.yaml
+  - apps/homepage.yaml
+  - apps/immich.yaml
+  # - apps/pocket-id.yaml
+  - apps/paperless.yaml
+  - apps/coredns-patch.yaml
+  - apps/tailscale.yaml
+  - apps/acolyte.yaml
+  - apps/cert-manager.yaml
+  - apps/umami.yaml
+  - apps/ether-logo.yaml
+  # - apps/authelia.yaml
+  # - apps/loki.yaml

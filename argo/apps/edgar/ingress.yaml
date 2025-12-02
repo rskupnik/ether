@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: edgar-ingress
+  namespace: edgar
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+    - host: edgar.nora
+      http:
+        paths:
+          - path: /edgar
+            pathType: Prefix
+            backend:
+              service:
+                name: edgar
+                port:
+                  number: 80

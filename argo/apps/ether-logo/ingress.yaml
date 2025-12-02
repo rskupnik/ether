@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ether-logo
+spec:
+  rules:
+    - host: ether-logo.nora
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ether-logo
+                port:
+                  number: 80

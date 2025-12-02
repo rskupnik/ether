@@ -1,0 +1,10 @@
+helmCharts:
+  - name: uptime-kuma
+    repo: https://helm.irsigler.cloud
+    releaseName: uptime-kuma
+    namespace: uptime-kuma
+    version: 2.21.0
+    valuesFile: values.yaml
+
+resources:
+  - tls-cert.yaml

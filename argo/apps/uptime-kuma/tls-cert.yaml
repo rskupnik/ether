@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: uptime-kuma-nora-tls-cert
+  namespace: uptime-kuma
+spec:
+  secretName: uptime-kuma-nora-tls
+  issuerRef:
+    name: nora-ca
+    kind: ClusterIssuer
+  commonName: uptime.nora
+  dnsNames:
+    - uptime.nora

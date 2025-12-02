@@ -1,0 +1,17 @@
+helmCharts:
+  - name: authentik
+    repo: https://charts.goauthentik.io
+    releaseName: authentik
+    namespace: authentik
+    version: 2025.8.3
+    valuesFile: values.yaml
+
+resources:
+  - secrets/authentik-config-sealed.yaml
+  - secrets/authentik-postgresql-custom-sealed.yaml
+  - tls-cert.yaml
+  
+  # --- INTEGRATIONS
+
+  # ARGOCD
+  - integrations/argocd/secrets.sealed.yaml

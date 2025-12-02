@@ -1,0 +1,50 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          tag: v2.1.0
+        env:
+          DB_HOSTNAME: "postgres"
+          DB_USERNAME: "immich"
+          DB_DATABASE_NAME: "immich"
+          IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+          DB_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: immich-postgres-credentials
+                key: password
+
+immich:
+  persistence:
+    library:
+      existingClaim: immich-data-nas
+
+server:
+  ingress:
+    main:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "traefik"
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      hosts:
+        - host: photos.nora
+          paths:
+            - path: "/"
+      tls:
+        - secretName: immich-nora-tls
+          hosts:
+            - photos.nora
+
+valkey:
+  enabled: true
+
+machine-learning:
+  enabled: true
+  persistence:
+    cache:
+      enabled: true
+      size: 10Gi
+      type: persistentVolumeClaim
+      accessMode: ReadWriteMany
+      storageClass: longhorn

@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform
+  namespace: argocd
+spec:
+  description: Platform tooling, like Prometheus, etc.
+  sourceRepos:
+    - https://github.com/rskupnik/ether.git
+    - https://prometheus-community.github.io/helm-charts
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

@@ -1,0 +1,10 @@
+helmCharts:
+  - name: metallb
+    repo: https://metallb.github.io/metallb
+    releaseName: metallb
+    namespace: metallb-system
+    version: v0.14.9
+
+resources:
+  - ip-pool.yaml
+  - l2adv.yaml

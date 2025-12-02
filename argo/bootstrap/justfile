@@ -1,0 +1,9 @@
+bootstrap:
+    helm install argocd argo/argo-cd -f values.yaml --namespace argocd --create-namespace
+    sops --decrypt git-pat-secret.enc.yaml | kubectl apply -f -
+    kubectl apply -f argo-app.yaml
+
+undo:
+    helm uninstall argocd -n argocd
+    sops --decrypt git-pat-secret.enc.yaml | kubectl delete -f -
+    kubectl delete -f argo-app.yaml

@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: coredns-patch
+  namespace: argocd
+spec:
+  project: applications
+  source:
+    repoURL: https://github.com/rskupnik/ether.git
+    targetRevision: argo-migration
+    path: argo/apps/coredns-patch
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

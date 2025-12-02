@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: matomo
+  namespace: argocd
+spec:
+  project: applications
+  source:
+    repoURL: https://github.com/rskupnik/ether.git
+    targetRevision: argo-migration
+    path: argo/apps/matomo
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: matomo
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    # automated:
+    #   prune: true
+    #   selfHeal: true

@@ -1,0 +1,42 @@
+extraEnv:
+  - name: HOMEPAGE_ALLOWED_HOSTS
+    value: homepage.nora
+
+extraEnvFrom:
+  - secretRef:
+      name: envvars
+
+ingress:
+  enabled: true
+  ingressClassName: "traefik"
+  hosts:
+    - host: homepage.nora
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+volumes:
+  - name: config
+    emptyDir: {}
+  - name: configmap
+    configMap:
+      name: config
+
+volumeMounts:
+  - name: config
+    mountPath: /app/config
+  - name: configmap
+    mountPath: /app/config/services.yaml
+    subPath: services.yaml
+  - name: configmap
+    mountPath: /app/config/kubernetes.yaml
+    subPath: kubernetes.yaml
+  - name: configmap
+    mountPath: /app/config/widgets.yaml
+    subPath: widgets.yaml
+  - name: configmap
+    mountPath: /app/config/settings.yaml
+    subPath: settings.yaml
+  - name: configmap
+    mountPath: /app/config/bookmarks.yaml
+    subPath: bookmarks.yaml

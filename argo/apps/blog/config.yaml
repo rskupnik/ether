@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myzopotamia-blog-config
+  namespace: blog
+data:
+  default.conf: |
+    server {
+      listen 80;
+      server_name myzopotamia.dev;
+
+      root /usr/share/nginx/html;
+      index index.html;
+
+      location / {
+          try_files $uri $uri.html $uri/ =404;
+      }
+
+      location /public/ {
+          root /usr/share/nginx/html;
+      }
+    }
+
+    server {
+      listen 80;
+      server_name stats.myzopotamia.dev;
+
+      # Rewrite path
+      location /umami {
+          proxy_pass http://umami.umami.svc.cluster.local:3000/umami;
+          proxy_set_header Host $host;
+          proxy_set_header CF-Connecting-IP $http_cf_connecting_ip;
+          proxy_set_header X-Real-IP $http_cf_connecting_ip;
+          proxy_set_header X-Forwarded-For $http_cf_connecting_ip;
+      }
+
+      location /api/send {
+          proxy_pass http://umami.umami.svc.cluster.local:3000/api/send;
+          proxy_set_header Host $host;
+          proxy_set_header CF-Connecting-IP $http_cf_connecting_ip;
+          proxy_set_header X-Real-IP $http_cf_connecting_ip;
+          proxy_set_header X-Forwarded-For $http_cf_connecting_ip;
+      }
+
+      # Block ALL other Umami access, including login
+      location / {
+          return 403;
+      }
+    }
+
+    # server {
+    #   listen 80;
+    #   server_name stats.myzopotamia.dev;
+
+    #   # Rewrite stats.js to piwik.js
+    #   location /stats.js {
+    #       rewrite ^/stats.js$ /piwik.js break;
+    #       proxy_pass http://matomo.matomo.svc.cluster.local/piwik.js;
+    #       proxy_set_header Host $host;
+    #       proxy_set_header X-Real-IP $remote_addr;
+    #       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    #       proxy_set_header X-Forwarded-Proto $scheme;
+    #   }
+
+    #   # Rewrite stats.php to piwik.php
+    #   location /stats {
+    #       rewrite ^/stats$ /piwik.php break;
+    #       proxy_pass http://matomo.matomo.svc.cluster.local/piwik.php;
+    #       proxy_set_header Host $host;
+    #       proxy_set_header X-Real-IP $remote_addr;
+    #       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    #       proxy_set_header X-Forwarded-Proto $scheme;
+    #   }
+
+    #   # Block ALL other Matomo access, including login
+    #   location / {
+    #       return 403;
+    #   }
+    # }

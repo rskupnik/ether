@@ -1,0 +1,13 @@
+helmCharts:
+  - name: longhorn
+    repo: https://charts.longhorn.io
+    releaseName: longhorn
+    namespace: longhorn-system
+    version: 1.8.1
+    valuesFile: values.yaml
+
+resources:
+  - iscsi.yaml
+  - password-secret.sealed.yaml
+  - ingress.yaml
+  - tls-cert.yaml

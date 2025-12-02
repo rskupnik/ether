@@ -1,0 +1,64 @@
+# To uninstall Longhorn see here: https://longhorn.io/docs/1.8.1/deploy/uninstall/
+# We use three pseudo-apps:
+# core - installs Longhorn official Chart (using a wrapper)
+# iscsi - installs ISCSI, which is a prerequisite
+# custom - installs resources that customize our Longhorn
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+spec:
+  project: infra
+  source:
+    repoURL: https://github.com/rskupnik/ether.git
+    targetRevision: argo-migration
+    path: argo/apps/longhorn
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: longhorn-system
+  ignoreDifferences:
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: volumes.longhorn.io
+      jsonPointers:
+        - /spec/preserveUnknownFields
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: engines.longhorn.io
+      jsonPointers:
+        - /spec/preserveUnknownFields
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: settings.longhorn.io
+      jsonPointers:
+        - /spec/preserveUnknownFields
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: replicas.longhorn.io
+      jsonPointers:
+        - /spec/preserveUnknownFields
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: nodes.longhorn.io
+      jsonPointers:
+        - /spec/preserveUnknownFields
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: instancemanagers.longhorn.io
+      jsonPointers:
+        - /spec/preserveUnknownFields
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: engineimages.longhorn.io
+      jsonPointers:
+        - /spec/preserveUnknownFields
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: acolyte-nora-tls-cert
+  namespace: acolyte
+spec:
+  secretName: acolyte-nora-tls
+  issuerRef:
+    name: nora-ca
+    kind: ClusterIssuer
+  commonName: acolyte.nora
+  dnsNames:
+    - acolyte.nora

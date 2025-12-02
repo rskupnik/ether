@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pvc-patch-sa
+  namespace: umami
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pvc-patch-role
+  namespace: umami
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pvc-patch-rolebinding
+  namespace: umami
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+subjects:
+  - kind: ServiceAccount
+    name: pvc-patch-sa
+    namespace: umami
+roleRef:
+  kind: Role
+  name: pvc-patch-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pv-patch-role
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: pv-patch-rolebinding
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+subjects:
+  - kind: ServiceAccount
+    name: pvc-patch-sa
+    namespace: umami
+roleRef:
+  kind: ClusterRole
+  name: pv-patch-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: patch-pv-reclaim
+  namespace: umami
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      serviceAccountName: pvc-patch-sa
+      containers:
+        - name: patch
+          image: bitnamilegacy/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "[INFO] Waiting for PVC to bind..."
+              until kubectl get pvc postgres-data-postgres-0 -n umami -o jsonpath='{.spec.volumeName}' | grep -q .; do
+                sleep 2
+              done
+
+              PV=$(kubectl get pvc postgres-data-postgres-0 -n umami -o jsonpath='{.spec.volumeName}')
+              echo "[INFO] Found PV: $PV"
+
+              echo "[INFO] Patching reclaim policy to Retain..."
+              kubectl patch pv "$PV" -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}'
+              echo "[INFO] Patch complete."

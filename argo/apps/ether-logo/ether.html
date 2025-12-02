@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ether – Cyberpunk Logo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg-color: #050414;
+      --accent-cyan: #00f6ff;
+      --accent-magenta: #ff00c8;
+      --accent-purple: #7b2cff;
+      --text-main: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 0%, #191238 0, transparent 55%),
+        radial-gradient(circle at 80% 100%, #150d31 0, transparent 50%),
+        radial-gradient(circle at 50% 50%, #0a0320 0, #050414 60%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      animation: bgPulse 16s ease-in-out infinite alternate;
+    }
+
+    .frame {
+      position: relative;
+      padding: 2.5rem 3.5rem;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: radial-gradient(circle at top left, rgba(0, 246, 255, 0.18), transparent 55%)
+                  border-box;
+      backdrop-filter: blur(14px);
+      box-shadow:
+        0 0 40px rgba(0, 246, 255, 0.25),
+        0 0 80px rgba(123, 44, 255, 0.35),
+        inset 0 0 30px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      min-width: 260px;
+    }
+
+    /* Corner “circuit” accents */
+    .frame::before,
+    .frame::after {
+      content: "";
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--accent_cyan, #00f6ff);
+      opacity: 0.7;
+    }
+    .frame::before {
+      top: 10px;
+      left: 10px;
+      border-right: none;
+      border-bottom: none;
+    }
+    .frame::after {
+      bottom: 10px;
+      right: 10px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .logo-wrap {
+      position: relative;
+      text-align: center;
+    }
+
+    /* Glow aura behind text */
+    .logo-glow {
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 30% 0%, rgba(0, 246, 255, 0.6), transparent 60%),
+        radial-gradient(circle at 70% 100%, rgba(255, 0, 200, 0.7), transparent 55%);
+      filter: blur(40px);
+      opacity: 0.6;
+      animation: glowPulse 4s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    /* Scanline overlay */
+    .scanlines {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.07),
+        rgba(255, 255, 255, 0.07) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.26;
+      animation: scan 6s linear infinite;
+      z-index: 3;
+    }
+
+    .logo {
+      position: relative;
+      z-index: 2;
+      font-size: 3.2rem;
+      letter-spacing: 0.35em;
+      text-indent: 0.35em; /* keep first letter aligned */
+      text-transform: uppercase;
+      font-weight: 700;
+      line-height: 1;
+      background: linear-gradient(
+        120deg,
+        var(--accent-cyan),
+        var(--accent-magenta),
+        var(--accent-purple),
+        var(--accent-cyan)
+      );
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow:
+        0 0 10px rgba(0, 246, 255, 0.7),
+        0 0 25px rgba(255, 0, 200, 0.7),
+        0 0 45px rgba(123, 44, 255, 0.9);
+      animation:
+        gradientShift 10s ease-in-out infinite,
+        textFlicker 2.8s infinite alternate;
+    }
+
+    /* Glitch layers */
+    .logo::before,
+    .logo::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      letter-spacing: inherit;
+      text-indent: inherit;
+      text-transform: inherit;
+      overflow: hidden;
+    }
+
+    .logo::before {
+      text-shadow: -3px 0 var(--accent-cyan);
+      clip-path: inset(0 0 55% 0);
+      animation: glitchTop 2.4s infinite;
+    }
+
+    .logo::after {
+      text-shadow: 3px 0 var(--accent-magenta);
+      clip-path: inset(45% 0 0 0);
+      animation: glitchBottom 2.1s infinite;
+    }
+
+    .subtitle {
+      margin-top: 0.9rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      color: rgba(230, 230, 255, 0.7);
+      opacity: 0.85;
+      z-index: 2;
+      position: relative;
+      animation: subtitleGlow 5s ease-in-out infinite;
+    }
+
+    /* KEYFRAMES */
+
+    @keyframes bgPulse {
+      0% {
+        filter: hue-rotate(0deg);
+      }
+      100% {
+        filter: hue-rotate(18deg);
+      }
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes textFlicker {
+      0% {
+        opacity: 0.95;
+      }
+      5% {
+        opacity: 0.4;
+      }
+      8% {
+        opacity: 1;
+      }
+      10% {
+        opacity: 0.3;
+      }
+      12% {
+        opacity: 1;
+      }
+      55% {
+        opacity: 1;
+      }
+      60% {
+        opacity: 0.8;
+      }
+      65% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.92;
+      }
+    }
+
+    @keyframes glowPulse {
+      0% {
+        opacity: 0.4;
+        transform: scale(0.98);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(1.03);
+      }
+      100% {
+        opacity: 0.5;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes scan {
+      0% {
+        transform: translateY(-100%);
+      }
+      100% {
+        transform: translateY(100%);
+      }
+    }
+
+    @keyframes glitchTop {
+      0% {
+        transform: translate(0, 0);
+      }
+      7% {
+        transform: translate(-2px, -2px);
+      }
+      8% {
+        transform: translate(2px, 1px);
+      }
+      9% {
+        transform: translate(0, 0);
+      }
+      30% {
+        transform: translate(0, 0);
+      }
+      31% {
+        transform: translate(-3px, 2px);
+      }
+      32% {
+        transform: translate(1px, -1px);
+      }
+      33% {
+        transform: translate(0, 0);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
+    @keyframes glitchBottom {
+      0% {
+        transform: translate(0, 0);
+      }
+      4% {
+        transform: translate(2px, 2px);
+      }
+      5% {
+        transform: translate(-2px, -1px);
+      }
+      6% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(0, 0);
+      }
+      26% {
+        transform: translate(3px, -2px);
+      }
+      27% {
+        transform: translate(-1px, 2px);
+      }
+      28% {
+        transform: translate(0, 0);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
+    @keyframes subtitleGlow {
+      0% {
+        text-shadow: 0 0 4px rgba(0, 246, 255, 0.6);
+      }
+      50% {
+        text-shadow:
+          0 0 6px rgba(0, 246, 255, 0.8),
+          0 0 14px rgba(255, 0, 200, 0.6);
+      }
+      100% {
+        text-shadow: 0 0 4px rgba(123, 44, 255, 0.7);
+      }
+    }
+
+    /* Small screens (if your LCD is low-res) */
+    @media (max-width: 480px) {
+      .frame {
+        padding: 1.6rem 1.8rem;
+      }
+      .logo {
+        font-size: 2.4rem;
+        letter-spacing: 0.26em;
+        text-indent: 0.26em;
+      }
+      .subtitle {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+  <style>
+    .frame {
+      transform: scale(1.5);
+      transform-origin: center;
+    }
+  </style>
+  <style>
+    body { cursor: none !important; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="logo-wrap">
+      <div class="logo-glow"></div>
+      <div class="scanlines"></div>
+      <div class="logo" data-text="Ether">Ether</div>
+      <div class="subtitle">Raspberry Pi Cluster</div>
+    </div>
+  </div>
+</body>
+</html>

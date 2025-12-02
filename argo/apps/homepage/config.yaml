@@ -1,0 +1,164 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+  namespace: homepage
+data:
+  services.yaml: |
+    - Myzopotamia:
+      - PiHole:
+          icon: pi-hole.png
+          href: https://pihole.nora/admin/login
+          app: pihole
+          namespace: pihole
+          widget:
+            type: pihole
+            url: https://pihole.nora/
+            version: 6
+            key: {{HOMEPAGE_VAR_PIHOLE_PASSWORD}}
+      - Uptime Kuma:
+          icon: uptime-kuma.png
+          href: https://uptime.nora/
+          app: uptime-kuma
+          namespace: uptime-kuma
+          widget:
+            type: uptimekuma
+            url: https://uptime.nora/
+            slug: for-homepage
+      - Cloudflared:
+          icon: cloudflare.png
+          app: cloudflared
+          namespace: cloudflare
+          widget:
+            type: cloudflared
+            accountid: 8cb8ae6f1ada38aca2a6f1843d6d977f
+            tunnelid: 6b8be581-7b5c-4678-86fe-f97de1e0a26d
+            key: {{HOMEPAGE_VAR_CLOUDFLARE_TOKEN}}
+      - ArgoCD:
+          icon: argo-cd.png
+          href: https://argocd.nora/
+          widget:
+            type: argocd
+            url: https://argocd.nora/
+            key: {{HOMEPAGE_VAR_ARGO_TOKEN}}
+      - Immich:
+          icon: immich.png
+          href: https://photos.nora/
+          widget:
+            type: immich
+            url: https://photos.nora/
+            key: {{HOMEPAGE_VAR_IMMICH_TOKEN}}
+            version: 2
+      - Paperless:
+          icon: paperless.png
+          href: https://papers.nora/
+          widget:
+            type: paperlessngx
+            url: https://papers.nora/
+            key: {{HOMEPAGE_VAR_PAPERLESS_TOKEN}}
+      - Grafana:
+          icon: grafana.png
+          href: https://grafana.nora/
+          widget:
+            type: grafana
+            version: 2
+            url: https://grafana.nora/
+            username: admin
+            password: {{HOMEPAGE_VAR_GRAFANA_PASSWORD}}
+      - N8N:
+          icon: n8n.png
+          href: https://n8n.nora/
+          app: n8n
+          namespace: n8n
+      - Blog:
+          href: https://myzopotamia.dev/
+      - Umami:
+          icon: umami.png
+          href: https://umami.nora/
+          app: umami
+          namespace: umami
+      - Longhorn:
+          icon: longhorn.png
+          href: https://longhorn.nora/
+      - NAS:
+          icon: qnap.png
+          href: https://nas.nora:8080/
+  kubernetes.yaml: |
+    mode: default
+  widgets.yaml: |
+    - kubernetes:
+        cluster:
+          # Shows cluster-wide statistics
+          show: true
+          # Shows the aggregate CPU stats
+          cpu: true
+          # Shows the aggregate memory stats
+          memory: true
+          # Shows a custom label
+          showLabel: true
+          label: "cluster"
+        nodes:
+          # Shows node-specific statistics
+          show: true
+          # Shows the CPU for each node
+          cpu: true
+          # Shows the memory for each node
+          memory: true
+          # Shows the label, which is always the node name
+          showLabel: true
+    - longhorn:
+        # Show the expanded view
+        expanded: true
+        # Shows a node representing the aggregate values
+        total: true
+        # Shows the node names as labels
+        labels: true
+        # Show the nodes
+        nodes: true
+    - search:
+        provider: duckduckgo
+        focus: true
+        showSearchSuggestions: true
+        target: _blank
+    - logo:
+        icon: https://myzopotamia.dev/public/images/badger-av.jpg
+    - datetime:
+        text_size: xl
+        format:
+          dateStyle: short
+          timeStyle: short
+          hourCycle: h23
+  settings.yaml: |
+    layout:
+      Myzopotamia:
+        style: row
+        columns: 3
+    providers:
+      longhorn:
+        username: "admin"
+        password: {{HOMEPAGE_VAR_LONGHORN_PASSWORD}}
+        url: https://longhorn.nora
+  bookmarks.yaml: |
+    - Social:
+      - Reddit:
+        - icon: reddit.png
+          href: https://reddit.com/
+      - Wykop:
+        - abbr: WY
+          href: https://wykop.pl/
+      - Facebook:
+        - icon: facebook.png
+          href: https://facebook.com/
+
+    - Entertainment:
+      - YouTube:
+        - icon: youtube.png
+          href: https://youtube.com/
+      - Twitch:
+        - icon: twitch.png
+          href: https://twitch.tv/
+
+    - Developer:
+      - Github:
+        - icon: github.png
+          href: https://github.com/rskupnik

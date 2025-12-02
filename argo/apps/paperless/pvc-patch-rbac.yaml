@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pvc-patch-sa
+  namespace: paperless
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pvc-patch-role
+  namespace: paperless
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pvc-patch-rolebinding
+  namespace: paperless
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+subjects:
+  - kind: ServiceAccount
+    name: pvc-patch-sa
+    namespace: paperless
+roleRef:
+  kind: Role
+  name: pvc-patch-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pv-patch-role
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: pv-patch-rolebinding
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+subjects:
+  - kind: ServiceAccount
+    name: pvc-patch-sa
+    namespace: paperless
+roleRef:
+  kind: ClusterRole
+  name: pv-patch-role
+  apiGroup: rbac.authorization.k8s.io

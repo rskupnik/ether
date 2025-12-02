@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: paperless-nora-tls-cert
+  namespace: paperless
+spec:
+  secretName: paperless-nora-tls
+  issuerRef:
+    name: nora-ca
+    kind: ClusterIssuer
+  commonName: papers.nora
+  dnsNames:
+    - papers.nora

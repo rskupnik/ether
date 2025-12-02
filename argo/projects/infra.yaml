@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: infra
+  namespace: argocd
+spec:
+  description: Infra tooling like Traefik, MetalLB, etc.
+  sourceRepos:
+    - https://github.com/rskupnik/ether.git
+    - https://github.com/metallb/metallb.git
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

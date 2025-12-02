@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: qnap-immich-pv
+spec:
+  storageClassName: ""
+  mountOptions:
+    - nfsvers=4
+  capacity:
+    storage: 7000Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 192.168.0.185
+    path: /immich
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-data-nas
+spec:
+  storageClassName: ""
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 7000Gi
+  volumeName: qnap-immich-pv

@@ -1,0 +1,63 @@
+# will create kubernees ingress
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  hosts:
+    - pihole.nora
+    - pihole.local
+  tls:
+    - secretName: pihole-nora-tls
+      hosts:
+        - pihole.nora
+
+# will create kubernetes services for web admin
+serviceWeb:
+  loadBalancerIP: 192.168.0.240
+  type: ClusterIP
+  
+# use the password we created in pihole-custom
+admin:
+  existingSecret: pihole-password
+  
+# create a kubernetes service and expose
+# port 53 outside of cluster on the local network
+serviceDns:
+  loadBalancerIP: 192.168.0.241
+  annotations:
+    metallb.universe.tf/allow-shared-ip: pihole-svc
+  type: LoadBalancer
+  
+# enables cloudflare tunnel sidecar container
+# and sets upstream dns in pihole to leverage it
+# doh:
+#   enabled: true
+#   pullPolicy: Always
+#   envVars: {
+#     DOH_UPSTREAM: "https://1.1.1.1/dns-query"
+#   }
+  
+# pi-hole will automatially create a new
+# persistent volume managed by longhorn
+persistentVolumeClaim:
+  enabled: true
+  storageClass: "longhorn"
+
+dnsmasq:
+  additionalHostsEntries:
+    - 192.168.0.240 longhorn.nora
+    - 192.168.0.240 pihole.nora
+    - 192.168.0.240 argocd.nora
+    - 192.168.0.240 grafana.nora
+    - 192.168.0.240 authentik.nora
+    - 192.168.0.240 edgar.nora
+    - 192.168.0.240 n8n.nora
+    - 192.168.0.240 uptime.nora
+    - 192.168.0.240 homepage.nora
+    - 192.168.0.240 photos.nora
+    - 192.168.0.240 papers.nora
+    - 192.168.0.240 acolyte.nora
+    - 192.168.0.240 umami.nora
+    - 192.168.0.240 ether-logo.nora
+    - 192.168.0.185 nas.nora

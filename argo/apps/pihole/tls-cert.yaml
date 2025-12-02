@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pihole-nora-tls-cert
+  namespace: pihole
+spec:
+  secretName: pihole-nora-tls
+  issuerRef:
+    name: nora-ca
+    kind: ClusterIssuer
+  commonName: pihole.nora
+  dnsNames:
+    - pihole.nora

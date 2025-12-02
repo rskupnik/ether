@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ether-logo
+  namespace: ether-logo
+spec:
+  selector:
+    app: ether-logo
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
