@@ -1,0 +1,79 @@
+- name: Prepare backup HDD
+  hosts: pustkow_pi
+  become: true
+  vars:
+    disk_device: "/dev/sda"
+    partition: "/dev/sda1"
+    mount_point: "/mnt/backup"
+
+  tasks:
+    - name: Ask for confirmation
+      ansible.builtin.pause:
+        prompt: |
+          WARNING: This will destroy all data on the disk!
+          Type 'yes' to continue, anything else to abort:
+
+    - name: Unmount disk if mounted
+      ansible.builtin.mount:
+        path: "{{ mount_point }}"
+        src: "{{ disk_device }}"
+        state: unmounted
+      ignore_errors: yes
+
+    - name: Wipe existing partition table
+      command: "wipefs -a {{ disk_device }}"
+      ignore_errors: no
+
+    - name: Create partition table (GPT)
+      ansible.builtin.shell: |
+        parted --script {{ disk_device }} mklabel gpt
+      args:
+        executable: /bin/bash
+    
+    - name: Create partition
+      community.general.parted:
+        device: "{{ disk_device }}"
+        number: 1
+        part_start: 0%
+        part_end: 100%
+        fs_type: ext4
+        state: present
+    
+    - name: Check filesystems on partitions
+      ansible.builtin.command: lsblk -ndo NAME,FSTYPE "{{ disk_device }}"
+      register: partition_fs_list
+    
+    - name: Format partition as EXT4 if needed
+      ansible.builtin.filesystem:
+        fstype: ext4
+        dev: "{{ partition }}"
+        force: true
+      when: "'ext4' not in partition_fs_list.stdout"
+
+    - name: Create mount point
+      file:
+        path: "{{ mount_point }}"
+        state: directory
+        mode: "0755"
+
+    - name: Mount the partition
+      mount:
+        path: "{{ mount_point }}"
+        src: "{{ partition }}"
+        fstype: ext4
+        state: mounted
+    
+    - name: Set ownership of backup mount to user pi
+      ansible.builtin.file:
+        path: "{{ mount_point }}"
+        owner: pi
+        group: pi
+        mode: "0755"
+
+    - name: Ensure persistent fstab entry
+      mount:
+        path: "{{ mount_point }}"
+        src: "{{ partition }}"
+        fstype: ext4
+        opts: defaults
+        state: present
