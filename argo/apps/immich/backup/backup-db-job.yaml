@@ -22,12 +22,13 @@ spec:
           #     echo "hi"
           args:
             - |
+              echo "Install rsync"
+              apk add --no-cache rsync openssh-client
+
               echo "Dumping all PostgreSQL databases..."
-              pg_dumpall --clean --if-exists -h immich-postgres -U immich > /tmp/all.sql
+              pg_dumpall --clean --if-exists -h postgres.immich.svc.cluster.local -U immich > /tmp/all.sql
 
               echo "Sending DB dump to remote host..."
-              chmod 600 /ssh/id_ed25519
-
               rsync -av \
                 -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no" \
                 /tmp/all.sql \
