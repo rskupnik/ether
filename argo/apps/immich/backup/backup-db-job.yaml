@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: immich-backup-db
+  namespace: immich
+  labels:
+    app: immich-backup
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: immich-backup
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: backup-db
+          image: postgres:17-alpine
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "hi"
+          # args:
+          #   - |
+          #     echo "Dumping DB..."
+          #     pg_dump -h immich-postgres -U immich -d immichdb > /tmp/db.sql
+
+          #     echo "Syncing..."
+          #     rsync -av /tmp/db.sql user@remote:/backup/immich/db/
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: immich-postgres-credentials
+                  key: password

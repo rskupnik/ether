@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: immich-backup-media
+  namespace: immich
+  labels:
+    app: immich-backup
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: immich-backup
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: backup
+          image: alpine:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "hi"
+          # args:
+          #   - |
+          #     echo "Starting media sync..."
+          #     rsync -av /data/ user@remote:/backup/immich/media/
+          #     echo "Done."
+          volumeMounts:
+            - name: immich-data
+              mountPath: /data
+      volumes:
+        - name: immich-data
+          persistentVolumeClaim:
+            claimName: immich-data-nas

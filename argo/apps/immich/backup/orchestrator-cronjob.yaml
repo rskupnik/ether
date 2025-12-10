@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: immich-backup-orchestrator
+  namespace: immich
+spec:
+  schedule: "0 2 * * *"
+  
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: immich-backup-sa
+          
+          containers:
+            - name: orchestrator
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  echo "Scaling Immich down..."
+                  kubectl scale deploy immich-server --replicas=0
+
+                  echo "Running media backup..."
+                  kubectl delete job immich-backup-media --ignore-not-found
+                  kubectl apply -f /configs/backup-media-job.yaml
+                  kubectl wait job/immich-backup-media --for=condition=complete --timeout=24h
+
+                  echo "Running DB backup..."
+                  kubectl delete job immich-backup-db --ignore-not-found
+                  kubectl apply -f /configs/job-backup-db.yaml
+                  kubectl wait job/immich-backup-db --for=condition=complete --timeout=1h
+
+                  echo "Scaling Immich back up..."
+                  kubectl scale deploy immich-server --replicas=1
+
+                  echo "Backup complete."
+              volumeMounts:
+                - name: job-definitions
+                  mountPath: /configs
+          
+          volumes:
+            - name: job-definitions
+              configMap:
+                name: immich-backup-job-definitions

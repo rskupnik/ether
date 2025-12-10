@@ -12,3 +12,11 @@ resources:
   - postgres/service.yaml
   - storage.yaml
   - tls-cert.yaml
+  - backup/rbac.yaml
+  - backup/orchestrator-cronjob.yaml
+
+configMapGenerator:
+  - name: immich-backup-job-definitions
+    files:
+      - backup/backup-media-job.yaml
+      - backup/backup-db-job.yaml
