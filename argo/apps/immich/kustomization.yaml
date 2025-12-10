@@ -6,6 +6,9 @@ helmCharts:
     version: 0.10.0
     valuesFile: values.yaml
 
+generatorOptions:
+  disableNameSuffixHash: true
+
 resources:
   - db-credentials-secret.sealed.yaml
   - postgres/statefulset.yaml
