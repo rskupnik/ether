@@ -17,6 +17,7 @@ resources:
   - tls-cert.yaml
   - backup/rbac.yaml
   - backup/orchestrator-cronjob.yaml
+  - backup/ssh-key-secret.sealed.yaml
 
 configMapGenerator:
   - name: immich-backup-job-definitions

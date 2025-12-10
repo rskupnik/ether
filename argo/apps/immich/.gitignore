@@ -1,2 +1,5 @@
 *secret*
 !*sealed*
+
+**/*secret*
+!**/*sealed*

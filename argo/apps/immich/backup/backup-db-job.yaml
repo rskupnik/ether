@@ -17,19 +17,34 @@ spec:
         - name: backup-db
           image: postgres:17-alpine
           command: ["/bin/sh", "-c"]
-          args:
-            - |
-              echo "hi"
           # args:
           #   - |
-          #     echo "Dumping DB..."
-          #     pg_dump -h immich-postgres -U immich -d immichdb > /tmp/db.sql
+          #     echo "hi"
+          args:
+            - |
+              echo "Dumping all PostgreSQL databases..."
+              pg_dumpall --clean --if-exists -h immich-postgres -U immich > /tmp/all.sql
 
-          #     echo "Syncing..."
-          #     rsync -av /tmp/db.sql user@remote:/backup/immich/db/
+              echo "Sending DB dump to remote host..."
+              chmod 600 /ssh/id_ed25519
+
+              rsync -av \
+                -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no" \
+                /tmp/all.sql \
+                pi@192.168.178.69:/mnt/backup/immich/db/
+
+              echo "Backup completed."
           env:
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
                   name: immich-postgres-credentials
                   key: password
+          volumeMounts:
+            - name: ssh-key
+              mountPath: /ssh
+      volumes:
+        - name: ssh-key
+          secret:
+            secretName: immich-backup-ssh-key
+            defaultMode: 0600
