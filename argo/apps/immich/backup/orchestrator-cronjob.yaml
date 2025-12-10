@@ -30,7 +30,7 @@ spec:
 
                   echo "Running DB backup..."
                   kubectl delete job immich-backup-db --ignore-not-found
-                  kubectl apply -f /configs/job-backup-db.yaml
+                  kubectl apply -f /configs/backup-db-job.yaml
                   kubectl wait job/immich-backup-db --for=condition=complete --timeout=1h
 
                   echo "Scaling Immich back up..."
