@@ -1,0 +1,21 @@
+{
+	"data": "ENC[AES256_GCM,data:39D3dEe9m+wsUDRFj50a2RIFTzpA2qfusPGQFXxTh1r/1hMXEClZSdE6MNXMH2wMIEenIrZQRxC7J0gQaN3hs+5kyobV4lkyOogIv65H7QHqAkJ5N4mDA7RrjKeRla1uIBqA8V/FOf2pP+Nz1tXnNW+FV+lDbp2/unQqUfQvOmXujXr34ArcQ9kzQk2yboq6DJfJei7MkoOo4Fim07xVij7CrH0qPgNPIWOQbrECDmlsGy8PqGvuHqRRQJqGBQHJDru/DdhYKSrSY8c2f6mqY18z1LrR5NL0SlAcP3RL2lZJDqACI0xEILEofX9fBtLyZ9s4c2A/WjBWxe4Svrs3YcGjrlpC0JqugIxHpYsq0ZKbXytSe//QgcuQmbjs+40zrB8kpRswAWIZyLAoqsMNaCq3d1T0Ynz2ADBpG5z7/AgCa8NJvjOPDjfVPlJHMrglG8uEr3hr+BFPNBQH/H6JO4COtp+y+GQ4XwiQK/JGFkJ87rze6NrYoRh4Ik7YCK+H5403FFjut6U4GloF7o+m,iv:/xEDYj90O/j/njIoq/bTi5F5pjSyvThulQA6O274Isk=,tag:uTmdDGdhG5LFJ5QjXGLPYA==,type:str]",
+	"sops": {
+		"kms": null,
+		"gcp_kms": null,
+		"azure_kv": null,
+		"hc_vault": null,
+		"age": null,
+		"lastmodified": "2025-12-10T13:20:26Z",
+		"mac": "ENC[AES256_GCM,data:PfRNN6FPL3E0bASpmRmt/ikA6zDPGoHau15K/lNce7lII/WbsdeqXsrLOJTLM88EFsLobqUI3xUDPcgU2/ymyPadhw0dVS11DtSIFnEQeGRuJh/BqtWDTC829NszMZ7vyw/D6X6qUomlpw53jLgjLiNcYpwcV1OXO3eKcTJkvm8=,iv:t3TjseDcE7YBdVLLGSofgvJz+lPml1s/OV+gwk+KcYk=,tag:ahJSsp76AnUg9oBpT07ZWw==,type:str]",
+		"pgp": [
+			{
+				"created_at": "2025-12-10T13:20:26Z",
+				"enc": "-----BEGIN PGP MESSAGE-----\n\nhQGMA7UotOo+iXf0AQwAiEFcZxyBGvlo6f2mqtZ9ZHk6IiiPzOH1z98d91l9oEO2\nZN/HOqyq6l1nB1RsUFOGjSn3JXcVYh5V5yr54hrk5I3suY74Du/t/9nMVwJkVGZz\n9tLIYEl70AsaAYJwY94fn8xphMezBjBRrvAAkCEpfDCZkwU70wx9tOJUhBTeiSG+\nCKTSgyBdYKF4AZG05NFohsk8W8RUnzTBM/5VG6da7PWFD2mw0nXBnnvp6d9yH5pn\nqNbrRosNZfDPaLEZVrOs8oCJAE1LkhfyN6tfyB3pN1iqJvdmhAh53tCPADh3fXVM\n6piijJhJk61JWzVYPKLhRnUcMNeJI2aa+MLTqoO5UHZundl05CBFbUdtQwXMJXfC\nNrVEpSgeWi2jd+IZJ5zyqYsDSn7cf+g3MmJZQo836Xs+5/0vkZUOhNSOL2b1DdAp\nUqU1I7OcjiS3wvJVmPatXNNXjegpWZ20/RGzjHc4pcblSwoOHU9wiSQx7flR2dXf\n0Oad2mZfZ5QO3DQFYiXR1GgBCQIQbWTz1gNXJMxOTZvsrD4k11S0lkMQGRm5QbLv\nnWancHu30hlv6IfQQChnEFMdV0rAOQQh5rjNPqxNhBrQ/3JUuBaUUNjf2f3z2Bge\nWh1CVkZQ2n9Htvv2x07BNwkYhBcqEl36Zg==\n=VQAr\n-----END PGP MESSAGE-----",
+				"fp": "7A3BC6EAE9EC0EF9156D6E8D0D02F4D5C2B918B5"
+			}
+		],
+		"unencrypted_suffix": "_unencrypted",
+		"version": "3.9.4"
+	}
+}
