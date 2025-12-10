@@ -31,7 +31,7 @@ spec:
 
               echo "Sending DB dump to remote host..."
               rsync -av \
-                -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no" \
+                -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
                 /tmp/all.sql \
                 pi@192.168.178.69:/mnt/backup/immich/db/
 

@@ -19,12 +19,20 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              echo "hi"
-          # args:
-          #   - |
-          #     echo "Starting media sync..."
-          #     rsync -av /data/ user@remote:/backup/immich/media/
-          #     echo "Done."
+              echo "Install rsync"
+              apk add --no-cache rsync openssh-client
+
+              echo "Ensuring target directory exists..."
+              ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+                pi@192.168.178.69 "mkdir -p /mnt/backup/immich/data"
+              
+              echo "Starting media backup..."
+              rsync -avh --delete \
+                -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                /data/ \
+                pi@192.168.178.69:/mnt/backup/immich/data/
+
+              echo "Backup completed."
           volumeMounts:
             - name: immich-data
               mountPath: /data
