@@ -28,6 +28,10 @@ spec:
               echo "Dumping all PostgreSQL databases..."
               pg_dumpall --clean --if-exists -h postgres.immich.svc.cluster.local -U immich > /tmp/all.sql
 
+              echo "Ensuring target directory exists..."
+              ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+                pi@192.168.178.69 "mkdir -p /mnt/backup/immich/db"
+
               echo "Sending DB dump to remote host..."
               rsync -av \
                 -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no" \
