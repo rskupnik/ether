@@ -17,9 +17,6 @@ spec:
         - name: backup-db
           image: postgres:17-alpine
           command: ["/bin/sh", "-c"]
-          # args:
-          #   - |
-          #     echo "hi"
           args:
             - |
               echo "Install rsync"
