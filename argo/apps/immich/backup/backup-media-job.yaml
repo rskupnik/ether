@@ -36,7 +36,13 @@ spec:
           volumeMounts:
             - name: immich-data
               mountPath: /data
+            - name: ssh-key
+              mountPath: /ssh
       volumes:
         - name: immich-data
           persistentVolumeClaim:
             claimName: immich-data-nas
+        - name: ssh-key
+          secret:
+            secretName: immich-backup-ssh-key
+            defaultMode: 0600
