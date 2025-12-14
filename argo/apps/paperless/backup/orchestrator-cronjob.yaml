@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: paperless-backup-orchestrator
+  namespace: paperless
+spec:
+  schedule: "0 2 * * *"
+  
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: paperless-backup-sa
+          
+          containers:
+            - name: orchestrator
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  echo "Scaling Paperless down..."
+                  kubectl scale deploy paperless --replicas=0
+
+                  #echo "Running media backup..."
+                  #kubectl delete job paperless-backup-media --ignore-not-found
+                  #kubectl apply -f /configs/backup-media-job.yaml
+                  #kubectl wait job/paperless-backup-media --for=condition=complete --timeout=24h
+
+                  echo "Running DB backup..."
+                  kubectl delete job paperless-backup-db --ignore-not-found
+                  kubectl apply -f /configs/backup-db-job.yaml
+                  kubectl wait job/paperless-backup-db --for=condition=complete --timeout=1h
+
+                  echo "Scaling Paperless back up..."
+                  kubectl scale deploy paperless --replicas=1
+
+                  echo "Backup complete."
+              volumeMounts:
+                - name: job-definitions
+                  mountPath: /configs
+          
+          volumes:
+            - name: job-definitions
+              configMap:
+                name: paperless-backup-job-definitions

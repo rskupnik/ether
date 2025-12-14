@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: paperless-backup-media
+  namespace: paperless
+  labels:
+    app: paperless-backup
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: paperless-backup
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: backup
+          image: alpine:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Install rsync"
+              apk add --no-cache rsync openssh-client
+
+              echo "Ensuring target directory exists..."
+              ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+                pi@192.168.178.69 "mkdir -p /mnt/backup/immich/data"
+              
+              echo "Starting media backup..."
+              rsync -avh --delete \
+                -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                /data/ \
+                pi@192.168.178.69:/mnt/backup/immich/data/
+
+              echo "Backup completed."
+          volumeMounts:
+            - name: paperless-data
+              mountPath: /data
+            - name: ssh-key
+              mountPath: /ssh
+      volumes:
+        - name: paperless-data
+          persistentVolumeClaim:
+            claimName: immich-data-nas
+        - name: ssh-key
+          secret:
+            secretName: paperless-backup-ssh-key
+            defaultMode: 0600

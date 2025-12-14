@@ -1,0 +1,52 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: paperless-backup-db
+  namespace: paperless
+  labels:
+    app: paperless-backup
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: paperless-backup
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: backup-db
+          image: postgres:17-alpine
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Install rsync"
+              apk add --no-cache rsync openssh-client
+
+              echo "Dumping all PostgreSQL databases..."
+              pg_dumpall --clean --if-exists -h paperless-postgresql.paperless.svc.cluster.local -U paperless > /tmp/all.sql
+
+              echo "Ensuring target directory exists..."
+              ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+                pi@192.168.178.69 "mkdir -p /mnt/backup/paperless/db"
+
+              echo "Sending DB dump to remote host..."
+              rsync -av \
+                -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                /tmp/all.sql \
+                pi@192.168.178.69:/mnt/backup/paperless/db/
+
+              echo "Backup completed."
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-creds
+                  key: postgres
+          volumeMounts:
+            - name: ssh-key
+              mountPath: /ssh
+      volumes:
+        - name: ssh-key
+          secret:
+            secretName: paperless-backup-ssh-key
+            defaultMode: 0600
