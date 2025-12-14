@@ -24,13 +24,13 @@ spec:
 
               echo "Ensuring target directory exists..."
               ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-                pi@192.168.178.69 "mkdir -p /mnt/backup/immich/data"
+                pi@192.168.178.69 "mkdir -p /mnt/backup/paperless/data"
               
               echo "Starting media backup..."
               rsync -avh --delete \
                 -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
                 /data/ \
-                pi@192.168.178.69:/mnt/backup/immich/data/
+                pi@192.168.178.69:/mnt/backup/paperless/data/
 
               echo "Backup completed."
           volumeMounts:
@@ -41,7 +41,7 @@ spec:
       volumes:
         - name: paperless-data
           persistentVolumeClaim:
-            claimName: immich-data-nas
+            claimName: paperless-data
         - name: ssh-key
           secret:
             secretName: paperless-backup-ssh-key

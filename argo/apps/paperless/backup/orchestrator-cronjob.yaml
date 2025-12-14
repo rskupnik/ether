@@ -4,7 +4,7 @@ metadata:
   name: paperless-backup-orchestrator
   namespace: paperless
 spec:
-  schedule: "0 2 * * *"
+  schedule: "0 3 * * *"
   
   jobTemplate:
     spec:
@@ -23,10 +23,10 @@ spec:
                   echo "Scaling Paperless down..."
                   kubectl scale deploy paperless --replicas=0
 
-                  #echo "Running media backup..."
-                  #kubectl delete job paperless-backup-media --ignore-not-found
-                  #kubectl apply -f /configs/backup-media-job.yaml
-                  #kubectl wait job/paperless-backup-media --for=condition=complete --timeout=24h
+                  echo "Running media backup..."
+                  kubectl delete job paperless-backup-media --ignore-not-found
+                  kubectl apply -f /configs/backup-media-job.yaml
+                  kubectl wait job/paperless-backup-media --for=condition=complete --timeout=24h
 
                   echo "Running DB backup..."
                   kubectl delete job paperless-backup-db --ignore-not-found
