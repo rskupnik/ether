@@ -19,7 +19,7 @@ resources:
   - backup/ssh-key-secret.sealed.yaml
 
 configMapGenerator:
-  - name: immich-backup-job-definitions
+  - name: paperless-backup-job-definitions
     files:
       - backup/backup-media-job.yaml
       - backup/backup-db-job.yaml
