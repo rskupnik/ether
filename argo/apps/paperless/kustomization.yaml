@@ -6,6 +6,9 @@ helmCharts:
     version: 0.2.1
     valuesFile: values.yaml
 
+generatorOptions:
+  disableNameSuffixHash: true
+
 resources:
   - db-creds-secret.sealed.yaml
   - storage.yaml
