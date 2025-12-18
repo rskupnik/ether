@@ -26,6 +26,7 @@ configMapGenerator:
     files:
       - backup/backup-media-job.yaml
       - backup/backup-db-job.yaml
+      - backup/backup-redis-job.yaml
 
 patches:
   - target:

@@ -33,6 +33,11 @@ spec:
                   kubectl apply -f /configs/backup-db-job.yaml
                   kubectl wait job/paperless-backup-db --for=condition=complete --timeout=1h
 
+                  echo "Running redis backup..."
+                  kubectl delete job paperless-backup-redis --ignore-not-found
+                  kubectl apply -f /configs/backup-redis-job.yaml
+                  kubectl wait job/paperless-backup-redis --for=condition=complete --timeout=1h
+
                   echo "Scaling Paperless back up..."
                   kubectl scale deploy paperless --replicas=1
 
