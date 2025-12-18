@@ -1,0 +1,44 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: authentik-backup-orchestrator
+  namespace: authentik
+spec:
+  schedule: "0 3 * * *"
+  
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: authentik-backup-sa
+          
+          containers:
+            - name: orchestrator
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  echo "Scaling Authentik down..."
+                  kubectl scale deploy authentik-server --replicas=0
+                  kubectl scale deploy authentik-worker --replicas=0
+
+                  echo "Running DB backup..."
+                  kubectl delete job authentik-backup-db --ignore-not-found
+                  kubectl apply -f /configs/backup-db-job.yaml
+                  kubectl wait job/authentik-backup-db --for=condition=complete --timeout=10m
+
+                  echo "Scaling Authentik back up..."
+                  kubectl scale deploy authentik-server --replicas=1
+                  kubectl scale deploy authentik-worker --replicas=1
+
+                  echo "Backup complete."
+              volumeMounts:
+                - name: job-definitions
+                  mountPath: /configs
+          
+          volumes:
+            - name: job-definitions
+              configMap:
+                name: authentik-backup-job-definitions
