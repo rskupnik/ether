@@ -13,7 +13,6 @@ resources:
   - db-creds-secret.sealed.yaml
   - storage.yaml
   - extra-env-secret.sealed.yaml
-  - pvc.yaml
   - pvc-patch-job.yaml
   - pvc-patch-rbac.yaml
   - tls-cert.yaml
