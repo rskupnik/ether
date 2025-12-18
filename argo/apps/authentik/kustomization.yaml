@@ -18,6 +18,9 @@ resources:
   - secrets/authentik-config-sealed.yaml
   - secrets/authentik-postgresql-custom-sealed.yaml
   - tls-cert.yaml
+  - backup/rbac.yaml
+  - backup/orchestrator-cronjob.yaml
+  - backup/ssh-key-secret.sealed.yaml
   
   # --- INTEGRATIONS
 
