@@ -1,5 +1,5 @@
 image:
-  tag: postgresql-3
+  tag: postgresql-latest
 
 umami:
   # debug: "umami:*"
