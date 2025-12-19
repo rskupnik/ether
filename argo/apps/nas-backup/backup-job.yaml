@@ -46,5 +46,5 @@ spec:
                 claimName: public-data-nas
             - name: ssh-key
               secret:
-                secretName: paperless-backup-ssh-key
+                secretName: nas-backup-ssh-key
                 defaultMode: 0600

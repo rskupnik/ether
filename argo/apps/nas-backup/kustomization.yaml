@@ -1,3 +1,4 @@
 resources:
+  - ssh-key-secret.sealed.yaml
   - storage.yaml
   - backup-job.yaml
