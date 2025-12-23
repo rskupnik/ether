@@ -36,5 +36,6 @@ resources:
   - apps/umami.yaml
   - apps/ether-logo.yaml
   - apps/nas-backup.yaml
+  - apps/ntfy.yaml
   # - apps/authelia.yaml
   # - apps/loki.yaml
