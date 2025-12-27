@@ -44,6 +44,8 @@ spec:
                 name: config-volume
               - mountPath: /var/cache/ntfy
                 name: cache-volume
+              - mountPath: /var/lib/ntfy
+                name: db-volume
       volumes:
         - name: config-volume
           configMap:
@@ -51,3 +53,6 @@ spec:
         - name: cache-volume
           persistentVolumeClaim:
             claimName: ntfy-pvc
+        - name: db-volume
+          persistentVolumeClaim:
+            claimName: ntfy-db-pvc
