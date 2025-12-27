@@ -35,7 +35,7 @@ spec:
                 /tmp/all.sql \
                 pi@192.168.178.69:/mnt/backup/paperless/db/
               
-              curl -u backup-script:XzvsK7n7f4Y5YDaJ -d "test" https://ntfy.nora/backups
+              curl -u backup-script:XzvsK7n7f4Y5YDaJ -d "test" --insecure https://ntfy.nora/backups
 
               echo "Backup completed."
           env:
