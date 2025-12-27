@@ -17,4 +17,6 @@ data:
         service: http://myzopotamia-blog.blog.svc.cluster.local:80
       - hostname: n8n.myzopotamia.dev
         service: http://n8n.n8n.svc.cluster.local:80
+      - hostname: ntfy.myzopotamia.dev
+        service: http://ntfy-deployment.ntfy.svc.cluster.local:8080
       - service: http_status:404
