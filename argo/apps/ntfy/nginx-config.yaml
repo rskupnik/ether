@@ -5,7 +5,7 @@ metadata:
 data:
   default.conf: |
     server {
-      listen 80;
+      listen 8080;
       server_name myzopotamia.dev;
 
       root /usr/share/nginx/html;
@@ -21,7 +21,7 @@ data:
     }
 
     server {
-      listen 80;
+      listen 8080;
       server_name stats.myzopotamia.dev;
 
       # Rewrite path
