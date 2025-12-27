@@ -63,6 +63,9 @@ spec:
         - name: nginx
           image: nginx:stable-alpine
           imagePullPolicy: IfNotPresent
+          env:
+            - name: NGINX_PORT
+              value: 8080
           ports:
             - containerPort: 8080
           volumeMounts:
