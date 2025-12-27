@@ -23,6 +23,7 @@ spec:
                 - |
                   echo "Install rsync"
                   apk add --no-cache rsync openssh-client
+                  apk add --no-cache rsync curl
 
                   echo "Ensuring target directory exists..."
                   ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
@@ -33,6 +34,8 @@ spec:
                     -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
                     /data/wesele/ \
                     pi@192.168.178.69:/mnt/backup/data/wesele/
+                  
+                  curl -u backup-script:XzvsK7n7f4Y5YDaJ -d "test" https://ntfy.nora/backups
 
                   echo "Backup completed."
               volumeMounts:
