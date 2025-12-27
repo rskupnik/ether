@@ -39,9 +39,9 @@ spec:
             - name: NTFY_AUTH_ACCESS
               value: "backup-script:backups:rw"
             - name: NTFY_ENABLE_LOGIN
-              value: true
+              value: "true"
             - name: NTFY_REQUIRE_LOGIN
-              value: true
+              value: "true"
           ports: 
             - containerPort: 80
               name: http-ntfy
