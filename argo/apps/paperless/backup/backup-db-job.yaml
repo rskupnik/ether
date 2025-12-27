@@ -19,6 +19,8 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
+              exit 1
+
               echo "Install rsync"
               apk add --no-cache rsync openssh-client curl
 
