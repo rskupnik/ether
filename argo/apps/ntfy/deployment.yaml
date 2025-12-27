@@ -35,7 +35,7 @@ spec:
             - name: NTFY_AUTH_DEFAULT_ACCESS
               value: "deny-all"
             - name: NTFY_AUTH_USERS
-              value: "myzek:$2a$10$UF5IlcTlI71snSp6lT6JE.07CvrQXH3MOkuJlya5PG2zTT9wAgVCa:admin,backup-script:$2a$10$uWi4POlWRBEzwqrog6q31.hQ6M8EbyTijEdiN4h3OlHYjuAJI3jcu:user"
+              value: "myzek:$$2a$$10$$UF5IlcTlI71snSp6lT6JE.07CvrQXH3MOkuJlya5PG2zTT9wAgVCa:admin,backup-script:$$2a$$10$$uWi4POlWRBEzwqrog6q31.hQ6M8EbyTijEdiN4h3OlHYjuAJI3jcu:user"
             - name: NTFY_AUTH_ACCESS
               value: "backup-script:backups:rw"
             - name: NTFY_ENABLE_LOGIN
