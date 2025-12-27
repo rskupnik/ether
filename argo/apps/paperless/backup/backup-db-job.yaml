@@ -20,7 +20,7 @@ spec:
           args:
             - |
               echo "Install rsync"
-              apk add --no-cache rsync openssh-client
+              apk add --no-cache rsync openssh-client curl
 
               echo "Dumping all PostgreSQL databases..."
               pg_dumpall --clean --if-exists -h paperless-postgresql.paperless.svc.cluster.local -U paperless > /tmp/all.sql
@@ -34,6 +34,8 @@ spec:
                 -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
                 /tmp/all.sql \
                 pi@192.168.178.69:/mnt/backup/paperless/db/
+              
+              curl -u backup-script:XzvsK7n7f4Y5YDaJ -d "test" https://ntfy.nora/backups
 
               echo "Backup completed."
           env:
