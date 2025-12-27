@@ -1,2 +1,9 @@
 cache-file: "/var/cache/ntfy/cache.db"
 attachment-cache-dir: "/var/cache/ntfy/attachments"
+auth-file: "/var/lib/ntfy/user.db"
+auth-default-access: "deny-all"
+auth-users:
+  - "myzek:$2a$10$UF5IlcTlI71snSp6lT6JE.07CvrQXH3MOkuJlya5PG2zTT9wAgVCa:admin"
+  - "backup-script:$2a$10$uWi4POlWRBEzwqrog6q31.hQ6M8EbyTijEdiN4h3OlHYjuAJI3jcu:user"
+auth-access:
+  - "backup-script:backups:rw"
