@@ -11,3 +11,7 @@ spec:
       protocol: TCP
       port: 80
       targetPort:  http-ntfy
+    - name: http-ntfy-nginx
+      protocol: TCP
+      port: 8080
+      targetPort:  http-nginx

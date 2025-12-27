@@ -8,25 +8,25 @@ data:
       listen 8080;
       server_name ntfy.myzopotamia.dev;
 
-      location / {
-          proxy_pass http://127.0.0.1;
-          proxy_set_header Host $host;
-          proxy_set_header CF-Connecting-IP $http_cf_connecting_ip;
-          proxy_set_header X-Real-IP $http_cf_connecting_ip;
-          proxy_set_header X-Forwarded-For $http_cf_connecting_ip;
-      }
-
-      # Rewrite path
-      # location /backups {
-      #     proxy_pass http://127.0.0.1/backups;
+      # location / {
+      #     proxy_pass http://127.0.0.1;
       #     proxy_set_header Host $host;
       #     proxy_set_header CF-Connecting-IP $http_cf_connecting_ip;
       #     proxy_set_header X-Real-IP $http_cf_connecting_ip;
       #     proxy_set_header X-Forwarded-For $http_cf_connecting_ip;
       # }
 
-      # Block ALL other access
-      # location / {
-      #     return 403;
-      # }
+      Rewrite path
+      location /backups {
+          proxy_pass http://127.0.0.1/backups;
+          proxy_set_header Host $host;
+          proxy_set_header CF-Connecting-IP $http_cf_connecting_ip;
+          proxy_set_header X-Real-IP $http_cf_connecting_ip;
+          proxy_set_header X-Forwarded-For $http_cf_connecting_ip;
+      }
+
+      Block ALL other access
+      location / {
+          return 403;
+      }
     }
