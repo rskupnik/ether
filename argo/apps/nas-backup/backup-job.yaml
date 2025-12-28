@@ -35,9 +35,12 @@ spec:
                     /data/wesele/ \
                     pi@192.168.178.69:/mnt/backup/data/wesele/
                   
-                  curl -u backup-script:XzvsK7n7f4Y5YDaJ -d "test" https://ntfy.nora/backups
+                  curl -u backup-script:$NTFY_TOKEN -d "test" https://ntfy.nora/backups
 
                   echo "Backup completed."
+              envFrom:
+                - secretRef:
+                  name: ntfy-auth
               volumeMounts:
                 - name: nas-data
                   mountPath: /data

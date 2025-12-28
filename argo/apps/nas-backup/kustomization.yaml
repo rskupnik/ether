@@ -1,4 +1,5 @@
 resources:
   - ssh-key-secret.sealed.yaml
+  - ntfy-auth-secret.sealed.yaml
   - storage.yaml
   - backup-job.yaml
