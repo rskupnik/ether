@@ -35,7 +35,7 @@ spec:
                     /data/wesele/ \
                     pi@192.168.178.69:/mnt/backup/data/wesele/
                   
-                  curl -u backup-script:$NTFY_TOKEN -d "test" --insecure https://ntfy.nora/backups
+                  curl -H "Authorization: Bearer $NTFY_TOKEN" -d "test" --insecure https://ntfy.nora/backups
 
                   echo "Backup completed."
               envFrom:
