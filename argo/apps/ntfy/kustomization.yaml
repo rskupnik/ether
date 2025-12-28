@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: ntfy
 
 resources:
+  - auth-secret.sealed.yaml
   - deployment.yaml
   - service.yaml
   - pvc.yaml
