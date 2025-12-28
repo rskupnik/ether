@@ -40,7 +40,7 @@ spec:
                   echo "Backup completed."
               envFrom:
                 - secretRef:
-                  name: ntfy-auth
+                    name: ntfy-auth
               volumeMounts:
                 - name: nas-data
                   mountPath: /data
