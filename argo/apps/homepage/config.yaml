@@ -77,6 +77,9 @@ data:
           href: https://umami.nora/
           app: umami
           namespace: umami
+      - Ntfy:
+          icon: ntfy.png
+          href: https://ntfy.nora/
       - Longhorn:
           icon: longhorn.png
           href: https://longhorn.nora/
