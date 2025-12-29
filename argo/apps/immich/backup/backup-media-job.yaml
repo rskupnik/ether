@@ -23,12 +23,12 @@ spec:
               apk add --no-cache rsync openssh-client
 
               echo "Ensuring target directory exists..."
-              ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+              ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
                 pi@192.168.178.69 "mkdir -p /mnt/backup/immich/data"
               
               echo "Starting media backup..."
               rsync -avh --delete \
-                -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                -e "ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
                 /data/ \
                 pi@192.168.178.69:/mnt/backup/immich/data/
 
@@ -36,13 +36,13 @@ spec:
           volumeMounts:
             - name: immich-data
               mountPath: /data
-            - name: ssh-key
-              mountPath: /ssh
+            - name: offsite-ssh-key
+              mountPath: /offsite-ssh
       volumes:
         - name: immich-data
           persistentVolumeClaim:
             claimName: immich-data-nas
-        - name: ssh-key
+        - name: offsite-ssh-key
           secret:
-            secretName: immich-backup-ssh-key
+            secretName: offsite-ssh-key
             defaultMode: 0600
