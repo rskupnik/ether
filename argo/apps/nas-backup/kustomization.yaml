@@ -1,3 +1,6 @@
+components:
+  - ../../components/ntfy-token
+
 resources:
   - ssh-key-secret.sealed.yaml
   - ntfy-auth-secret.sealed.yaml
