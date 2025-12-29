@@ -11,10 +11,6 @@ patches:
       kind: Job
     patch: |-
       - op: add
-        path: /spec/template/spec/containers/0/envFrom
-        value: []
-
-      - op: add
         path: /spec/template/spec/containers/0/envFrom/-
         value:
           secretRef:
@@ -25,10 +21,6 @@ patches:
       version: v1
       kind: CronJob
     patch: |-
-      - op: add
-        path: /spec/jobTemplate/spec/template/spec/containers/0/envFrom
-        value: []
-
       - op: add
         path: /spec/jobTemplate/spec/template/spec/containers/0/envFrom/-
         value:
