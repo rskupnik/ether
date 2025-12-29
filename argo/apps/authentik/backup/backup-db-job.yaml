@@ -26,12 +26,12 @@ spec:
               pg_dumpall --clean --if-exists -h authentik-postgresql.authentik.svc.cluster.local -U authentik > /tmp/all.sql
 
               echo "Ensuring target directory exists..."
-              ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+              ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
                 pi@192.168.178.69 "mkdir -p /mnt/backup/authentik/db"
 
               echo "Sending DB dump to remote host..."
               rsync -av \
-                -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                -e "ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
                 /tmp/all.sql \
                 pi@192.168.178.69:/mnt/backup/authentik/db/
 
@@ -43,10 +43,10 @@ spec:
                   name: authentik-postgresql-custom
                   key: password
           volumeMounts:
-            - name: ssh-key
-              mountPath: /ssh
+            - name: offsite-ssh-key
+              mountPath: /offsite-ssh
       volumes:
-        - name: ssh-key
+        - name: offsite-ssh-key
           secret:
-            secretName: authentik-backup-ssh-key
+            secretName: offsite-ssh-key
             defaultMode: 0600
