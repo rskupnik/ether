@@ -11,6 +11,7 @@ generatorOptions:
 
 components:
   - ../../components/ntfy-token
+  - ../../components/offsite-ssh-key
 
 resources:
   - db-creds-secret.sealed.yaml
@@ -21,7 +22,6 @@ resources:
   - tls-cert.yaml
   - backup/rbac.yaml
   - backup/orchestrator-cronjob.yaml
-  - backup/ssh-key-secret.sealed.yaml
 
 configMapGenerator:
   - name: paperless-backup-job-definitions

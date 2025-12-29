@@ -42,12 +42,12 @@ spec:
                 --rdb /tmp/dump.rdb
 
               echo "Ensuring target directory exists..."
-              ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+              ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
                 pi@192.168.178.69 "mkdir -p /mnt/backup/paperless/redis"
 
               echo "Sending Redis dump to remote host..."
               rsync -av \
-                -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                -e "ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
                 /tmp/dump.rdb \
                 pi@192.168.178.69:/mnt/backup/paperless/redis/
 
@@ -59,10 +59,10 @@ spec:
                   name: db-creds
                   key: redis
           volumeMounts:
-            - name: ssh-key
-              mountPath: /ssh
+            - name: offsite-ssh-key
+              mountPath: /offsite-ssh
       volumes:
-        - name: ssh-key
+        - name: offsite-ssh-key
           secret:
-            secretName: paperless-backup-ssh-key
+            secretName: offsite-ssh-key
             defaultMode: 0600

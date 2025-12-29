@@ -23,12 +23,12 @@ spec:
               apk add --no-cache rsync openssh-client
 
               echo "Ensuring target directory exists..."
-              ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+              ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
                 pi@192.168.178.69 "mkdir -p /mnt/backup/paperless/data"
               
               echo "Starting media backup..."
               rsync -avh --delete \
-                -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                -e "ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
                 /data/ \
                 pi@192.168.178.69:/mnt/backup/paperless/data/
 
@@ -36,13 +36,13 @@ spec:
           volumeMounts:
             - name: paperless-data
               mountPath: /data
-            - name: ssh-key
-              mountPath: /ssh
+            - name: offsite-ssh-key
+              mountPath: /offsite-ssh
       volumes:
         - name: paperless-data
           persistentVolumeClaim:
             claimName: paperless-data
-        - name: ssh-key
+        - name: offsite-ssh-key
           secret:
-            secretName: paperless-backup-ssh-key
+            secretName: offsite-ssh-key
             defaultMode: 0600
