@@ -41,6 +41,13 @@ spec:
                   echo "Scaling Paperless back up..."
                   kubectl scale deploy paperless --replicas=1
 
+                  curl \
+                    -H "Authorization: Bearer $NTFY_TOKEN" \
+                    -H "Priority: min" -H "Tags: white_check_mark" \
+                    -d "Paperless backup successful" \
+                    --insecure \
+                    https://ntfy.nora/backups
+
                   echo "Backup complete."
               volumeMounts:
                 - name: job-definitions
