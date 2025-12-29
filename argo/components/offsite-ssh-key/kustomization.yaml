@@ -11,20 +11,12 @@ patches:
       kind: CronJob
     patch: |-
       - op: add
-        path: /spec/jobTemplate/spec/template/spec/volumes
-        value: []
-      
-      - op: add
         path: /spec/jobTemplate/spec/template/spec/volumes/-
         value:
           name: offsite-ssh-key
           secret:
             secretName: offsite-ssh-key
             defaultMode: 0600
-      
-      - op: add
-        path: /spec/jobTemplate/spec/template/spec/containers/0/volumeMounts
-        value: []
       
       - op: add
         path: /spec/jobTemplate/spec/template/spec/containers/0/volumeMounts/-
