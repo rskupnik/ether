@@ -9,6 +9,9 @@ helmCharts:
 generatorOptions:
   disableNameSuffixHash: true
 
+components:
+  - ../../components/ntfy-token
+
 resources:
   - db-credentials-secret.sealed.yaml
   - postgres/statefulset.yaml

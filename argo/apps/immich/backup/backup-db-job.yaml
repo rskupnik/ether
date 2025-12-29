@@ -34,6 +34,13 @@ spec:
                 -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
                 /tmp/all.sql \
                 pi@192.168.178.69:/mnt/backup/immich/db/
+              
+              curl \
+                -H "Authorization: Bearer $NTFY_TOKEN" \
+                -H "Priority: min" -H "Tags: white_check_mark" \
+                -d "Immich db backup successful" \
+                --insecure \
+                https://ntfy.nora/backups
 
               echo "Backup completed."
           env:

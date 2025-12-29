@@ -26,12 +26,12 @@ spec:
                   echo "Running media backup..."
                   kubectl delete job immich-backup-media --ignore-not-found
                   kubectl apply -f /configs/backup-media-job.yaml
-                  kubectl wait job/immich-backup-media --for=condition=complete --timeout=24h
+                  kubectl wait job/immich-backup-media --for=condition=complete --timeout=5m
 
                   echo "Running DB backup..."
                   kubectl delete job immich-backup-db --ignore-not-found
                   kubectl apply -f /configs/backup-db-job.yaml
-                  kubectl wait job/immich-backup-db --for=condition=complete --timeout=1h
+                  kubectl wait job/immich-backup-db --for=condition=complete --timeout=5m
 
                   echo "Scaling Immich back up..."
                   kubectl scale deploy immich-server --replicas=1
