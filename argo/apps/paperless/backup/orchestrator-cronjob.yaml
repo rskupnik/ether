@@ -49,6 +49,7 @@ spec:
                     https://ntfy.nora/backups
 
                   echo "Backup complete."
+              envFrom: []
               volumeMounts:
                 - name: job-definitions
                   mountPath: /configs

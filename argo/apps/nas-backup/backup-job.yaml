@@ -43,6 +43,7 @@ spec:
                     https://ntfy.nora/backups
 
                   echo "Backup completed."
+              envFrom: []
               volumeMounts:
                 - name: nas-data
                   mountPath: /data
