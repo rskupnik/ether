@@ -36,6 +36,13 @@ spec:
                   echo "Scaling Immich back up..."
                   kubectl scale deploy immich-server --replicas=1
 
+                  curl \
+                    -H "Authorization: Bearer $NTFY_TOKEN" \
+                    -H "Priority: min" -H "Tags: white_check_mark" \
+                    -d "Immich backup successful" \
+                    --insecure \
+                    https://ntfy.nora/backups
+
                   echo "Backup complete."
               volumeMounts:
                 - name: job-definitions
