@@ -10,31 +10,27 @@ patches:
       version: v1
       kind: Job
     patch: |-
-      apiVersion: batch/v1
-      kind: Job
-      metadata: {}
-      spec:
-        template:
-          spec:
-            containers:
-              - envFrom:
-                  - secretRef:
-                      name: ntfy-auth
+      - op: add
+        path: /spec/template/spec/containers/0/envFrom
+        value: []
+
+      - op: add
+        path: /spec/template/spec/containers/0/envFrom/-
+        value:
+          secretRef:
+            name: ntfy-auth
 
   - target:
       group: batch
       version: v1
       kind: CronJob
     patch: |-
-      apiVersion: batch/v1
-      kind: CronJob
-      metadata: {}
-      spec:
-        jobTemplate:
-          spec:
-            template:
-              spec:
-                containers:
-                  - envFrom:
-                      - secretRef:
-                          name: ntfy-auth
+      - op: add
+        path: /spec/jobTemplate/spec/template/spec/containers/0/envFrom
+        value: []
+
+      - op: add
+        path: /spec/jobTemplate/spec/template/spec/containers/0/envFrom/-
+        value:
+          secretRef:
+            name: ntfy-auth
