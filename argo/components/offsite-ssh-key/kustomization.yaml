@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+resources:
+  - ssh-key-secret.sealed.yaml
+
+patches:
+  - target:
+      group: batch
+      version: v1
+      kind: CronJob
+    patch: |-
+      - op: add
+        path: /spec/jobTemplate/spec/template/spec/volumes
+        value: []
+      
+      - op: add
+        path: /spec/jobTemplate/spec/template/spec/volumes/-
+        value:
+          name: offsite-ssh-key
+          secret:
+            secretName: offsite-ssh-key
+            defaultMode: 0600
+      
+      - op: add
+        path: /spec/jobTemplate/spec/template/spec/containers/0/volumeMounts
+        value: []
+      
+      - op: add
+        path: /spec/jobTemplate/spec/template/spec/containers/0/volumeMounts/-
+        value:
+          name: offsite-ssh-key
+          mountPath: /offsite-ssh

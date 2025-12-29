@@ -26,12 +26,12 @@ spec:
                   apk add --no-cache rsync curl
 
                   echo "Ensuring target directory exists..."
-                  ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+                  ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
                     pi@192.168.178.69 "mkdir -p /mnt/backup/data/"
                   
                   echo "Starting backup of folder wesele..."
                   rsync -avh --delete \
-                    -e "ssh -i /ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                    -e "ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
                     /data/wesele/ \
                     pi@192.168.178.69:/mnt/backup/data/wesele/
                   
@@ -46,13 +46,13 @@ spec:
               volumeMounts:
                 - name: nas-data
                   mountPath: /data
-                - name: ssh-key
-                  mountPath: /ssh
+                # - name: ssh-key
+                #   mountPath: /ssh
           volumes:
             - name: nas-data
               persistentVolumeClaim:
                 claimName: public-data-nas
-            - name: ssh-key
-              secret:
-                secretName: nas-backup-ssh-key
-                defaultMode: 0600
+            # - name: ssh-key
+            #   secret:
+            #     secretName: nas-backup-ssh-key
+            #     defaultMode: 0600
