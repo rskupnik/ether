@@ -46,13 +46,7 @@ spec:
               volumeMounts:
                 - name: nas-data
                   mountPath: /data
-                # - name: ssh-key
-                #   mountPath: /ssh
           volumes:
             - name: nas-data
               persistentVolumeClaim:
                 claimName: public-data-nas
-            # - name: ssh-key
-            #   secret:
-            #     secretName: nas-backup-ssh-key
-            #     defaultMode: 0600
