@@ -1,3 +1,5 @@
+namespace: nas-backup
+
 components:
   - ../../components/ntfy-token
 

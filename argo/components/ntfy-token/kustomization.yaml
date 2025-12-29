@@ -12,6 +12,7 @@ patches:
     patch: |-
       apiVersion: batch/v1
       kind: Job
+      metadata: {}
       spec:
         template:
           spec:
@@ -27,6 +28,7 @@ patches:
     patch: |-
       apiVersion: batch/v1
       kind: CronJob
+      metadata: {}
       spec:
         jobTemplate:
           spec:
