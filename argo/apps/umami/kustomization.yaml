@@ -8,9 +8,19 @@ helmCharts:
 
 resources:
   - postgres.yaml
-  - tls-cert.yaml
   - db-creds-secret.sealed.yaml
   - pvc-retain-patch.yaml
+
+components:
+  - ../../components/tls-ingress
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=umami.nora
+      - service=umami
+      - port=http
+      - pathType=ImplementationSpecific
 
 # patches:
 #   - target:

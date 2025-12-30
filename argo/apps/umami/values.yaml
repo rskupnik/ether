@@ -5,21 +5,21 @@ umami:
   # debug: "umami:*"
   clientIpHeader: "CF-Connecting-IP"
 
-ingress:
-  enabled: true
-  className: "traefik"
-  annotations:
-    kubernetes.io/ingress.class: "traefik"
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-  hosts:
-    - host: umami.nora
-      paths:
-        - path: "/"
-          pathType: ImplementationSpecific
-  tls:
-    - secretName: umami-nora-tls
-      hosts:
-        - umami.nora
+# ingress:
+#   enabled: true
+#   className: "traefik"
+#   annotations:
+#     kubernetes.io/ingress.class: "traefik"
+#     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+#   hosts:
+#     - host: umami.nora
+#       paths:
+#         - path: "/"
+#           pathType: ImplementationSpecific
+#   tls:
+#     - secretName: umami-nora-tls
+#       hosts:
+#         - umami.nora
 
 postgresql:
   enabled: false
