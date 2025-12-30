@@ -21,8 +21,6 @@ env:
 ingress:
   enabled: true
   className: "traefik"
-  labels:
-    components.nora/tls: enabled
   annotations:
     kubernetes.io/ingress.class: "traefik"
   hosts:
@@ -30,7 +28,6 @@ ingress:
       paths:
         - path: /
           pathType: ImplementationSpecific
-  tls: []
 
 persistence:
   enabled: true
