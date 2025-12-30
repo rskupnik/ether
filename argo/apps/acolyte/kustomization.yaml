@@ -10,11 +10,16 @@ resources:
   - ingress.yaml
   #- tls-cert.yaml
 
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=acolyte.nora
+
 replacements:
   - source:
-      kind: Ingress
-      name: acolyte-ingress
-      fieldPath: metadata.annotations.[tls-host]
+      kind: ConfigMap
+      name: tls-config
+      fieldPath: data.host
     targets:
       - select:
           kind: Ingress
