@@ -1,16 +1,16 @@
 # will create kubernees ingress
-ingress:
-  enabled: true
-  annotations:
-    kubernetes.io/ingress.class: "traefik"
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-  hosts:
-    - pihole.nora
-    - pihole.local
-  tls:
-    - secretName: pihole-nora-tls
-      hosts:
-        - pihole.nora
+# ingress:
+#   enabled: true
+#   annotations:
+#     kubernetes.io/ingress.class: "traefik"
+#     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+#   hosts:
+#     - pihole.nora
+#     - pihole.local
+#   tls:
+#     - secretName: pihole-nora-tls
+#       hosts:
+#         - pihole.nora
 
 # will create kubernetes services for web admin
 serviceWeb:

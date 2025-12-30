@@ -9,4 +9,14 @@ helmCharts:
 resources:
   - password-secret-sealed.yaml
   - tailscale-service.yaml
-  - tls-cert.yaml
+
+components:
+  - ../../components/tls-ingress
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=pihole.nora
+      - service=pihole-web
+      - port=http
+      - pathType=ImplementationSpecific
