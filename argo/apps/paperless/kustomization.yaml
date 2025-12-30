@@ -14,7 +14,7 @@ generatorOptions:
 components:
   - ../../components/ntfy-token
   - ../../components/offsite-ssh-key
-  - ../../components/tls
+  - ../../components/tls-ingress
 
 resources:
   - db-creds-secret.sealed.yaml
@@ -24,7 +24,7 @@ resources:
   - pvc-patch-rbac.yaml
   - backup/rbac.yaml
   - backup/orchestrator-cronjob.yaml
-  - ingress.yaml
+  #- ingress.yaml
 
 configMapGenerator:
   - name: paperless-backup-job-definitions
@@ -35,6 +35,9 @@ configMapGenerator:
   - name: tls-config
     literals:
       - host=papers.nora
+      - service=paperless
+      - port=http
+      - pathType=ImplementationSpecific
 
 patches:
   - target:
@@ -71,19 +74,3 @@ patches:
         value:
           secretRef:
             name: paperless-extra-env
-
-replacements:
-  - source:
-      kind: ConfigMap
-      name: tls-config
-      fieldPath: data.host
-    targets:
-      - select:
-          kind: Ingress
-        fieldPaths:
-          - spec.tls.0.hosts.0
-      - select:
-          kind: Certificate
-        fieldPaths:
-          - spec.commonName
-          - spec.dnsNames.0
