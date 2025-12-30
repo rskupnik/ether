@@ -3,6 +3,8 @@ kind: CronJob
 metadata:
   name: immich-backup-orchestrator
   namespace: immich
+  labels:
+    ntfy-token: enabled
 spec:
   schedule: "0 2 * * *"
   

@@ -3,6 +3,8 @@ kind: CronJob
 metadata:
   name: authentik-backup-orchestrator
   namespace: authentik
+  labels:
+    ntfy-token: enabled
 spec:
   schedule: "30 2 * * *"
   
