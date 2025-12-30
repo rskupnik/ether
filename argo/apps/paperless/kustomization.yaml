@@ -71,15 +71,6 @@ patches:
         value:
           secretRef:
             name: paperless-extra-env
-  # - target:
-  #     group: networking.k8s.io
-  #     version: v1
-  #     kind: Ingress
-  #     name: paperless
-  #   patch: |-
-  #     - op: add
-  #       path: /metadata/labels/components.nora~1tls
-  #       value: enabled
 
 replacements:
   - source:
@@ -87,10 +78,10 @@ replacements:
       name: tls-config
       fieldPath: data.host
     targets:
-      # - select:
-      #     kind: Ingress
-      #   fieldPaths:
-      #     - spec.tls.0.hosts.0
+      - select:
+          kind: Ingress
+        fieldPaths:
+          - spec.tls.0.hosts.0
       - select:
           kind: Certificate
         fieldPaths:
