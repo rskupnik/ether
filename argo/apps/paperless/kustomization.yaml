@@ -12,6 +12,7 @@ generatorOptions:
 components:
   - ../../components/ntfy-token
   - ../../components/offsite-ssh-key
+  - ../../components/tls
 
 resources:
   - db-creds-secret.sealed.yaml
@@ -19,7 +20,6 @@ resources:
   - extra-env-secret.sealed.yaml
   - pvc-patch-job.yaml
   - pvc-patch-rbac.yaml
-  - tls-cert.yaml
   - backup/rbac.yaml
   - backup/orchestrator-cronjob.yaml
 
@@ -29,6 +29,9 @@ configMapGenerator:
       - backup/backup-media-job.yaml
       - backup/backup-db-job.yaml
       - backup/backup-redis-job.yaml
+  - name: tls-config
+    literals:
+      - host=papers.nora
 
 patches:
   - target:
@@ -65,3 +68,19 @@ patches:
         value:
           secretRef:
             name: paperless-extra-env
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: tls-config
+      fieldPath: data.host
+    targets:
+      - select:
+          kind: Ingress
+        fieldPaths:
+          - spec.tls.0.hosts.0
+      - select:
+          kind: Certificate
+        fieldPaths:
+          - spec.commonName
+          - spec.dnsNames.0

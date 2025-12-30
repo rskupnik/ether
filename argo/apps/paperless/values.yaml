@@ -21,18 +21,15 @@ env:
 ingress:
   enabled: true
   className: "traefik"
+  labels:
+    components.nora/tls: enabled
   annotations:
     kubernetes.io/ingress.class: "traefik"
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
   hosts:
     - host: papers.nora
       paths:
         - path: /
           pathType: ImplementationSpecific
-  tls:
-    - secretName: paperless-nora-tls
-      hosts:
-        - papers.nora
 
 persistence:
   enabled: true

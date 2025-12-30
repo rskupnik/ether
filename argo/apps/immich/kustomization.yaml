@@ -19,7 +19,6 @@ resources:
   - postgres/statefulset.yaml
   - postgres/service.yaml
   - storage.yaml
-  #- tls-cert.yaml
   - backup/rbac.yaml
   - backup/orchestrator-cronjob.yaml
 
