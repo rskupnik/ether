@@ -6,14 +6,14 @@ extraEnvFrom:
   - secretRef:
       name: envvars
 
-ingress:
-  enabled: true
-  ingressClassName: "traefik"
-  hosts:
-    - host: homepage.nora
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
+# ingress:
+#   enabled: true
+#   ingressClassName: "traefik"
+#   hosts:
+#     - host: homepage.nora
+#       paths:
+#         - path: /
+#           pathType: ImplementationSpecific
 
 volumes:
   - name: config

@@ -9,3 +9,14 @@ helmCharts:
 resources:
   - config.yaml
   - secret_envvars.sealed.yaml
+
+components:
+  - ../../components/tls-ingress
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=homepage.nora
+      - service=homepage
+      - port=http
+      - pathType=ImplementationSpecific
