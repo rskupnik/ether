@@ -7,12 +7,7 @@ metadata:
     components.nora/tls: enabled
   annotations:
     kubernetes.io/ingress.class: "traefik"
-    # traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
-  # tls:
-  #   - secretName: acolyte-nora-tls
-  #     hosts:
-  #       - acolyte.nora
   rules:
     - host: acolyte.nora
       http:
