@@ -31,3 +31,19 @@ configMapGenerator:
   - name: tls-config
     literals:
       - host=photos.nora
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: tls-config
+      fieldPath: data.host
+    targets:
+      - select:
+          kind: Ingress
+        fieldPaths:
+          - spec.tls.0.hosts.0
+      - select:
+          kind: Certificate
+        fieldPaths:
+          - spec.commonName
+          - spec.dnsNames.0
