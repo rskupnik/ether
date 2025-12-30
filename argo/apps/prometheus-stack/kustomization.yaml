@@ -8,4 +8,14 @@ helmCharts:
 
 resources:
   - grafana-secrets-sealed.yaml
-  - tls-cert.yaml
+
+components:
+  - ../../components/tls-ingress
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=grafana.nora
+      - service=kube-prometheus-stack-grafana
+      - port=http-web
+      - pathType=Prefix
