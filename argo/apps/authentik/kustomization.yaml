@@ -6,6 +6,11 @@ helmCharts:
     version: 2025.8.3
     valuesFile: values.yaml
 
+components:
+  - ../../components/ntfy-token
+  - ../../components/offsite-ssh-key
+  - ../../components/tls-ingress
+
 generatorOptions:
   disableNameSuffixHash: true
 
@@ -13,15 +18,16 @@ configMapGenerator:
   - name: authentik-backup-job-definitions
     files:
       - backup/backup-db-job.yaml
-
-components:
-  - ../../components/ntfy-token
-  - ../../components/offsite-ssh-key
+  - name: tls-config
+    literals:
+      - host=authentik.nora
+      - service=authentik-server
+      - port=http
+      - pathType=Prefix
 
 resources:
   - secrets/authentik-config-sealed.yaml
   - secrets/authentik-postgresql-custom-sealed.yaml
-  - tls-cert.yaml
   - backup/rbac.yaml
   - backup/orchestrator-cronjob.yaml
   

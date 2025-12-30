@@ -4,18 +4,18 @@ global:
         name: authentik-config
 
 server:
-  ingress:
-    ingressClassName: traefik
-    annotations:
-      kubernetes.io/ingress.class: "traefik"
-      traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    enabled: true
-    hosts:
-      - authentik.nora
-    tls:
-      - secretName: authentik-nora-tls
-        hosts:
-          - authentik.nora
+  # ingress:
+  #   ingressClassName: traefik
+  #   annotations:
+  #     kubernetes.io/ingress.class: "traefik"
+  #     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  #   enabled: true
+  #   hosts:
+  #     - authentik.nora
+  #   tls:
+  #     - secretName: authentik-nora-tls
+  #       hosts:
+  #         - authentik.nora
 
 postgresql:
   enabled: true
