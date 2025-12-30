@@ -1,3 +1,5 @@
+namespace: paperless
+
 helmCharts:
   - name: paperless-ngx
     repo: oci://codeberg.org/wrenix/helm-charts
@@ -22,6 +24,7 @@ resources:
   - pvc-patch-rbac.yaml
   - backup/rbac.yaml
   - backup/orchestrator-cronjob.yaml
+  - ingress.yaml
 
 configMapGenerator:
   - name: paperless-backup-job-definitions
@@ -68,15 +71,15 @@ patches:
         value:
           secretRef:
             name: paperless-extra-env
-  - target:
-      group: networking.k8s.io
-      version: v1
-      kind: Ingress
-      name: paperless
-    patch: |-
-      - op: add
-        path: /metadata/labels/components.nora~1tls
-        value: enabled
+  # - target:
+  #     group: networking.k8s.io
+  #     version: v1
+  #     kind: Ingress
+  #     name: paperless
+  #   patch: |-
+  #     - op: add
+  #       path: /metadata/labels/components.nora~1tls
+  #       value: enabled
 
 replacements:
   - source:
