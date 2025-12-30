@@ -30,7 +30,6 @@ spec:
               echo "[INFO] Patching reclaim policy to Retain..."
               kubectl patch pv "$PV" -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}'
               echo "[INFO] Patch complete."
-          envFrom: []
         - name: patch-postgres
           image: bitnamilegacy/kubectl:latest
           command:

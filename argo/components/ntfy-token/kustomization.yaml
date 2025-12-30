@@ -9,6 +9,7 @@ patches:
       group: batch
       version: v1
       kind: Job
+      labelSelector: ntfy-token=enabled
     patch: |-
       - op: add
         path: /spec/template/spec/containers/0/envFrom/-
@@ -20,6 +21,7 @@ patches:
       group: batch
       version: v1
       kind: CronJob
+      labelSelector: ntfy-token=enabled
     patch: |-
       - op: add
         path: /spec/jobTemplate/spec/template/spec/containers/0/envFrom/-
