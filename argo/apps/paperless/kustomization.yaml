@@ -24,7 +24,6 @@ resources:
   - pvc-patch-rbac.yaml
   - backup/rbac.yaml
   - backup/orchestrator-cronjob.yaml
-  #- ingress.yaml
 
 configMapGenerator:
   - name: paperless-backup-job-definitions

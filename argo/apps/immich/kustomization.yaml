@@ -12,7 +12,7 @@ generatorOptions:
 components:
   - ../../components/ntfy-token
   - ../../components/offsite-ssh-key
-  - ../../components/tls
+  - ../../components/tls-ingress
 
 resources:
   - db-credentials-secret.sealed.yaml
@@ -30,19 +30,6 @@ configMapGenerator:
   - name: tls-config
     literals:
       - host=photos.nora
-
-replacements:
-  - source:
-      kind: ConfigMap
-      name: tls-config
-      fieldPath: data.host
-    targets:
-      - select:
-          kind: Ingress
-        fieldPaths:
-          - spec.tls.0.hosts.0
-      - select:
-          kind: Certificate
-        fieldPaths:
-          - spec.commonName
-          - spec.dnsNames.0
+      - service=immich-server
+      - port=http
+      - pathType=Prefix

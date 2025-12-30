@@ -20,18 +20,18 @@ immich:
     library:
       existingClaim: immich-data-nas
 
-server:
-  ingress:
-    main:
-      enabled: true
-      labels:
-        components.nora/tls: enabled
-      annotations:
-        kubernetes.io/ingress.class: "traefik"
-      hosts:
-        - host: photos.nora
-          paths:
-            - path: "/"
+# server:
+#   ingress:
+#     main:
+#       enabled: true
+#       labels:
+#         components.nora/tls: enabled
+#       annotations:
+#         kubernetes.io/ingress.class: "traefik"
+#       hosts:
+#         - host: photos.nora
+#           paths:
+#             - path: "/"
 
 valkey:
   enabled: true
