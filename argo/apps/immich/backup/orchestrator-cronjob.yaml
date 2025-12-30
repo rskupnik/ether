@@ -4,7 +4,7 @@ metadata:
   name: immich-backup-orchestrator
   namespace: immich
   labels:
-    ntfy-token: enabled
+    components.nora/ntfy-token: enabled
 spec:
   schedule: "0 2 * * *"
   

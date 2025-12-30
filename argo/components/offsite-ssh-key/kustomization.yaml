@@ -9,6 +9,7 @@ patches:
       group: batch
       version: v1
       kind: CronJob
+      labelSelector: components.nora/offsite-ssh=enabled
     patch: |-
       - op: add
         path: /spec/jobTemplate/spec/template/spec/volumes/-

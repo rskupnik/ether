@@ -4,7 +4,7 @@ metadata:
   name: paperless-backup-orchestrator
   namespace: paperless
   labels:
-    ntfy-token: enabled
+    components.nora/ntfy-token: enabled
 spec:
   schedule: "0 3 * * *"
   

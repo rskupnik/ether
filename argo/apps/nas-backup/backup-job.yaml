@@ -4,7 +4,7 @@ metadata:
   name: nas-backup
   namespace: nas-backup
   labels:
-    ntfy-token: enabled
+    components.nora/ntfy-token: enabled
 spec:
   schedule: "20 1 * * *"
   
