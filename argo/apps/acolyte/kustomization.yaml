@@ -1,32 +1,18 @@
 namespace: acolyte
 
 components:
-  - ../../components/tls
+  - ../../components/tls-ingress
 
 resources:
   - dockerconfig-secret.sealed.yaml
   - deployment.yaml
   - service.yaml
-  - ingress.yaml
 
 configMapGenerator:
   - name: tls-config
     literals:
       - host=acolyte.nora
-
-replacements:
-  - source:
-      kind: ConfigMap
-      name: tls-config
-      fieldPath: data.host
-    targets:
-      - select:
-          kind: Ingress
-        fieldPaths:
-          - spec.tls.0.hosts.0
-      - select:
-          kind: Certificate
-        fieldPaths:
-          - spec.commonName
-          - spec.dnsNames.0
+      - service=acolyte
+      - port=http
+      - pathType=Prefix
       
