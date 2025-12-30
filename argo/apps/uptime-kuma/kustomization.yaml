@@ -6,5 +6,29 @@ helmCharts:
     version: 2.21.0
     valuesFile: values.yaml
 
-resources:
-  - tls-cert.yaml
+components:
+  - ../../components/tls-ingress
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=uptime.nora
+      - service=uptime-kuma
+      - port=3001
+      - pathType=ImplementationSpecific
+
+# replacements:
+#   - source:
+#       kind: ConfigMap
+#       name: tls-config
+#       fieldPath: data.host
+#     targets:
+#       - select:
+#           kind: Ingress
+#         fieldPaths:
+#           - spec.tls.0.hosts.0
+#       - select:
+#           kind: Certificate
+#         fieldPaths:
+#           - spec.commonName
+#           - spec.dnsNames.0

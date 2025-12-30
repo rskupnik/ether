@@ -1,0 +1,75 @@
+# Requires cert-manager and a ClusterIssuer
+# Make sure to replace the dns names
+# Add label to ingress you want to inject tls to: components.nora/tls=enabled
+#
+# Replacement example:
+# replacements:
+#   - source:
+#       kind: ConfigMap
+#       name: tls-config
+#       fieldPath: data.host
+#     targets:
+#       - select:
+#           kind: Ingress
+#         fieldPaths:
+#           - spec.tls.0.hosts.0
+#       - select:
+#           kind: Certificate
+#         fieldPaths:
+#           - spec.commonName
+#           - spec.dnsNames.0
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+resources:
+  - certificate.yaml
+  - ingress.yaml
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: tls-config
+      fieldPath: data.host
+    targets:
+      - select:
+          kind: Ingress
+          labelSelector: components.nora/tls=enabled
+        fieldPaths:
+          - spec.tls.0.hosts.0
+          - spec.rules.0.host
+      - select:
+          kind: Certificate
+        fieldPaths:
+          - spec.commonName
+          - spec.dnsNames.0
+  - source:
+      kind: ConfigMap
+      name: tls-config
+      fieldPath: data.service
+    targets:
+      - select:
+          kind: Ingress
+          labelSelector: components.nora/tls=enabled
+        fieldPaths:
+          - spec.rules.0.http.paths.0.backend.service.name
+  - source:
+      kind: ConfigMap
+      name: tls-config
+      fieldPath: data.port
+    targets:
+      - select:
+          kind: Ingress
+          labelSelector: components.nora/tls=enabled
+        fieldPaths:
+          - spec.rules.0.http.paths.0.backend.service.port.number
+  - source:
+      kind: ConfigMap
+      name: tls-config
+      fieldPath: data.pathType
+    targets:
+      - select:
+          kind: Ingress
+          labelSelector: components.nora/tls=enabled
+        fieldPaths:
+          - spec.rules.0.http.paths.0.pathType

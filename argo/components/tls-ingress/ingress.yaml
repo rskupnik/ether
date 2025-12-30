@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-tls-ingress
+  labels:
+    components.nora/tls: enabled
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  rules:
+    - host: HOST_PLACEHOLDER
+      http:
+        paths:
+          - backend:
+              service:
+                name: SERVICE_PLACEHOLDER
+                port:
+                  number: PORT_PLACEHOLDER
+            path: /
+            pathType: PATH_TYPE_PLACEHOLDER
+  tls:
+    - hosts:
+        - HOST_PLACEHOLDER
+      secretName: tls
