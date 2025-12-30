@@ -12,13 +12,14 @@ generatorOptions:
 components:
   - ../../components/ntfy-token
   - ../../components/offsite-ssh-key
+  - ../../components/tls
 
 resources:
   - db-credentials-secret.sealed.yaml
   - postgres/statefulset.yaml
   - postgres/service.yaml
   - storage.yaml
-  - tls-cert.yaml
+  #- tls-cert.yaml
   - backup/rbac.yaml
   - backup/orchestrator-cronjob.yaml
 
@@ -27,3 +28,6 @@ configMapGenerator:
     files:
       - backup/backup-media-job.yaml
       - backup/backup-db-job.yaml
+  - name: tls-config
+    literals:
+      - host=photos.nora
