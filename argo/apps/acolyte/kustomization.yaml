@@ -11,7 +11,10 @@ resources:
   #- tls-cert.yaml
 
 replacements:
-  - sourceValue: acolyte.nora
+  - source:
+      kind: Ingress
+      name: acolyte-ingress
+      fieldPath: metadata.annotations.tls-host
     targets:
       - select:
           kind: Ingress
