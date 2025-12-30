@@ -84,10 +84,10 @@ replacements:
       name: tls-config
       fieldPath: data.host
     targets:
-      # - select:
-      #     kind: Ingress
-      #   fieldPaths:
-      #     - spec.tls.0.hosts.0
+      - select:
+          kind: Ingress
+        fieldPaths:
+          - spec.tls.0.hosts.0
       - select:
           kind: Certificate
         fieldPaths:
