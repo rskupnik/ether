@@ -62,7 +62,7 @@ replacements:
           kind: Ingress
           labelSelector: components.nora/tls=enabled
         fieldPaths:
-          - spec.rules.0.http.paths.0.backend.service.port.number
+          - spec.rules.0.http.paths.0.backend.service.port.name
   - source:
       kind: ConfigMap
       name: tls-config

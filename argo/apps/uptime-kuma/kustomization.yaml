@@ -14,7 +14,7 @@ configMapGenerator:
     literals:
       - host=uptime.nora
       - service=uptime-kuma
-      - port=3001
+      - port=http
       - pathType=ImplementationSpecific
 
 # replacements:
