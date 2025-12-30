@@ -14,7 +14,6 @@ replacements:
   - source:
       kind: Ingress
       name: acolyte-ingress
-      namespace: acolyte
       fieldPath: metadata.annotations.[tls-host]
     targets:
       - select:
