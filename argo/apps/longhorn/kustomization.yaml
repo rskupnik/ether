@@ -9,5 +9,14 @@ helmCharts:
 resources:
   - iscsi.yaml
   - password-secret.sealed.yaml
-  - ingress.yaml
-  - tls-cert.yaml
+
+components:
+  - ../../components/tls-ingress
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=longhorn.nora
+      - service=longhorn-frontend
+      - port=http
+      - pathType=Prefix
