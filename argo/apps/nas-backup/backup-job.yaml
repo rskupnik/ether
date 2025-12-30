@@ -5,6 +5,7 @@ metadata:
   namespace: nas-backup
   labels:
     components.nora/ntfy-token: enabled
+    components.nora/offsite-ssh: enabled
 spec:
   schedule: "20 1 * * *"
   
