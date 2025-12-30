@@ -2,16 +2,23 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: ntfy
 
+components:
+  - ../../components/tls-ingress
+
 resources:
   - auth-secret.sealed.yaml
   - deployment.yaml
   - service.yaml
   - pvc.yaml
-  - ingress.yaml
-  - tls-cert.yaml
   - nginx-config.yaml
 
 configMapGenerator:
-    - name: server-config
-      files: 
-        - server.yml
+  - name: server-config
+    files: 
+      - server.yml
+  - name: tls-config
+    literals:
+      - host=ntfy.nora
+      - service=ntfy-svc
+      - port=http-ntfy-out
+      - pathType=Prefix
