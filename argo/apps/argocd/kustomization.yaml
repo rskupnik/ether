@@ -8,9 +8,18 @@ helmCharts:
     additionalValuesFiles:
       - authentik-values.yaml   # Comment to disable Authentik
 
+components:
+  - ../../components/tls-ingress
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=argocd.nora
+      - service=argocd-server
+      - port=http
+      - pathType=Prefix
+
 resources:
-  - ingress.yaml
-  - tls-cert.yaml
   - apps/projects.yaml
   - apps/authentik.yaml
   - apps/cloudflare.yaml
