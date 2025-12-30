@@ -1,0 +1,28 @@
+# Requires cert-manager and a ClusterIssuer
+# Make sure to replace the dns names
+# Add label to ingress you want to inject tls to: components.nora/tls=enabled
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+resources:
+  - certificate.yaml
+
+patches:
+  - target:
+      group: networking.k8s.io
+      version: v1
+      kind: Ingress
+      labelSelector: components.nora/tls=enabled
+    patch: |-
+      - op: add
+        path: /spec/tls
+        value:
+          - hosts:
+              - REPLACEME
+            secretName: tls
+      
+      - op: add
+        path: /metadata/annotations
+        value:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure

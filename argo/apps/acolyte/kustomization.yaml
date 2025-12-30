@@ -1,6 +1,25 @@
+namespace: acolyte
+
+components:
+  - ../../components/tls
+
 resources:
   - dockerconfig-secret.sealed.yaml
   - deployment.yaml
   - service.yaml
   - ingress.yaml
-  - tls-cert.yaml
+  #- tls-cert.yaml
+
+replacements:
+  - sourceValue: acolyte.nora
+    targets:
+      - select:
+          kind: Ingress
+        fieldPaths:
+          - spec.tls.0.hosts.0
+      - select:
+          kind: Certificate
+        fieldPaths:
+          - spec.commonName
+          - spec.dnsNames.0
+      
