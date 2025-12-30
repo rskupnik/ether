@@ -1,23 +1,12 @@
 # Requires cert-manager and a ClusterIssuer
-# Make sure to replace the dns names
-# Add label to ingress you want to inject tls to: components.nora/tls=enabled
-#
-# Replacement example:
-# replacements:
-#   - source:
-#       kind: ConfigMap
-#       name: tls-config
-#       fieldPath: data.host
-#     targets:
-#       - select:
-#           kind: Ingress
-#         fieldPaths:
-#           - spec.tls.0.hosts.0
-#       - select:
-#           kind: Certificate
-#         fieldPaths:
-#           - spec.commonName
-#           - spec.dnsNames.0
+# Make sure to create a proper ConfigMap, like this:
+# configMapGenerator:
+#   - name: tls-config
+#     literals:
+#       - host=acolyte.nora
+#       - service=acolyte
+#       - port=http
+#       - pathType=Prefix
 
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
