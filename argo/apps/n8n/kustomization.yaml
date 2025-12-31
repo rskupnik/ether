@@ -25,5 +25,5 @@ patches:
       name: n8n
     patch: |-
       - op: add
-        path: /metadata/labels/components.nginx~1proxy
+        path: /metadata/labels/components.nora~1nginx-proxy
         value: enabled
