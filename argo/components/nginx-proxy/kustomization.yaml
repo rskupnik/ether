@@ -27,6 +27,8 @@ patches:
               subPath: default.conf
             - name: nginx-cache
               mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /run
       - op: add
         path: /spec/template/spec/volumes/-
         value:
@@ -37,6 +39,11 @@ patches:
         path: /spec/template/spec/volumes/-
         value:
           name: nginx-cache
+          emptyDir: {}
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          name: nginx-run
           emptyDir: {}
   
   - target:
