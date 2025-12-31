@@ -10,6 +10,9 @@ components:
   - ../../components/tls-ingress
   - ../../components/nginx-proxy
 
+resources:
+  - nginx-config.yaml
+
 configMapGenerator:
   - name: tls-config
     literals:
@@ -17,13 +20,3 @@ configMapGenerator:
       - service=n8n
       - port=http
       - pathType=Prefix
-
-patches:
-  - target:
-      version: v1
-      kind: Service
-      name: n8n
-    patch: |-
-      - op: add
-        path: /metadata/labels/components.nora~1nginx-proxy
-        value: enabled

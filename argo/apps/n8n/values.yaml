@@ -1,6 +1,9 @@
 main:
-  deploymentLabels:
+  deploymentAnnotations:
     components.nora/nginx-proxy: enabled
+  service:
+    annotations:
+      components.nora/nginx-proxy: enabled
   config:
     node_env: production
     webhook_url: https://n8n.nora/

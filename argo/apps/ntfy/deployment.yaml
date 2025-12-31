@@ -4,6 +4,7 @@ metadata:
   name: ntfy-deployment
   labels:
     app: ntfy-deployment
+  annotations:
     components.nora/nginx-proxy: enabled
 spec:
   revisionHistoryLimit: 1

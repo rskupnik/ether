@@ -1,5 +1,5 @@
 # Requires a ConfigMap named "nginx-config" with default.conf value of nginx config
-# Requires a Deployment and a Service with components.nora/nginx-proxy=enabled
+# Requires a Deployment and a Service with components.nora/nginx-proxy=enabled annotation
 # Port for proxy: 9292
 
 apiVersion: kustomize.config.k8s.io/v1alpha1
@@ -10,7 +10,7 @@ patches:
       group: apps
       version: v1
       kind: Deployment
-      labelSelector: components.nora/nginx-proxy=enabled
+      annotationSelector: components.nora/nginx-proxy=enabled
     patch: |-
       - op: add
         path: /spec/template/spec/containers/-
@@ -35,7 +35,7 @@ patches:
   - target:
       version: v1
       kind: Service
-      labelSelector: components.nora/nginx-proxy=enabled
+      annotationSelector: components.nora/nginx-proxy=enabled
     patch: |-
       - op: add
         path: /spec/ports/-
