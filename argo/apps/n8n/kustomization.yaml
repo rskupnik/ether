@@ -8,6 +8,7 @@ helmCharts:
   
 components:
   - ../../components/tls-ingress
+  - ../../components/nginx-proxy
 
 configMapGenerator:
   - name: tls-config
@@ -16,3 +17,13 @@ configMapGenerator:
       - service=n8n
       - port=http
       - pathType=Prefix
+
+patches:
+  - target:
+      version: v1
+      kind: Service
+      name: n8n
+    patch: |-
+      - op: add
+        path: /metadata/labels/components.nginx~1proxy
+        value: enabled
