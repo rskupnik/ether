@@ -4,6 +4,7 @@ metadata:
   name: ntfy-deployment
   labels:
     app: ntfy-deployment
+    components.nora/nginx-proxy: enabled
 spec:
   revisionHistoryLimit: 1
   replicas: 1
@@ -59,16 +60,16 @@ spec:
                 name: cache-volume
               - mountPath: /var/lib/ntfy
                 name: db-volume
-        - name: nginx
-          image: nginx:stable-alpine
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 8080
-              name: http-nginx
-          volumeMounts:
-            - name: nginx-config-volume
-              mountPath: /etc/nginx/conf.d/default.conf
-              subPath: default.conf
+        # - name: nginx
+        #   image: nginx:stable-alpine
+        #   imagePullPolicy: IfNotPresent
+        #   ports:
+        #     - containerPort: 8080
+        #       name: http-nginx
+        #   volumeMounts:
+        #     - name: nginx-config-volume
+        #       mountPath: /etc/nginx/conf.d/default.conf
+        #       subPath: default.conf
       volumes:
         - name: config-volume
           configMap:
@@ -79,6 +80,6 @@ spec:
         - name: db-volume
           persistentVolumeClaim:
             claimName: ntfy-db-pvc
-        - name: nginx-config-volume
-          configMap:
-            name: nginx-config
+        # - name: nginx-config-volume
+        #   configMap:
+        #     name: nginx-config

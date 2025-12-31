@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  default.conf: |
+    server {
+      listen 8080;
+      server_name ntfy.myzopotamia.dev;
+
+      # Rewrite path
+      location /backups {
+          proxy_pass http://127.0.0.1/backups;
+          proxy_set_header Host $host;
+          proxy_set_header CF-Connecting-IP $http_cf_connecting_ip;
+          proxy_set_header X-Real-IP $http_cf_connecting_ip;
+          proxy_set_header X-Forwarded-For $http_cf_connecting_ip;
+      }
+
+      location /uptime {
+          proxy_pass http://127.0.0.1/uptime;
+          proxy_set_header Host $host;
+          proxy_set_header CF-Connecting-IP $http_cf_connecting_ip;
+          proxy_set_header X-Real-IP $http_cf_connecting_ip;
+          proxy_set_header X-Forwarded-For $http_cf_connecting_ip;
+      }
+
+      location /website {
+          proxy_pass http://127.0.0.1/website;
+          proxy_set_header Host $host;
+          proxy_set_header CF-Connecting-IP $http_cf_connecting_ip;
+          proxy_set_header X-Real-IP $http_cf_connecting_ip;
+          proxy_set_header X-Forwarded-For $http_cf_connecting_ip;
+      }
+
+      # Block ALL other access
+      location / {
+          return 403;
+      }
+    }

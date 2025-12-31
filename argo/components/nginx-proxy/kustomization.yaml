@@ -1,0 +1,32 @@
+# Requires a ConfigMap named "nginx-config" with default.conf value of nginx config
+# Port for proxy: 9292
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+patches:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      labelSelector: components.nora/nginx-proxy=enabled
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/-
+        value:
+          name: nginx
+          image: nginx:stable-alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9292
+              name: http-nginx
+          volumeMounts:
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          name: nginx-config-volume
+          configMap:
+            name: nginx-config

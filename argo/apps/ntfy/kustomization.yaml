@@ -4,6 +4,7 @@ namespace: ntfy
 
 components:
   - ../../components/tls-ingress
+  - ../../components/nginx-proxy
 
 resources:
   - auth-secret.sealed.yaml
