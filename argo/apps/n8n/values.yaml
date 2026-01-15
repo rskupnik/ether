@@ -1,3 +1,6 @@
+image:
+  tag: "2.3.4"
+
 main:
   deploymentAnnotations:
     components.nora/nginx-proxy: enabled
