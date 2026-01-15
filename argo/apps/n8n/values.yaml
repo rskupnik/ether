@@ -11,8 +11,8 @@ main:
       host: n8n.nora
       protocol: https
       secure_cookie: false
-      log:
-        level: debug
+      # log:
+      #   level: debug
   persistence:
     enabled: true
     type: dynamic
