@@ -18,7 +18,7 @@ data:
       }
 
       # Webhook Test
-      location /webhook/test/ {
+      location /webhook-test/ {
           proxy_pass http://127.0.0.1:5678;
           proxy_set_header Host $host;
           proxy_set_header CF-Connecting-IP $http_cf_connecting_ip;
