@@ -61,8 +61,18 @@ Here's a quick non-exhaustive list:
 
 ## How to run it
 
-> Note: Due to the personal nature of this project, the setup process might contain issue that require manual resolving
+> Note: Due to the personal nature of this project, the setup process might contain issues that require manual resolving
 
 1. Go to the `ansible` directory and follow instructions to provision the Raspberry Pi 5 nodes
 2. Go to the `argo/bootstrap` directory and run the `just bootstrap` recipe for bootstrapping Argo
 3. Go to Argo and make sure all the apps work properly
+
+## AI Disclosure
+
+All of the manifests inside `argo/` directory have been **written by a human entirely**, albeit with research being done using OpenAI Chat GPT where needed.
+
+Ansible playbooks have been mostly generated with the help of OpenAI Chat GPT and then adjusted by me.
+
+## Author
+
+You can read more about me on [my blog](https://myzopotamia.dev) (which is hosted on this homelab!)
