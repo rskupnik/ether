@@ -1,5 +1,5 @@
 - name: Install SSH public key for Immich backup
-  hosts: pustkow_pi
+  hosts: remote_pi
   become: yes
 
   vars:

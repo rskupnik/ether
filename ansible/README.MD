@@ -18,6 +18,18 @@ They will create two partitions and clone the RPi system to the NVMe SSD.
 
 The playbooks inside `k3s` folder should be used to install a k3s cluster on the Raspberry Pi.
 
+### tailscale
+
+These playbooks are used to establish tailscale routings in such a way that both the offsite and onsite nodes function as if in a single network. These should be run on one of the nodes onsite (primary) and on one of the nodes offsite (secondary).
+
+### offsite
+
+These playbooks are for configuring the offsite node, mostly for backups
+
+### lcd
+
+The playbooks in here are used on one of the onsite nodes to configure the LCD logo screen
+
 ## How to setup
 
 Assuming you have both Raspberry Pi 5 devices available at SSH with attached unpartitioned NVMe disks:
@@ -33,3 +45,8 @@ Once you have Raspberry Pis provisioned with NVMe disks and the filesystems copi
 4. Fetch kubeconfig: `ansible-playbook playbooks/k3s/04_fetch_kubeconfig.yaml`
 5. You should see the kubeconfig at `playbooks/k3s/kubeconfig_raw.yaml`
 6. If this is the only cluster - move the `kubeconfig_raw.yaml` file and replace `~/.kube/config` file - otherwise merge
+
+The rest is optional:
+* Use `offsite` playbooks to setup the offsite node for backups
+* Use `tailscale` playbooks for setting up a tailscale network
+* Use `lcd` playbooks for setting up the LCD logo screen

@@ -4,5 +4,5 @@ generate:
     openssl genrsa -out rootCA.key 4096
     openssl req -x509 -new -nodes -key rootCA.key \
         -sha256 -days 3650 \
-        -subj "/C=PL/L=Debica/CN=Myzopotamia Internal Homelab/O=Myzopotamia/emailAddress=myzek92@gmail.com" \
+        -subj "/C=PL/L=Unspecified/CN=Myzopotamia Internal Homelab/O=Myzopotamia/emailAddress=myzek92@gmail.com" \
         -out rootCA.crt

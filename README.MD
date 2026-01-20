@@ -1,37 +1,68 @@
-# ether
+<p align="center">
+  <img src="docs/assets/ether_logo_256.png" alt="ether logo" width="220">
+</p>
 
-Infrastructure-as-code repository for provisioning and operating an environment using **Ansible** (machine/bootstrap configuration) and **Argo CD** (GitOps delivery of Kubernetes workloads), plus supporting materials like certificates and SSH keys.
-
-> This repo appears to be a personal/ops repository. Treat it as **sensitive**: certificates and keys can easily become security liabilities if handled incorrectly.
+<p align="center">
+  Personal Kubernetes Homelab
+</p>
 
 ## What’s inside
 
-Repository root layout (high-level):
+- `ansible/` - Ansible inventories, roles and playbooks used to bootstrap/maintain hosts
+- `argo/` - Argo CD apps / app-of-apps definitions (GitOps manifests)
+- `certificates/` - Certificate-related assets (CA, leaf certs, issuance configs, etc.)
+- `ssh-keys/` - SSH keys
+- `justfile` - Common automation tasks
+- `docs/` - Documentation
 
-- `ansible/` — Ansible inventories, roles and playbooks used to bootstrap/maintain hosts.
-- `argo/` — Argo CD apps / app-of-apps definitions (GitOps manifests).
-- `certificates/` — Certificate-related assets (CA, leaf certs, issuance configs, etc.).
-- `ssh-keys/` — SSH key material or SSH-related configs (should be handled carefully).
-- `justfile` — Common automation tasks (command runner).
-- `README.MD` — This documentation.
+## Tools used
 
-## Prerequisites
+- `k3s` for a lightweight Kubernetes implementation
+- **Ansible** for provisioning the nodes and making k3s work
+- **ArgoCD** for a GitOps approach to managing applications inside the cluster
+- **Kustomize** (with **Helm** enabled) for declarative
+- **SOPS** for encrypting sensitive data with a GPG key
+- `just` + **Justfile** for declaring common operations
 
-### Local tooling
+## Hardware
 
-- [git](https://git-scm.com/)
-- [just](https://github.com/casey/just) (recommended; used via `justfile`)
-- Ansible:
-  - `ansible` + `ansible-playbook`
-- Kubernetes tooling (for day-2 ops):
-  - `kubectl`
-  - `helm` (if your Argo apps deploy Helm charts)
-- Argo CD CLI (optional but helpful):
-  - `argocd`
+<p align="center">
+  <img src="docs/assets/ether_photo.jpg" alt="ether logo" width="280">
+</p>
 
-### Access requirements
+This homelab currently runs on 3x Raspberry Pi 5 Nodes with a [Waveshare PoE M.2 HAT+](https://www.waveshare.com/wiki/PoE_M.2_HAT+) and a 512 GB SSD M.2 disk on each node.
 
-- Network access to the target machines (SSH)
-- Credentials for Kubernetes cluster admin (for initial Argo CD bootstrap)
-- Secure handling for secrets (recommended):
-  - SOPS + age/GPG, External Secrets, or Sealed Secrets
+The local storage is managed by Longhorn for data replication. This storage is intended for ephemeral and non-critical data.
+
+There is also an external NAS server for permanent data.
+
+## Software
+
+For more details on what is running inside Ether, see the `argo/` directory.
+
+Here's a quick non-exhaustive list:
+* Authelia
+* Personal blog
+* Cert Manager
+* Cloudflare Tunnel
+* Github Actions Runners
+* Homepage (dashboard)
+* Immich
+* Longhorn
+* MetalLB
+* N8N
+* Ntfy
+* PaperlessNGX
+* PiHole
+* Prometheus + Grafana
+* Sealed Secrets
+* Umami
+* Uptime Kuma
+
+## How to run it
+
+> Note: Due to the personal nature of this project, the setup process might contain issue that require manual resolving
+
+1. Go to the `ansible` directory and follow instructions to provision the Raspberry Pi 5 nodes
+2. Go to the `argo/bootstrap` directory and run the `just bootstrap` recipe for bootstrapping Argo
+3. Go to Argo and make sure all the apps work properly

@@ -1,5 +1,5 @@
 - name: Prepare backup HDD
-  hosts: pustkow_pi
+  hosts: remote_pi
   become: true
   vars:
     disk_device: "/dev/sda"
