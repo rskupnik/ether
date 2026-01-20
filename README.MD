@@ -75,4 +75,4 @@ Ansible playbooks have been mostly generated with the help of OpenAI Chat GPT an
 
 ## Author
 
-You can read more about me on [my blog](https://myzopotamia.dev) (which is hosted on this homelab!)
+You can read more about me on [my blog](https://myzopotamia.dev) (which is [hosted on this homelab!](argo/apps/blog/))
