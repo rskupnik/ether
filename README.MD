@@ -15,6 +15,19 @@
 - `justfile` - Common automation tasks
 - `docs/` - Documentation
 
+## What it can do
+
+> Note: This section is still under construction! I want to create an extensive documentation and blog posts for all the cool features I have been working on, but that takes time
+
+While I work on full documentation, here are some of the features I personally find cool about my homelab:
+* It uses Tailscale and IPTables setup to join two networks together. Read more about it [in this blog post (a bit outdated)](https://myzopotamia.dev/joining-together-home-networks-using-tailscale)
+* It uses Github Runners for automatically building and deploying a few of my own applications (including the blog) to the cluster.
+* It uses ArgoCD for a full GitOps setup of software. Coupled with Ansible for provisioning, it is quite easy to recreate the cluster entirely from scratch
+* It uses Longhorn for partitioning ephemeral storage and sharing that space between nodes. It also ensures data replication
+* It uses Cloudflare Tunnels for external access (like the blog, but not only) paired with NGINX proxy sidecars for allowlisting only specific paths
+* It hosts n8n which is used for automating a lot of stuff for both me personally a family company
+* It hosts very cool self-hostable applications, such as Immich (for managing photos) and PaperlessNGX (for digitizing documents)
+
 ## Tools used
 
 - `k3s` for a lightweight Kubernetes implementation
@@ -67,6 +80,18 @@ Here's a quick non-exhaustive list:
 2. Go to the `argo/bootstrap` directory and run the `just bootstrap` recipe for bootstrapping Argo
 3. Go to Argo and make sure all the apps work properly
 
+## Plans for the future
+
+Here are some more or less defined plans for the future:
+* Add a stronger node to the cluster (something with more horsepower than RPi) to be used for a Media Center at some point
+* Add some sort of GPU capable of running a good-enough AI model locally (not sure if the hardware is there yet)
+* (Alternative to above) Setup my personal gaming PC with a wake-on-lan in such a way that the cluster can wake it up and make use of the strong GPU there to run AI stuff when needed and then turn it off (it's expensive to keep the PC running all the time)
+* Create some cool dashboards and display them on the LCD screen instead of just the static logo
+* Install even more cool applications
+* Document all the stuff I find interesting with extensive diagrams and possible write a few blog posts about this setup
+* (Not sure if I want this yet) Use some sort of coding agent to make it live in the cluster and work on progressive updates to the setup by producing PRs etc.
+* Harden the whole setup: ensure certificates and TLS are used everywhere, add safety features like fail2ban, add DNS-over-TLS, etc.
+
 ## AI Disclosure
 
 All of the manifests inside `argo/` directory have been **written by a human entirely**, albeit with research being done using OpenAI Chat GPT where needed.
@@ -76,3 +101,7 @@ Ansible playbooks have been mostly generated with the help of OpenAI Chat GPT an
 ## Author
 
 You can read more about me on [my blog](https://myzopotamia.dev) (which is [hosted on this homelab!](argo/apps/blog/))
+
+## ... Why?
+
+I am a DevOps Engineer by trade and I just pretty much like doing what I do. This homelab setup is here so I can practice my skills. I do realize it is probably over-engineered and could be done much simpler, but it is done so on purpose - and the purpose is learning.
