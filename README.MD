@@ -6,7 +6,7 @@ Infrastructure-as-code repository for provisioning and operating an environment 
 
 ## What’s inside
 
-Repository root layout (high-level): :contentReference[oaicite:2]{index=2}
+Repository root layout (high-level):
 
 - `ansible/` — Ansible inventories, roles and playbooks used to bootstrap/maintain hosts.
 - `argo/` — Argo CD apps / app-of-apps definitions (GitOps manifests).
