@@ -25,17 +25,18 @@ While I work on full documentation, here are some of the features I personally f
 * It uses ArgoCD for a full GitOps setup of software. Coupled with Ansible for provisioning, it is quite easy to recreate the cluster entirely from scratch
 * It uses Longhorn for partitioning ephemeral storage and sharing that space between nodes. It also ensures data replication
 * It uses Cloudflare Tunnels for external access (like the blog, but not only) paired with NGINX proxy sidecars for allowlisting only specific paths
-* It hosts n8n which is used for automating a lot of stuff for both me personally a family company
+* It hosts n8n which is used for automating a lot of stuff for both me personally and a family company
 * It hosts very cool self-hostable applications, such as Immich (for managing photos) and PaperlessNGX (for digitizing documents)
+* N8N is also used for hosting a personal AI (simple for now, as it is still under construction). The coolest feature it has so far is access to digitized documents in Paperless NGX. It's very cool to just ask it to search for my digitized dishwasher manual and tell me what does this new random error mean :)
 
 ## Tools used
 
 - `k3s` for a lightweight Kubernetes implementation
 - **Ansible** for provisioning the nodes and making k3s work
 - **ArgoCD** for a GitOps approach to managing applications inside the cluster
-- **Kustomize** (with **Helm** enabled) for declarative
+- **Kustomize** (with **Helm** enabled) for installing sofware in a declarative way
 - **SOPS** for encrypting sensitive data with a GPG key
-- `just` + **Justfile** for declaring common operations
+- `just` + **Justfile** for creating recipes for common operations
 
 ## Hardware
 
@@ -47,7 +48,15 @@ This homelab currently runs on 3x Raspberry Pi 5 Nodes with a [Waveshare PoE M.2
 
 The local storage is managed by Longhorn for data replication. This storage is intended for ephemeral and non-critical data.
 
-There is also an external NAS server for permanent data.
+There is also an external NAS server for permanent data. Currently using a QNAP TS-216G for that with two 8 TB drives on-site and one off-site (backup target).
+
+The Raspberry Pi 5 nodes are powered with Power Over Ethernet to minimize ugly cable management.
+
+The switch is a TL-SG105PE, although it will have to be replaced in the future with something that has more ports :)
+
+The case is 3d printed based on the design by Dossi96. See [this reddit post](https://www.reddit.com/r/homelab/comments/1jzx5gq/what_do_you_guys_think_of_my_minilab_saturn_vu/) and [this MakerWorld page](https://makerworld.com/pl/models/1381701-saturn-v-u-diy-10-network-rack#profileId-1430257) for the designs.
+
+The LCD screen is just a cheap 7'' screen found on AliExpress
 
 ## Software
 
