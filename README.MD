@@ -29,6 +29,12 @@ While I work on full documentation, here are some of the features I personally f
 * It hosts very cool self-hostable applications, such as Immich (for managing photos) and PaperlessNGX (for digitizing documents)
 * N8N is also used for hosting a personal AI (simple for now, as it is still under construction). The coolest feature it has so far is access to digitized documents in Paperless NGX. It's very cool to just ask it to search for my digitized dishwasher manual and tell me what does this new random error mean :)
 
+## How it works
+
+Full documentation is being worked on. In the meantime, check out the diagram :)
+
+![Ether overview diagram](/docs/assets/diagrams/ether_overview.png)
+
 ## Tools used
 
 - `k3s` for a lightweight Kubernetes implementation
