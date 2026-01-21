@@ -69,7 +69,7 @@ The LCD screen is just a cheap 7'' screen found on AliExpress
 For more details on what is running inside Ether, see the `argo/` directory.
 
 Here's a quick non-exhaustive list:
-* Authelia
+* Authentik
 * Personal blog
 * Cert Manager
 * Cloudflare Tunnel
@@ -111,7 +111,9 @@ Here are some more or less defined plans for the future:
 
 All of the manifests inside `argo/` directory have been **written by a human entirely**, albeit with research being done using OpenAI Chat GPT where needed.
 
-Ansible playbooks have been mostly generated with the help of OpenAI Chat GPT and then adjusted by me.
+Ansible playbooks have been partially generated with the help of OpenAI Chat GPT and then adjusted by me. After I learned Ansible, other playbooks were created by hand.
+
+All documentation and diagrams are created by me.
 
 ## Author
 
