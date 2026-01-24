@@ -121,4 +121,4 @@ You can read more about me on [my blog](https://myzopotamia.dev) (which is [host
 
 ## ... Why?
 
-I am a DevOps Engineer by trade and I just pretty much like doing what I do. This homelab setup is here so I can practice my skills. I do realize it is probably over-engineered and could be done much simpler, but it is done so on purpose - and the purpose is learning.
+I am a DevOps Engineer by trade and I just pretty much like doing what I do. This homelab setup is here so I can practice my skills. I do realize it is probably over-engineered and could be done much simpler, but it's a deliberate choice with learning in mind :)
