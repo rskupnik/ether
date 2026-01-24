@@ -1,0 +1,3 @@
+creation_rules:
+  - path_regex: immich-backup-key$
+    pgp: 7A3BC6EAE9EC0EF9156D6E8D0D02F4D5C2B918B5
