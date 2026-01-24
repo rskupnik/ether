@@ -1,3 +1,5 @@
 *secret*
 !argo/**
 !*.enc.*
+.DS_Store
+*.bkp
