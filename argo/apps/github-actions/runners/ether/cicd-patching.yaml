@@ -1,0 +1,21 @@
+# This file contains resources necessary for the CICD runners to be able to patch Deployments in edgar namespace
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ci-runner
+  namespace: github-actions-runners-ether
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ci-deployment-patcher-binding
+  namespace: blog
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ci-deployment-patcher
+subjects:
+  - kind: ServiceAccount
+    name: ci-runner
+    namespace: github-actions-runners-ether

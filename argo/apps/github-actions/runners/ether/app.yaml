@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: github-actions-runners-ether
+  namespace: argocd
+spec:
+  project: platform
+  source:
+    repoURL: https://github.com/rskupnik/ether.git
+    targetRevision: HEAD
+    path: argo/apps/github-actions/runners/ether
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: github-actions-runners-ether
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

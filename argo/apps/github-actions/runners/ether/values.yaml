@@ -1,0 +1,27 @@
+githubConfigUrl: https://github.com/rskupnik/rskupnik.github.io
+githubConfigSecret: arc-pat
+controllerServiceAccount:
+  namespace: github-actions-controller
+  name: ether-arc-runner-gha-rs-controller
+containerMode:
+  type: "dind"
+template:
+  spec:
+    serviceAccountName: ci-runner
+    containers:
+      - name: runner
+        image: ghcr.io/actions/actions-runner:latest
+        command: ["/home/runner/run.sh"]
+        volumeMounts:
+          - name: docker-config
+            mountPath: /tmp/docker-config/config.json
+            subPath: .dockerconfigjson
+          - name: docker-cache
+            mountPath: /mnt/docker-cache
+    volumes:
+      - name: docker-config
+        secret:
+          secretName: dockerhub-credentials
+      - name: docker-cache
+        persistentVolumeClaim:
+          claimName: docker-cache-pvc

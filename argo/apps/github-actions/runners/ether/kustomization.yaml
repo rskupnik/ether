@@ -1,0 +1,13 @@
+helmCharts:
+  - name: gha-runner-scale-set
+    repo: "oci://ghcr.io/actions/actions-runner-controller-charts"
+    releaseName: ether-runner
+    namespace: github-actions-runners-ether
+    version: 0.11.0
+    valuesFile: values.yaml
+
+resources:
+  - secret-pat.sealed.yaml
+  - dockerconfig-secret.sealed.yaml
+  - longhorn-pvc.yaml
+  - cicd-patching.yaml

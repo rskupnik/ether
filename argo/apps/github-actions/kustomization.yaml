@@ -4,3 +4,4 @@ resources:
   - runners/edgar/app.yaml
   - runners/myzopotamia/app.yaml
   - runners/acolyte/app.yaml
+  - runners/ether/app.yaml
