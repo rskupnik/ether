@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ether-docs
+  namespace: argocd
+spec:
+  project: applications
+  source:
+    repoURL: https://github.com/rskupnik/ether.git
+    targetRevision: HEAD
+    path: argo/apps/ether-docs
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ether-docs
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
