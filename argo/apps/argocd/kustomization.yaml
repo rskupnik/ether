@@ -44,6 +44,7 @@ resources:
   - apps/cert-manager.yaml
   - apps/umami.yaml
   - apps/ether-logo.yaml
+  - apps/ether-docs.yaml
   - apps/nas-backup.yaml
   - apps/ntfy.yaml
   # - apps/authelia.yaml
