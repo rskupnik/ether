@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ether-docs
+spec:
+  rules:
+    - host: ether-docs.nora
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ether-docs
+                port:
+                  number: 80
