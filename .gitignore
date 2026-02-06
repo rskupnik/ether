@@ -3,3 +3,4 @@
 !*.enc.*
 .DS_Store
 *.bkp
+.nocommit/

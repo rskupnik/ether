@@ -1,1 +1,0 @@
-This is currently empty as I am working on a proper documentation. It might take some time as I refuse to generate it entirely with AI :)
