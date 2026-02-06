@@ -19,12 +19,12 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          cd docs && docker buildx build \
+          docker buildx build \
             --cache-from type=local,src=/mnt/docker-cache \
             --cache-to type=local,dest=/mnt/docker-cache \
             --load \
             -t ether-docs \
-            -f Dockerfile .
+            -f docs/Dockerfile .
       
       - name: Push Docker image
         run: |
