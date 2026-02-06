@@ -1,0 +1,44 @@
+name: Build MkDocs
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - mkdocs/**
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ether-runner
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        run: docker buildx create --use
+
+      - name: Build Docker Image
+        run: |
+          docker buildx build \
+            --cache-from type=local,src=/mnt/docker-cache \
+            --cache-to type=local,dest=/mnt/docker-cache \
+            --load \
+            -t ether-docs \
+            -f mkdocs/Dockerfile .
+      
+      - name: Push Docker image
+        run: |
+          export DOCKER_CONFIG=/tmp/docker-config
+          docker tag ether-docs registry.gitlab.com/myzreal/ether/ether-docs:latest
+          docker push registry.gitlab.com/myzreal/ether/ether-docs:latest
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.33.2'
+      
+      - name: Restart deployment with annotation
+        run: |
+          kubectl patch deployment ether-docs \
+            -n ether-docs \
+            -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"ci-restart-timestamp\":\"$(date +%s)\"}}}}}"
