@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ether-docs-blog-config
+  namespace: ether-docs
+data:
+  default.conf: |
+    server {
+      listen 80;
+      server_name etherdocs.myzopotamia.dev;
+
+      root /usr/share/nginx/html;
+      index index.html;
+
+      location / {
+          try_files $uri $uri.html $uri/ =404;
+      }
+
+      location /public/ {
+          root /usr/share/nginx/html;
+      }
+    }

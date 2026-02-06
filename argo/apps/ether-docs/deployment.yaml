@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ether-docs
+  namespace: ether-docs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ether-docs
+  template:
+    metadata:
+      labels:
+        app: ether-docs
+    spec:
+      containers:
+        - name: ether-docs
+          image: registry.gitlab.com/myzreal/ether/ether-docs:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+      imagePullSecrets:
+        - name: dockerhub-credentials
+      volumes:
+        - name: nginx-config-volume
+          configMap:
+            name: ether-docs-blog-config

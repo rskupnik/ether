@@ -1,15 +1,5 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
 resources:
-  # - deployment.yaml
-  # - service.yaml
-  - ingress.yaml
-
-# configMapGenerator:
-#   - name: ether-html
-#     files:
-#       - ether.html
-
-# generatorOptions:
-#   disableNameSuffixHash: true
+  - dockerconfig-secret.sealed.yaml
+  - deployment.yaml
+  - service.yaml
+  - config.yaml
