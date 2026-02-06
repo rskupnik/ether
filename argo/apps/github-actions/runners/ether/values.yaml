@@ -1,4 +1,4 @@
-githubConfigUrl: https://github.com/rskupnik/rskupnik.github.io
+githubConfigUrl: https://github.com/rskupnik/ether
 githubConfigSecret: arc-pat
 controllerServiceAccount:
   namespace: github-actions-controller
