@@ -19,4 +19,6 @@ data:
         service: http://n8n.n8n.svc.cluster.local:9292
       - hostname: ntfy.myzopotamia.dev
         service: http://ntfy-svc.ntfy.svc.cluster.local:9292
+      - hostname: etherdocs.myzopotamia.dev
+        service: http://ether-docs.ether-docs.svc.cluster.local:80
       - service: http_status:404
