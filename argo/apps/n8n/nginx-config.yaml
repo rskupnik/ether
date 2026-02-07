@@ -26,6 +26,15 @@ data:
           proxy_set_header X-Forwarded-For $http_cf_connecting_ip;
       }
 
+      # Webhook Waiting
+      location /webhook-waiting/ {
+          proxy_pass http://127.0.0.1:5678;
+          proxy_set_header Host $host;
+          proxy_set_header CF-Connecting-IP $http_cf_connecting_ip;
+          proxy_set_header X-Real-IP $http_cf_connecting_ip;
+          proxy_set_header X-Forwarded-For $http_cf_connecting_ip;
+      }
+
       # Webhook
       location /webhook/ {
           proxy_pass http://127.0.0.1:5678;
