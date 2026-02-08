@@ -40,7 +40,12 @@ The homelab consists of:
 - GitOps with ArgoCD applications
 - Monitoring with Prometheus and Grafana
 - Security tools and certificate management
-- Various self-hosted applications
+- Various self-hosted applications including:
+  - **n8n**: Workflow automation tool for personal and business tasks
+  - Immich: Photo management
+  - PaperlessNGX: Document digitization
+  - Authentik: Identity and access management
+  - And more...
 
 ## Documentation Structure
 
@@ -53,6 +58,7 @@ This documentation is organized into the following sections:
 5. **Networking** - Network architecture and configuration
 6. **Operations** - Daily operations and maintenance
 7. **Applications** - Documentation for each application
+   - [n8n](n8n.md) - Workflow automation tool
 8. **Troubleshooting** - Common issues and solutions
 
 ## Getting Started
