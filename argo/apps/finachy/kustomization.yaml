@@ -23,6 +23,6 @@ configMapGenerator:
   - name: tls-config
     literals:
       - host=finachy.nora
-      - service=finachy
+      - service=finachy-web
       - port=http
       - pathType=ImplementationSpecific
