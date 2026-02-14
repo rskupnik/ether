@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finachy-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: finachy-web
+  template:
+    metadata:
+      labels:
+        app: finachy-web
+    spec:
+      containers:
+        - name: web
+          image: finachium/finachy:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: finachy-config
+            - secretRef:
+                name: finachy-secret
+          volumeMounts:
+            - name: app-storage
+              mountPath: /rails/storage
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 30
+      volumes:
+        - name: app-storage
+          persistentVolumeClaim:
+            claimName: app-storage

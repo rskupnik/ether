@@ -47,5 +47,6 @@ resources:
   - apps/ether-docs.yaml
   - apps/nas-backup.yaml
   - apps/ntfy.yaml
+  - apps/finachy.yaml
   # - apps/authelia.yaml
   # - apps/loki.yaml

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finachy-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: finachy-worker
+  template:
+    metadata:
+      labels:
+        app: finachy-worker
+    spec:
+      containers:
+        - name: worker
+          image: finachium/finachy:latest
+          command: ["bundle", "exec", "sidekiq"]
+          envFrom:
+            - configMapRef:
+                name: finachy-config
+            - secretRef:
+                name: finachy-secret
+          volumeMounts:
+            - name: app-storage
+              mountPath: /rails/storage
+      volumes:
+        - name: app-storage
+          persistentVolumeClaim:
+            claimName: app-storage
