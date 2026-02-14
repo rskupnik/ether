@@ -4,7 +4,7 @@ namespace: finachy
 
 resources:
   - configmap.yaml
-  - secret.yaml
+  - secret.sealed.yaml
   - pvc-app-storage.yaml
   - pvc-postgres.yaml
   - pvc-redis.yaml
