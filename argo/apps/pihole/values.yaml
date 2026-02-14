@@ -62,4 +62,5 @@ dnsmasq:
     - 192.168.0.240 umami.nora
     - 192.168.0.240 ether-logo.nora
     - 192.168.0.240 ntfy.nora
+    - 192.168.0.240 finachy.nora
     - 192.168.0.185 nas.nora
