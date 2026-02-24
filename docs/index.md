@@ -59,6 +59,7 @@ This documentation is organized into the following sections:
 6. **Operations** - Daily operations and maintenance
 7. **Applications** - Documentation for each application
    - [n8n](n8n.md) - Workflow automation tool
+   - [Blog](blog.md) - Personal blog and documentation
    - [Paperless](paperless.md) - Document digitization
 8. **Troubleshooting** - Common issues and solutions
 
