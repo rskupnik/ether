@@ -86,6 +86,8 @@ data:
       - NAS:
           icon: qnap.png
           href: https://nas.nora:8080/
+      - Finachy:
+          href: https://finachy.nora/
   kubernetes.yaml: |
     mode: default
   widgets.yaml: |
