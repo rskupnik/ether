@@ -40,6 +40,8 @@ spec:
               value: "true"
             - name: NTFY_REQUIRE_LOGIN
               value: "true"
+            - name: NTFY_BEHIND_PROXY
+              value: "true"
           envFrom:
             - secretRef:
                 name: auth
