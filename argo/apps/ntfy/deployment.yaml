@@ -25,9 +25,9 @@ spec:
             - name: TZ
               value: Europe/Warsaw
             - name: NTFY_DEBUG
-              value: "false"
+              value: "true"
             - name: NTFY_LOG_LEVEL
-              value: INFO
+              value: DEBUG
             - name: NTFY_BASE_URL
               value: http://ntfy.nora 
             - name: NTFY_CACHE_FILE
