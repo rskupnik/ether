@@ -2,7 +2,7 @@
 
 Ether is a personal Kubernetes homelab built with Raspberry Pi 5 nodes running k3s. It leverages modern DevOps practices including GitOps with ArgoCD, infrastructure provisioning with Ansible, and containerized applications for various personal and professional tasks.
 
-![overview](/docs/assets/diagrams/ether_overview.png)
+![overview](assets/diagrams/ether_overview.png)
 
 ## Architecture
 
