@@ -1,14 +1,13 @@
-# Ether Homelab Documentation
-
-Welcome to the documentation for Ether, a personal Kubernetes homelab setup. This documentation provides comprehensive information about the architecture, setup, configuration, and operation of this homelab.
-
-## Overview
+# Overview
 
 Ether is a personal Kubernetes homelab built with Raspberry Pi 5 nodes running k3s. It leverages modern DevOps practices including GitOps with ArgoCD, infrastructure provisioning with Ansible, and containerized applications for various personal and professional tasks.
+
+![overview](/docs/assets/diagrams/ether_overview.png)
 
 ## Architecture
 
 The homelab consists of:
+
 - 3x Raspberry Pi 5 nodes with NVMe storage
 - Kubernetes cluster (k3s) for container orchestration
 - GitOps deployment with ArgoCD

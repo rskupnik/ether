@@ -1,4 +1,4 @@
-# Blog Setup Documentation
+# Blog
 
 This document describes the personal blog setup in the Ether homelab environment. The blog is hosted as a Kubernetes application and serves as a platform for documenting projects and technical content.
 

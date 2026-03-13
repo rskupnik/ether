@@ -1,10 +1,11 @@
-# Paperless Setup Documentation
+# Paperless
 
 This document describes the PaperlessNGX setup in the Ether homelab environment. PaperlessNGX is a document management system that allows for digitizing and organizing documents.
 
 ## Overview
 
 PaperlessNGX is deployed as a Kubernetes application using Helm charts in the `paperless` namespace. The setup includes:
+
 - PaperlessNGX application
 - PostgreSQL database for document metadata
 - Redis for caching and task queuing
@@ -34,6 +35,7 @@ The deployment uses the `paperless-ngx` Helm chart from `oci://codeberg.org/wren
 ### Key Configuration Values
 
 In `values.yaml`:
+
 - Paperless URL: `https://papers.nora`
 - Database configuration using existing secret `db-creds`
 - Redis integration with proper password handling
@@ -53,6 +55,7 @@ Paperless has a comprehensive backup strategy implemented through Kubernetes Cro
 3. **Redis Backup**: `paperless-backup-redis` - Backs up Redis data (if applicable)
 
 The backup jobs run daily at 3:00 AM and are orchestrated by `paperless-backup-orchestrator` CronJob which:
+
 - Scales the Paperless deployment to 0 replicas to ensure data consistency
 - Runs the database backup job
 - Runs the media backup job
@@ -72,6 +75,7 @@ Backup location: `/mnt/backup/paperless/`
 ## Access
 
 The Paperless application is accessible via:
+
 - URL: `https://papers.nora`
 - The application is configured to use X-Forward-Host headers for proper URL handling
 
@@ -103,6 +107,7 @@ kubectl logs job/paperless-backup-redis -n paperless
 ## Maintenance
 
 Regular maintenance includes:
+
 - Monitoring backup jobs for success
 - Verifying document storage is properly mounted
 - Checking database and Redis health

@@ -5,6 +5,7 @@ This document describes the backup strategy and implementation for the Ether hom
 ## Overview
 
 The backup system implements a dual approach to data protection:
+
 1. **Offsite Backups**: Critical data is backed up to a remote NAS device at a different physical location
 2. **Local Backups**: Some data is also backed up locally for redundancy
 
@@ -34,6 +35,7 @@ Each application has dedicated backup jobs that handle both database and media d
 #### Immich
 
 Immich has two backup jobs:
+
 1. **Database Backup**: `immich-backup-db` - Dumps PostgreSQL database using `pg_dumpall`
 2. **Media Backup**: `immich-backup-media` - Backs up media files using rsync
 
@@ -42,6 +44,7 @@ Backup location: `/mnt/backup/immich/`
 #### Paperless
 
 Paperless has three backup jobs:
+
 1. **Database Backup**: `paperless-backup-db` - Dumps PostgreSQL database using `pg_dumpall`
 2. **Media Backup**: `paperless-backup-media` - Backs up media files using rsync
 3. **Redis Backup**: `paperless-backup-redis` - Backs up Redis data (if applicable)
@@ -51,6 +54,7 @@ Backup location: `/mnt/backup/paperless/`
 #### Authentik
 
 Authentik has one backup job:
+
 1. **Database Backup**: `authentik-backup-db` - Dumps PostgreSQL database using `pg_dumpall`
 
 Backup location: `/mnt/backup/authentik/`
@@ -69,6 +73,7 @@ Backup location: `/mnt/backup/data/`
 ## Backup Process
 
 All backup jobs:
+
 1. Use Alpine Linux containers with rsync and SSH client installed
 2. Authenticate using the offsite SSH key
 3. Create destination directories on the backup server
@@ -82,6 +87,7 @@ All backups are stored on a remote NAS device in the `/mnt/backup/` directory st
 ## Backup Schedule
 
 The backup jobs run on a daily schedule:
+
 - **Immich**: Database and media backups
 - **Paperless**: Database, media, and Redis backups
 - **Authentik**: Database backup
