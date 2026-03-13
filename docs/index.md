@@ -65,6 +65,7 @@ This documentation is organized into the following sections:
 ## Getting Started
 
 To explore the homelab setup:
+
 1. Review the Ansible playbooks in `/ansible/`
 2. Examine the ArgoCD applications in `/argo/apps/`
 3. Check the hardware configuration in the README

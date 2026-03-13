@@ -23,6 +23,7 @@ The homelab consists of multiple network segments:
 ## Hardware and Network Configuration
 
 The Raspberry Pi nodes are configured with:
+
 - Static IP addresses in the 192.168.0.0/24 subnet
 - Tailscale installed and configured as a subnet router
 - IP forwarding enabled for routing between networks

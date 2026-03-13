@@ -45,6 +45,7 @@ The n8n deployment integrates with the existing Ether homelab architecture:
 ## Integration with Other Applications
 
 In the Ether homelab, n8n is particularly integrated with:
+
 - **PaperlessNGX**: Used for automating document processing workflows
 - **Immich**: Integration for photo management workflows
 - **Other self-hosted applications**: Various integrations for personal automation tasks
@@ -52,6 +53,7 @@ In the Ether homelab, n8n is particularly integrated with:
 ## Security Configuration
 
 The n8n deployment follows the security practices of the Ether homelab:
+
 - Uses TLS encryption for all communications
 - Integrates with the existing certificate management system
 - Configured with appropriate access controls
