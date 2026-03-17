@@ -4,6 +4,7 @@ WORKDIR /docs
 
 COPY mkdocs.yml .
 COPY docs/ ./docs/
+COPY overrides_mkdocs/ ./overrides_mkdocs/
 
 RUN mkdocs build --clean
 
