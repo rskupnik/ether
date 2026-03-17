@@ -1,2 +1,3 @@
 site_name: Ether Homelab
 theme: readthedocs
+custom_dir: overrides_mkdocs
