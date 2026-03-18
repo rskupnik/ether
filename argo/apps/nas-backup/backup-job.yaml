@@ -38,6 +38,12 @@ spec:
                     /data/wesele/ \
                     pi@192.168.178.69:/mnt/backup/data/wesele/
                   
+                  echo "Starting backup of folder odzyskane..."
+                  rsync -avh --delete \
+                    -e "ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                    /data/odzyskane/ \
+                    pi@192.168.178.69:/mnt/backup/data/odzyskane/
+                  
                   curl \
                     -H "Authorization: Bearer $NTFY_TOKEN" \
                     -H "Priority: min" -H "Tags: white_check_mark" \
