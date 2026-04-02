@@ -20,9 +20,9 @@ spec:
           image: lscr.io/linuxserver/syncthing:arm64v8-2.0.15
           env:
             - name: PUID
-              value: 1000
+              value: "1000"
             - name: PGID
-              value: 1000
+              value: "1000"
             - name: TZ
               value: "Europe/Warsaw"
           ports: 
