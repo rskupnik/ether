@@ -2,3 +2,4 @@ namespace: syncthing
 
 resources:
   - deployment.yaml
+  - service.yaml
