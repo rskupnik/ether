@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: syncthing
+  labels:
+    app: syncthing
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: syncthing
+  template:
+    metadata:
+      labels:
+        app: syncthing
+    spec:
+      containers:
+        - name: syncthing 
+          image: lscr.io/linuxserver/syncthing:arm64v8-2.0.15
+          env:
+            - name: PUID
+              value: 1000
+            - name: PGID
+              value: 1000
+            - name: TZ
+              value: Europe/Warsaw
+          ports: 
+            - containerPort: 8384
+              name: web
