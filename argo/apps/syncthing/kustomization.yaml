@@ -1,6 +1,18 @@
 namespace: syncthing
 
+components:
+  - ../../components/tls-ingress
+
 resources:
   - deployment.yaml
   - service.yaml
   - pvc.yaml
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=sync.nora
+      - service=syncthing
+      - port=web
+      - pathType=Prefix
+  
