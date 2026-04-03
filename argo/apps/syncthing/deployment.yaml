@@ -29,7 +29,7 @@ spec:
             - containerPort: 8384
               name: web
           volumeMounts:
-            - mountPath: /var/syncthing
+            - mountPath: /config
               name: config-volume
       volumes:
         - name: config-volume
