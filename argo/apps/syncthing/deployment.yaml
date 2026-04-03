@@ -28,3 +28,10 @@ spec:
           ports: 
             - containerPort: 8384
               name: web
+          volumeMounts:
+            - mountPath: /var/syncthing
+              name: config-volume
+      volumes:
+        - name: config-volume
+          persistentVolumeClaim:
+            claimName: syncthing-config-pvc
