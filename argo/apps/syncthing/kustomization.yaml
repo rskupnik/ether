@@ -7,6 +7,7 @@ resources:
   - deployment.yaml
   - service.yaml
   - pvc.yaml
+  - pv-patch.yaml
 
 configMapGenerator:
   - name: tls-config
