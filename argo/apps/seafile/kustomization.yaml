@@ -1,7 +1,7 @@
 namespace: seafile
 
 helmCharts:
-  - name: seafile/ce
+  - name: ce
     repo: https://haiwen.github.io/seafile-helm-chart/repo
     releaseName: seafile
     namespace: seafile
