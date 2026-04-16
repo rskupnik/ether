@@ -17,7 +17,7 @@ seafile:
     SEAFILE_SERVER_PROTOCOL: "https"
 
     # for database
-    SEAFILE_MYSQL_DB_HOST: "<required>"
+    SEAFILE_MYSQL_DB_HOST: "dupa"
     SEAFILE_MYSQL_DB_PORT: "3306"
     SEAFILE_MYSQL_DB_USER: "seafile"
     SEAFILE_MYSQL_DB_CCNET_DB_NAME: "ccnet_db"
@@ -54,7 +54,7 @@ seafile:
     # initialization (only valid in first-time deployment and initMode = true)
 
     ## for Seafile admin
-    INIT_SEAFILE_ADMIN_EMAIL: "<required>"
+    INIT_SEAFILE_ADMIN_EMAIL: "dupa"
 
   # if you are using another secret name / key for seafile or mysql, please make correct the following fields:
   #secretsMap:
