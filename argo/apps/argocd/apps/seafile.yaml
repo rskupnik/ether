@@ -4,7 +4,7 @@ metadata:
   name: seafile
   namespace: argocd
 spec:
-  project: platform
+  project: applications
   source:
     repoURL: https://github.com/rskupnik/ether.git
     targetRevision: HEAD
