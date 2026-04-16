@@ -1,0 +1,9 @@
+namespace: seafile
+
+helmCharts:
+  - name: seafile
+    repo: https://datamate-rethink-it.github.io/seafile-helm
+    releaseName: seafile
+    namespace: seafile
+    version: 0.6.0
+    #valuesFile: values.yaml
