@@ -6,4 +6,4 @@ helmCharts:
     releaseName: seafile
     namespace: seafile
     version: "13.0"
-    #valuesFile: values.yaml
+    valuesFile: values.yaml
