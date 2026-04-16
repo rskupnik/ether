@@ -1,9 +1,9 @@
 namespace: seafile
 
 helmCharts:
-  - name: seafile
+  - name: seafile/ce
     repo: https://haiwen.github.io/seafile-helm-chart/repo
-    releaseName: seafile/ce
+    releaseName: seafile
     namespace: seafile
     version: "13.0"
     #valuesFile: values.yaml
