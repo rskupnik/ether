@@ -12,3 +12,4 @@ resources:
   - mysql/db-credentials-secret.sealed.yaml
   - mysql/statefulset.yaml
   - mysql/service.yaml
+  - secrets.sealed.yaml

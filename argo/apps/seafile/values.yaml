@@ -17,7 +17,7 @@ seafile:
     SEAFILE_SERVER_PROTOCOL: "https"
 
     # for database
-    SEAFILE_MYSQL_DB_HOST: "dupa"
+    SEAFILE_MYSQL_DB_HOST: "mysql"
     SEAFILE_MYSQL_DB_PORT: "3306"
     SEAFILE_MYSQL_DB_USER: "seafile"
     SEAFILE_MYSQL_DB_CCNET_DB_NAME: "ccnet_db"
@@ -58,9 +58,21 @@ seafile:
 
   # if you are using another secret name / key for seafile or mysql, please make correct the following fields:
   secretsMap:
-   DB_ROOT_PASSWD:  # Env's name
-     secret: seafile-secret # secret's name, `seafile-secret` if not specify
-     key: INIT_SEAFILE_MYSQL_ROOT_PASSWORD # secret's key, `Env's name` if not specify
+    SEAFILE_MYSQL_DB_PASSWORD:
+      secret: mysql-credentials
+      key: userPassword
+    INIT_SEAFILE_MYSQL_ROOT_PASSWORD:
+      secret: mysql-credentials
+      key: rootPassword
+    JWT_PRIVATE_KEY:
+      secret: secrets
+      key: jwt
+    INIT_SEAFILE_ADMIN_PASSWORD:
+      secret: secrets
+      key: seafileAdmin
+    REDIS_PASSWORD:
+      secret: secrets
+      key: redis
   
   # extra configurations
   extraResources: {}
