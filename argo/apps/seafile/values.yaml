@@ -6,6 +6,7 @@ seafile:
     image: seafileltd/seafile-mc:13.0-latest 
     seafileDataVolume: 
       storage: 10Gi
+      storageClassName: "longhorn"
   
   # The following are environments of seafile services
   env:
@@ -28,7 +29,7 @@ seafile:
     CACHE_PROVIDER: "redis"
 
     ## for redis
-    REDIS_HOST: "dupa"
+    REDIS_HOST: "redis"
     REDIS_PORT: "6379"
 
     ## for memcached

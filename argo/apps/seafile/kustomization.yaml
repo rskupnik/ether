@@ -1,6 +1,12 @@
 namespace: seafile
 
 helmCharts:
+  - name: redis
+    repo: oci://registry-1.docker.io/cloudpirates
+    releaseName: redis
+    namespace: seafile
+    version: "0.26.8"
+    valuesFile: redis-values.yaml
   - name: ce
     repo: https://haiwen.github.io/seafile-helm-chart/repo
     releaseName: seafile

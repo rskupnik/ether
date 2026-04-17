@@ -1,0 +1,4 @@
+fullnameOverride: redis
+auth:
+  existingSecret: secrets
+  existingSecretPasswordKey: redis
