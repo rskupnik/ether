@@ -19,7 +19,7 @@ spec:
         - name: mysql
           image: mysql:9.6
           ports:
-            - containerPort: 33060
+            - containerPort: 3306
               name: mysql
           env:
             - name: MYSQL_DATABASE

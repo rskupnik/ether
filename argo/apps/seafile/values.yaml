@@ -18,8 +18,8 @@ seafile:
     SEAFILE_SERVER_PROTOCOL: "http"
 
     # for database
-    SEAFILE_MYSQL_DB_HOST: "mysql"
-    SEAFILE_MYSQL_DB_PORT: "33060"
+    SEAFILE_MYSQL_DB_HOST: "mysql.seafile.svc.cluster.local"
+    SEAFILE_MYSQL_DB_PORT: "3306"
     SEAFILE_MYSQL_DB_USER: "seafile"
     SEAFILE_MYSQL_DB_CCNET_DB_NAME: "ccnet_db"
     SEAFILE_MYSQL_DB_SEAFILE_DB_NAME: "seafile"
@@ -29,7 +29,7 @@ seafile:
     CACHE_PROVIDER: "redis"
 
     ## for redis
-    REDIS_HOST: "redis"
+    REDIS_HOST: "redis.seafile.svc.cluster.local"
     REDIS_PORT: "6379"
 
     ## for memcached
