@@ -66,14 +66,14 @@ seafile:
       secret: mysql-credentials
       key: rootPassword
     JWT_PRIVATE_KEY:
-      secret: secrets
-      key: jwt
+      secret: seafile-secret
+      key: JWT_PRIVATE_KEY
     INIT_SEAFILE_ADMIN_PASSWORD:
-      secret: secrets
-      key: seafileAdmin
+      secret: seafile-secret
+      key: INIT_SEAFILE_ADMIN_PASSWORD
     REDIS_PASSWORD:
-      secret: secrets
-      key: redis
+      secret: seafile-secret
+      key: REDIS_PASSWORD
   
   # extra configurations
   extraResources: {}

@@ -1,4 +1,4 @@
 fullnameOverride: redis
 auth:
-  existingSecret: secrets
-  existingSecretPasswordKey: redis
+  existingSecret: seafile-secret
+  existingSecretPasswordKey: REDIS_PASSWORD
