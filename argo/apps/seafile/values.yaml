@@ -15,7 +15,7 @@ seafile:
     SEAFILE_LOG_TO_STDOUT: "true"
     SITE_ROOT: "/"
     SEAFILE_SERVER_HOSTNAME: "seafile.nora"
-    SEAFILE_SERVER_PROTOCOL: "https"
+    SEAFILE_SERVER_PROTOCOL: "http"
 
     # for database
     SEAFILE_MYSQL_DB_HOST: "mysql"
