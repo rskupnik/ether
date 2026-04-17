@@ -28,12 +28,12 @@ seafile:
     CACHE_PROVIDER: "redis"
 
     ## for redis
-    REDIS_HOST: ""
+    REDIS_HOST: "dupa"
     REDIS_PORT: "6379"
 
     ## for memcached
-    MEMCACHED_HOST: ""
-    MEMCACHED_PORT: "11211"
+    #MEMCACHED_HOST: ""
+    #MEMCACHED_PORT: "11211"
 
     # for notification
     ENABLE_NOTIFICATION_SERVER: "false"
