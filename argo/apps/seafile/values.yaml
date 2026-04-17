@@ -21,7 +21,7 @@ seafile:
     SEAFILE_MYSQL_DB_PORT: "3306"
     SEAFILE_MYSQL_DB_USER: "seafile"
     SEAFILE_MYSQL_DB_CCNET_DB_NAME: "ccnet_db"
-    SEAFILE_MYSQL_DB_SEAFILE_DB_NAME: "seafile_db"
+    SEAFILE_MYSQL_DB_SEAFILE_DB_NAME: "seafile"
     SEAFILE_MYSQL_DB_SEAHUB_DB_NAME: "seahub_db"
 
     # for cache
@@ -57,10 +57,10 @@ seafile:
     INIT_SEAFILE_ADMIN_EMAIL: "dupa"
 
   # if you are using another secret name / key for seafile or mysql, please make correct the following fields:
-  #secretsMap:
-  #  DB_ROOT_PASSWD:  # Env's name
-  #    secret: seafile-secret # secret's name, `seafile-secret` if not specify
-  #    key: INIT_SEAFILE_MYSQL_ROOT_PASSWORD # secret's key, `Env's name` if not specify
+  secretsMap:
+   DB_ROOT_PASSWD:  # Env's name
+     secret: seafile-secret # secret's name, `seafile-secret` if not specify
+     key: INIT_SEAFILE_MYSQL_ROOT_PASSWORD # secret's key, `Env's name` if not specify
   
   # extra configurations
   extraResources: {}

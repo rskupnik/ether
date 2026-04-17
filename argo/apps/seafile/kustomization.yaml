@@ -9,6 +9,6 @@ helmCharts:
     valuesFile: values.yaml
 
 resources:
-  - postgres/db-credentials-secret.sealed.yaml
-  - postgres/statefulset.yaml
-  - postgres/service.yaml
+  - mysql/db-credentials-secret.sealed.yaml
+  - mysql/statefulset.yaml
+  - mysql/service.yaml
