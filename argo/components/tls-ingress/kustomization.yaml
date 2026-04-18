@@ -1,4 +1,5 @@
 # Requires cert-manager and a ClusterIssuer
+# Either port or portNumber
 # Make sure to create a proper ConfigMap, like this:
 # configMapGenerator:
 #   - name: tls-config
@@ -6,6 +7,7 @@
 #       - host=acolyte.nora
 #       - service=acolyte
 #       - port=http
+#       - portNumber=80
 #       - pathType=Prefix
 
 apiVersion: kustomize.config.k8s.io/v1alpha1
@@ -52,6 +54,16 @@ replacements:
           labelSelector: components.nora/tls=enabled
         fieldPaths:
           - spec.rules.0.http.paths.0.backend.service.port.name
+  - source:
+      kind: ConfigMap
+      name: tls-config
+      fieldPath: data.portNumber
+    targets:
+      - select:
+          kind: Ingress
+          labelSelector: components.nora/tls=enabled
+        fieldPaths:
+          - spec.rules.0.http.paths.0.backend.service.port.number
   - source:
       kind: ConfigMap
       name: tls-config

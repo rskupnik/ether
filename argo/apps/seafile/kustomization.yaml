@@ -28,5 +28,5 @@ configMapGenerator:
     literals:
       - host=seafile.nora
       - service=seafile
-      - port=80
+      - portNumber=80
       - pathType=Prefix
