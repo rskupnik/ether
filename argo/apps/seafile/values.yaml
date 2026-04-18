@@ -55,7 +55,7 @@ seafile:
     # initialization (only valid in first-time deployment and initMode = true)
 
     ## for Seafile admin
-    INIT_SEAFILE_ADMIN_EMAIL: "dupa"
+    INIT_SEAFILE_ADMIN_EMAIL: "myzek"
 
   # if you are using another secret name / key for seafile or mysql, please make correct the following fields:
   secretsMap:
