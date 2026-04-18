@@ -16,7 +16,7 @@ spec:
               service:
                 name: SERVICE_PLACEHOLDER
                 port:
-                  name: PORT_PLACEHOLDER
+                  number: PORT_PLACEHOLDER
             path: /
             pathType: PATH_TYPE_PLACEHOLDER
   tls:
