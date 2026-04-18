@@ -1,7 +1,7 @@
 namespace: seafile
 
 components:
-  - ../../components/tls-ingress
+  - ../../components/tls-ingress-port-number
 
 helmCharts:
   - name: redis
@@ -28,5 +28,5 @@ configMapGenerator:
     literals:
       - host=seafile.nora
       - service=seafile
-      - portNumber=80
+      - port=80
       - pathType=Prefix
