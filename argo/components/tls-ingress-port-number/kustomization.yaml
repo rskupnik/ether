@@ -5,7 +5,6 @@
 #     literals:
 #       - host=acolyte.nora
 #       - service=acolyte
-#       - port=80
 #       - pathType=Prefix
 
 apiVersion: kustomize.config.k8s.io/v1alpha1
@@ -42,16 +41,6 @@ replacements:
           labelSelector: components.nora/tls=enabled
         fieldPaths:
           - spec.rules.0.http.paths.0.backend.service.name
-  - source:
-      kind: ConfigMap
-      name: tls-config
-      fieldPath: data.port
-    targets:
-      - select:
-          kind: Ingress
-          labelSelector: components.nora/tls=enabled
-        fieldPaths:
-          - spec.rules.0.http.paths.0.backend.service.port.number
   - source:
       kind: ConfigMap
       name: tls-config

@@ -30,3 +30,12 @@ configMapGenerator:
       - service=seafile
       - port=80
       - pathType=Prefix
+
+patches:
+  - target:
+      kind: Ingress
+      labelSelector: components.nora/tls=enabled
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/http/paths/0/backend/service/port/number
+        value: 80
