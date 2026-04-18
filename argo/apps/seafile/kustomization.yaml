@@ -1,5 +1,8 @@
 namespace: seafile
 
+components:
+  - ../../components/tls-ingress
+
 helmCharts:
   - name: redis
     repo: oci://registry-1.docker.io/cloudpirates
@@ -19,3 +22,11 @@ resources:
   - mysql/statefulset.yaml
   - mysql/service.yaml
   - seafile-secret.sealed.yaml
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=seafile.nora
+      - service=seafile
+      - port=80
+      - pathType=Prefix
