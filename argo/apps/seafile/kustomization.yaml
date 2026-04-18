@@ -1,7 +1,7 @@
 namespace: seafile
 
 components:
-  - ../../components/tls-ingress-port-number
+  - ../../components/tls-ingress
 
 helmCharts:
   - name: redis
@@ -32,6 +32,12 @@ configMapGenerator:
       - pathType=Prefix
 
 patches:
+  - target:
+      kind: Ingress
+      labelSelector: components.nora/tls=enabled
+    patch: |-
+      - op: remove
+        path: /spec/rules/0/http/paths/0/backend/service/port/name
   - target:
       kind: Ingress
       labelSelector: components.nora/tls=enabled
