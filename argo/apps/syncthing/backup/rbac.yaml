@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: syncthing-backup-sa
+  namespace: syncthing
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: syncthing-backup-role
+  namespace: syncthing
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "deployments/scale"]
+    verbs: ["get", "list", "watch", "patch"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["create", "delete", "get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: syncthing-backup-rb
+  namespace: immsyncthingich
+subjects:
+  - kind: ServiceAccount
+    name: syncthing-backup-sa
+    namespace: syncthing
+roleRef:
+  kind: Role
+  name: syncthing-backup-role
+  apiGroup: rbac.authorization.k8s.io

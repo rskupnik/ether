@@ -2,12 +2,15 @@ namespace: syncthing
 
 components:
   - ../../components/tls-ingress
+  - ../../components/offsite-ssh-key
 
 resources:
   - deployment.yaml
   - service.yaml
   - pvc.yaml
   - pv-patch.yaml
+  - backup/cronjob.yaml
+  - backup/rbac.yaml
 
 configMapGenerator:
   - name: tls-config

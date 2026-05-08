@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: syncthing-backup-orchestrator
+  namespace: syncthing
+  labels:
+    components.nora/ntfy-token: enabled
+spec:
+  schedule: "0 2 * * *"
+  
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: syncthing-backup-sa
+          
+          containers:
+            - name: orchestrator
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  echo "Install rsync"
+                  apk add --no-cache rsync openssh-client
+
+                  echo "Ensuring target directory exists..."
+                  ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+                    pi@192.168.178.69 "mkdir -p /mnt/backup/syncthing"
+
+                  echo "Sending to remote host..."
+                  rsync -av \
+                    -e "ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                    /tmp/all.sql \
+                    pi@192.168.178.69:/mnt/backup/syncthing/
+
+                  echo "Backup completed."
+              envFrom: []
+              volumeMounts:
+                - name: offsite-ssh-key
+                  mountPath: /offsite-ssh
+          volumes:
+            - name: offsite-ssh-key
+              secret:
+                secretName: offsite-ssh-key
+                defaultMode: 0600
