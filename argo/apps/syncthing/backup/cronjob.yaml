@@ -18,7 +18,7 @@ spec:
           
           containers:
             - name: orchestrator
-              image: bitnami/kubectl:latest
+              image: alpine:latest
               command: ["/bin/sh", "-c"]
               args:
                 - |
@@ -32,15 +32,20 @@ spec:
                   echo "Sending to remote host..."
                   rsync -av \
                     -e "ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
-                    /tmp/all.sql \
+                    /data/ \
                     pi@192.168.178.69:/mnt/backup/syncthing/
 
                   echo "Backup completed."
               envFrom: []
               volumeMounts:
+                - name: syncthing-data
+                  mountPath: /data
                 - name: offsite-ssh-key
                   mountPath: /offsite-ssh
           volumes:
+            - name: syncthing-data
+              persistentVolumeClaim:
+                claimName: syncthing-data-nas
             - name: offsite-ssh-key
               secret:
                 secretName: offsite-ssh-key
