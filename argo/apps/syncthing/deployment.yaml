@@ -41,4 +41,4 @@ spec:
             claimName: syncthing-config-pvc
         - name: data-volume
           persistentVolumeClaim:
-            claimName: syncthing-data-pvc
+            claimName: syncthing-data-nas

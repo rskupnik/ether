@@ -87,11 +87,11 @@ spec:
             - -c
             - |
               echo "[INFO] Waiting for PVC to bind..."
-              until kubectl get pvc syncthing-data-pvc -n syncthing -o jsonpath='{.spec.volumeName}' | grep -q .; do
+              until kubectl get pvc syncthing-data-nas -n syncthing -o jsonpath='{.spec.volumeName}' | grep -q .; do
                 sleep 2
               done
 
-              PV=$(kubectl get pvc syncthing-data-pvc -n syncthing -o jsonpath='{.spec.volumeName}')
+              PV=$(kubectl get pvc syncthing-data-nas -n syncthing -o jsonpath='{.spec.volumeName}')
               echo "[INFO] Found PV: $PV"
 
               echo "[INFO] Patching reclaim policy to Retain..."

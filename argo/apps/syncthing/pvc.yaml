@@ -11,17 +11,49 @@ spec:
   resources:
     requests:
       storage: 100Mi
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: syncthing-data-pvc
+#   annotations:
+#     argocd.argoproj.io/sync-options: Delete=false
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   storageClassName: longhorn
+#   resources:
+#     requests:
+#       storage: 20Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: qnap-syncthing-pv
+spec:
+  storageClassName: ""
+  mountOptions:
+    - nfsvers=4
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 192.168.0.185
+    path: /syncthing
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: syncthing-data-pvc
+  name: syncthing-data-nas
   annotations:
     argocd.argoproj.io/sync-options: Delete=false
 spec:
+  storageClassName: ""
   accessModes:
-    - ReadWriteOnce
-  storageClassName: longhorn
+    - ReadWriteMany
   resources:
     requests:
       storage: 20Gi
+  volumeName: qnap-syncthing-pv
