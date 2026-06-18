@@ -1,4 +1,16 @@
 namespace: upsnap
 
+components:
+  - ../../components/tls-ingress
+
 resources:
   - deployment.yaml
+  - service.yaml
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=upsnap.nora
+      - service=upsnap
+      - port=web
+      - pathType=Prefix

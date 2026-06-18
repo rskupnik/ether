@@ -19,6 +19,7 @@ spec:
           image: ghcr.io/seriousm4x/upsnap:5.4
           ports:
             - containerPort: 8090
+              name: web
           volumeMounts:
             - name: data
               mountPath: /app/pb_data
