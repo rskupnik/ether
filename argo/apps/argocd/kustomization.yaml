@@ -50,5 +50,6 @@ resources:
   - apps/finachy.yaml
   - apps/syncthing.yaml
   - apps/seafile.yaml
+  - apps/upsnap.yaml
   # - apps/authelia.yaml
   # - apps/loki.yaml

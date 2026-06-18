@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upsnap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upsnap
+  template:
+    metadata:
+      labels:
+        app: upsnap
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: upsnap
+          image: ghcr.io/seriousm4x/upsnap:5.4
+          ports:
+            - containerPort: 8090
+          volumeMounts:
+            - name: data
+              mountPath: /app/pb_data
+      volumes:
+        - name: data
+          hostPath:
+            path: /opt/upsnap
+            type: DirectoryOrCreate

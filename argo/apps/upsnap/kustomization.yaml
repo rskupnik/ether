@@ -1,0 +1,4 @@
+namespace: upsnap
+
+resources:
+  - deployment.yaml
