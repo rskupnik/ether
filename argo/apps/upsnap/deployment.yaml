@@ -25,6 +25,5 @@ spec:
               mountPath: /app/pb_data
       volumes:
         - name: data
-          hostPath:
-            path: /opt/upsnap
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: upsnap-db
