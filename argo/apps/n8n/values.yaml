@@ -10,6 +10,10 @@ main:
   config:
     node_env: production
     webhook_url: https://n8n.myzopotamia.dev/
+    node:
+      function:
+        allow:
+          builtin: net
     n8n:
       host: n8n.nora
       protocol: https
