@@ -1,0 +1,11 @@
+auth:
+  existingSecret: credentials
+  existingSecretPasswordKey: redis
+persistence:
+  storageClass: longhorn
+  size: 1Gi
+resources:
+  requests:
+    memory: 512Mi
+  limits:
+    memory: 512Mi

@@ -1,0 +1,8 @@
+namespace: llm
+
+helmCharts:
+  - name: redis
+    repo: oci://registry-1.docker.io/cloudpirates
+    releaseName: redis
+    version: "0.30.5"
+    valuesFile: helm/redis-values.yaml
