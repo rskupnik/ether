@@ -6,3 +6,6 @@ helmCharts:
     releaseName: redis
     version: "0.30.5"
     valuesFile: helm/redis-values.yaml
+
+resources:
+  - secrets/credentials.sealed.yaml
