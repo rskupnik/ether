@@ -1,5 +1,5 @@
 - name: Install k3s agent (worker)
-  hosts: ethernode2,ethernode3
+  hosts: ether_nodes:!ethernode1
   become: true
   vars:
     k3s_server_ip: "{{ hostvars['ethernode1']['ansible_host'] }}"
@@ -14,9 +14,22 @@
     - name: Set fact for token
       ansible.builtin.set_fact:
         k3s_token_decoded: "{{ k3s_node_token['content'] | b64decode | trim }}"
-
+    
     - name: Install k3s agent
       ansible.builtin.shell: |
-        curl -sfL https://get.k3s.io | K3S_URL=https://{{ k3s_server_ip }}:6443 K3S_TOKEN={{ k3s_token_decoded }} INSTALL_K3S_VERSION={{ k3s_version }} INSTALL_K3S_EXEC="--prefer-bundled-bin" sh -
+        timeout 300 bash -c 'curl -sfL --connect-timeout 20 --max-time 120 https://get.k3s.io | sh -'
       args:
         executable: /bin/bash
+        creates: /usr/local/bin/k3s
+      environment:
+        K3S_URL: "https://{{ k3s_server_ip }}:6443"
+        K3S_TOKEN: "{{ k3s_token_decoded }}"
+        INSTALL_K3S_VERSION: "{{ k3s_version }}"
+        INSTALL_K3S_EXEC: "--prefer-bundled-bin"
+        K3S_NODE_NAME: "{{ node_hostname | default(inventory_hostname | replace('_', '-')) }}"
+
+    # - name: Install k3s agent
+    #   ansible.builtin.shell: |
+    #     curl -sfL https://get.k3s.io | K3S_URL=https://{{ k3s_server_ip }}:6443 K3S_TOKEN={{ k3s_token_decoded }} INSTALL_K3S_VERSION={{ k3s_version }} INSTALL_K3S_EXEC="--prefer-bundled-bin" sh -
+    #   args:
+    #     executable: /bin/bash

@@ -1,0 +1,20 @@
+- name: Prepare Ubuntu nodes for k3s
+  hosts: ubuntu_nodes
+  become: true
+  tasks:
+    - name: Install required packages
+      ansible.builtin.apt:
+        name:
+          - curl
+        state: present
+        update_cache: true
+
+    - name: Check UFW status
+      ansible.builtin.command: ufw status
+      register: ufw_status
+      changed_when: false
+      failed_when: false
+
+    - name: Show UFW status
+      ansible.builtin.debug:
+        var: ufw_status.stdout
