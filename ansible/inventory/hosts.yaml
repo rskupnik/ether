@@ -3,10 +3,7 @@ all:
     ether_nodes:
       children:
         raspberry_pi_nodes: {}
-      hosts:
-        new_host:
-          ansible_host: 192.168.0.101
-          ansible_user: myzreal
+        ubuntu_nodes: {}
 
     raspberry_pi_nodes:
       vars:
@@ -20,3 +17,9 @@ all:
           ansible_host: 192.168.0.120
         remote_pi:
           ansible_host: 192.168.178.69
+
+    ubuntu_nodes:
+      hosts:
+        new_host:
+          ansible_host: 192.168.0.101
+          ansible_user: myzreal
