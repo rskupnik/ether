@@ -1,5 +1,5 @@
 - name: Prepare Raspberry Pi nodes for k3s
-  hosts: ether_nodes
+  hosts: raspberry_pi_nodes
   become: true
   tasks:
     - name: Read /boot/firmware/cmdline.txt

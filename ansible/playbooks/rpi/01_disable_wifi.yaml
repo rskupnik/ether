@@ -1,5 +1,5 @@
 - name: Disable Wi-Fi on Raspberry Pi nodes
-  hosts: ether_nodes
+  hosts: raspberry_pi_nodes
   become: true
   tasks:
     - name: Ensure Wi-Fi is disabled in /boot/firmware/config.txt

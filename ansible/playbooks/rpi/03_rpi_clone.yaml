@@ -1,7 +1,7 @@
 # Prerequisite: partition_nvme.yaml
 
 - name: Clone Raspberry Pi system onto NVMe using rpi-clone
-  hosts: ether_nodes
+  hosts: raspberry_pi_nodes
   become: true
   tasks:
     - name: Find NVMe device

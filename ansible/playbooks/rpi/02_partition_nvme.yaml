@@ -1,5 +1,5 @@
 - name: Partition and format NVMe disks for Raspberry Pi
-  hosts: ether_nodes
+  hosts: raspberry_pi_nodes
   become: true
   vars:
     boot_partition_size_mb: 538     # 538 MiB = 512 MB
