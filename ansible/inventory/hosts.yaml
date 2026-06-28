@@ -5,7 +5,7 @@ all:
         raspberry_pi_nodes: {}
       hosts:
         new_host:
-          ansible_host: 192.168.0.179
+          ansible_host: 192.168.0.101
           ansible_user: myzreal
 
     raspberry_pi_nodes:
