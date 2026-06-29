@@ -22,28 +22,76 @@ spec:
               command: ["/bin/sh", "-c"]
               args:
                 - |
+                  #!/usr/bin/env bash
+                  set -Eeuo pipefail
+
+                  notify_success() {
+                    curl \
+                      -H "Authorization: Bearer $NTFY_TOKEN" \
+                      -H "Priority: min" \
+                      -H "Tags: white_check_mark" \
+                      -d "Immich backup successful" \
+                      --insecure \
+                      https://ntfy.nora/backups
+                  }
+
+                  notify_failure() {
+                    local exit_code="$1"
+                    local failed_at="$2"
+
+                    curl \
+                      -H "Authorization: Bearer $NTFY_TOKEN" \
+                      -H "Priority: high" \
+                      -H "Tags: warning" \
+                      -d "Immich backup FAILED at: ${failed_at}. Exit code: ${exit_code}" \
+                      --insecure \
+                      https://ntfy.nora/backups || true
+                  }
+
+                  scale_immich_up() {
+                    echo "Scaling Immich back up..."
+                    kubectl scale deploy immich-server --replicas=1 || true
+                  }
+
+                  on_error() {
+                    local exit_code="$?"
+                    local failed_command="${BASH_COMMAND}"
+
+                    echo "Backup failed at command: $failed_command"
+                    scale_immich_up
+                    notify_failure "$exit_code" "$failed_command"
+
+                    exit "$exit_code"
+                  }
+
+                  trap on_error ERR
+
+                  run_job() {
+                    local job_name="$1"
+                    local job_file="$2"
+                    local timeout="${3:-5m}"
+
+                    echo "Deleting old job: $job_name"
+                    kubectl delete job "$job_name" --ignore-not-found --wait=true
+
+                    echo "Applying job: $job_name"
+                    kubectl apply -f "$job_file"
+
+                    echo "Waiting for job to complete: $job_name"
+                    kubectl wait "job/$job_name" --for=condition=complete --timeout="$timeout"
+
+                    echo "Job completed: $job_name"
+                  }
+
                   echo "Scaling Immich down..."
                   kubectl scale deploy immich-server --replicas=0
 
-                  echo "Running media backup..."
-                  kubectl delete job immich-backup-media --ignore-not-found
-                  kubectl apply -f /configs/backup-media-job.yaml
-                  kubectl wait job/immich-backup-media --for=condition=complete --timeout=5m
+                  run_job "immich-backup-media" "/configs/backup-media-job.yaml" "5m"
+                  run_job "immich-backup-db" "/configs/backup-db-job.yaml" "5m"
 
-                  echo "Running DB backup..."
-                  kubectl delete job immich-backup-db --ignore-not-found
-                  kubectl apply -f /configs/backup-db-job.yaml
-                  kubectl wait job/immich-backup-db --for=condition=complete --timeout=5m
+                  scale_immich_up
 
-                  echo "Scaling Immich back up..."
-                  kubectl scale deploy immich-server --replicas=1
-
-                  curl \
-                    -H "Authorization: Bearer $NTFY_TOKEN" \
-                    -H "Priority: min" -H "Tags: white_check_mark" \
-                    -d "Immich backup successful" \
-                    --insecure \
-                    https://ntfy.nora/backups
+                  notify_success
 
                   echo "Backup complete."
               envFrom: []
