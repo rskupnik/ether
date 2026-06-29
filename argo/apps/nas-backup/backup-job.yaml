@@ -24,32 +24,98 @@ spec:
               command: ["/bin/sh", "-c"]
               args:
                 - |
-                  echo "Install rsync"
-                  apk add --no-cache rsync openssh-client
-                  apk add --no-cache rsync curl
+                  #!/bin/sh
+                  set -eu
+
+                  SSH_KEY="/offsite-ssh/id_ed25519"
+                  REMOTE_USER="pi"
+                  REMOTE_HOST="192.168.178.69"
+                  REMOTE="${REMOTE_USER}@${REMOTE_HOST}"
+                  REMOTE_BASE="/mnt/backup"
+                  REMOTE_DATA="${REMOTE_BASE}/data"
+                  MARKER="${REMOTE_BASE}/.THIS_IS_THE_BACKUP_DISK"
+
+                  SSH_OPTS="-i ${SSH_KEY} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+
+                  notify_success() {
+                    curl \
+                      -H "Authorization: Bearer $NTFY_TOKEN" \
+                      -H "Priority: min" \
+                      -H "Tags: white_check_mark" \
+                      -d "Backup of critical NAS data successful" \
+                      --insecure \
+                      https://ntfy.nora/backups
+                  }
+
+                  notify_failure() {
+                    EXIT_CODE="$1"
+                    FAILED_AT="$2"
+
+                    curl \
+                      -H "Authorization: Bearer $NTFY_TOKEN" \
+                      -H "Priority: high" \
+                      -H "Tags: warning" \
+                      -d "Backup of critical NAS data FAILED at: ${FAILED_AT}. Exit code: ${EXIT_CODE}" \
+                      --insecure \
+                      https://ntfy.nora/backups || true
+                  }
+
+                  fail() {
+                    EXIT_CODE="$1"
+                    FAILED_AT="$2"
+
+                    echo "Backup failed at: ${FAILED_AT}"
+                    notify_failure "$EXIT_CODE" "$FAILED_AT"
+                    exit "$EXIT_CODE"
+                  }
+
+                  run() {
+                    DESCRIPTION="$1"
+                    shift
+
+                    echo "$DESCRIPTION"
+
+                    if ! "$@"; then
+                      fail "$?" "$DESCRIPTION"
+                    fi
+                  }
+
+                  echo "Installing required packages..."
+                  if ! apk add --no-cache rsync openssh-client curl; then
+                    fail "$?" "Installing required packages"
+                  fi
+
+                  echo "Checking remote backup disk mount..."
+                  if ! ssh $SSH_OPTS "$REMOTE" "
+                    mountpoint -q '$REMOTE_BASE' &&
+                    test -f '$MARKER' &&
+                    test -w '$REMOTE_BASE'
+                  "; then
+                    fail "$?" "Remote backup disk is not mounted, marker missing, or not writable"
+                  fi
 
                   echo "Ensuring target directory exists..."
-                  ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-                    pi@192.168.178.69 "mkdir -p /mnt/backup/data/"
-                  
+                  if ! ssh $SSH_OPTS "$REMOTE" "mkdir -p '$REMOTE_DATA/wesele' '$REMOTE_DATA/odzyskane'"; then
+                    fail "$?" "Creating remote target directories"
+                  fi
+
                   echo "Starting backup of folder wesele..."
-                  rsync -avh --delete \
-                    -e "ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                  if ! rsync -avh --delete \
+                    -e "ssh $SSH_OPTS" \
                     /data/wesele/ \
-                    pi@192.168.178.69:/mnt/backup/data/wesele/
-                  
+                    "$REMOTE:$REMOTE_DATA/wesele/"; then
+                    fail "$?" "rsync backup of /data/wesele"
+                  fi
+
                   echo "Starting backup of folder odzyskane..."
-                  rsync -avh --delete \
-                    -e "ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                  if ! rsync -avh --delete \
+                    -e "ssh $SSH_OPTS" \
                     /data/odzyskane/ \
-                    pi@192.168.178.69:/mnt/backup/data/odzyskane/
-                  
-                  curl \
-                    -H "Authorization: Bearer $NTFY_TOKEN" \
-                    -H "Priority: min" -H "Tags: white_check_mark" \
-                    -d "Backup of critical NAS data successful" \
-                    --insecure \
-                    https://ntfy.nora/backups
+                    "$REMOTE:$REMOTE_DATA/odzyskane/"; then
+                    fail "$?" "rsync backup of /data/odzyskane"
+                  fi
+
+                  notify_success
 
                   echo "Backup completed."
               envFrom: []
