@@ -1,0 +1,17 @@
+remoteWrite:
+  - url: http://vls-victoria-logs-single-server.monitoring.svc.cluster.local:9428
+    maxDiskUsagePerURL: 2GB
+
+collector:
+  includePodLabels: true
+  includePodAnnotations: false
+  includeNodeLabels: false
+  includeNamespaceLabels: false
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 250m
+    memory: 256Mi

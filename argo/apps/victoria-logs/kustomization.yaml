@@ -5,3 +5,8 @@ helmCharts:
     namespace: monitoring
     version: 0.13.8
     valuesFile: values.yaml
+  - name: victoria-logs-collector
+    repo: https://victoriametrics.github.io/helm-charts/
+    releaseName: vlogs-collector
+    namespace: monitoring
+    valuesFile: collector-values.yaml
