@@ -1,0 +1,47 @@
+- name: Configure UFW for k3s
+  hosts: ubuntu_nodes
+  become: true
+
+  tasks:
+    - name: Ensure UFW is installed
+      apt:
+        name: ufw
+        state: present
+        update_cache: yes
+
+    - name: Allow SSH
+      community.general.ufw:
+        rule: allow
+        port: "22"
+        proto: tcp
+
+    - name: Allow Kubernetes API server
+      community.general.ufw:
+        rule: allow
+        port: "6443"
+        proto: tcp
+
+    - name: Allow k3s pod CIDR
+      community.general.ufw:
+        rule: allow
+        src: 10.42.0.0/16
+
+    - name: Allow k3s service CIDR
+      community.general.ufw:
+        rule: allow
+        src: 10.43.0.0/16
+
+    - name: Allow Flannel VXLAN
+      community.general.ufw:
+        rule: allow
+        port: "8472"
+        proto: udp
+
+    - name: Allow routed traffic
+      community.general.ufw:
+        direction: routed
+        default: allow
+
+    - name: Enable UFW
+      community.general.ufw:
+        state: enabled
