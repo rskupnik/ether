@@ -1,7 +1,0 @@
-helmCharts:
-  - name: fluent-bit
-    repo: https://fluent.github.io/helm-charts
-    releaseName: fluent-bit
-    namespace: monitoring
-    version: 0.48.10
-    valuesFile: values.yaml

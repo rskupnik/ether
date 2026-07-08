@@ -55,4 +55,3 @@ resources:
   # - apps/loki.yaml
   - apps/llm-utils.yaml
   - apps/victoria-logs.yaml
-  - apps/fluent-bit.yaml
