@@ -1,3 +1,6 @@
+global:
+  nodeSelector:
+    longhorn-allowed: true
 preUpgradeChecker:
   jobEnabled: false
 persistence:
