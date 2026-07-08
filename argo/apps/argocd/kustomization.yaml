@@ -54,3 +54,4 @@ resources:
   # - apps/authelia.yaml
   # - apps/loki.yaml
   - apps/llm-utils.yaml
+  - apps/victoria-logs.yaml
