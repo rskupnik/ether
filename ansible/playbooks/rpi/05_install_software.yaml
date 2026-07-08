@@ -1,5 +1,5 @@
-- name: Install NFS client on Raspberry Pi nodes
-  hosts: raspberry_pi_nodes
+- name: Install NFS client on all nodes
+  hosts: ether_nodes
   become: true
   tasks:
     - name: Ensure apt cache is up to date
