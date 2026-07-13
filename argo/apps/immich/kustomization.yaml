@@ -3,7 +3,7 @@ helmCharts:
     repo: oci://ghcr.io/immich-app/immich-charts
     releaseName: immich
     namespace: immich
-    version: v0.13.1
+    version: 0.13.1
     valuesFile: values.yaml
 
 generatorOptions:
