@@ -3,7 +3,7 @@ controllers:
     containers:
       main:
         image:
-          tag: v2.1.0
+          tag: v3.0.2
         env:
           DB_HOSTNAME: "postgres"
           DB_USERNAME: "immich"
