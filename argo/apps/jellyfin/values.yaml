@@ -1,0 +1,55 @@
+deploymentStrategy:
+  type: Recreate
+
+nodeSelector:
+  kubernetes.io/hostname: ethernode-gmk
+
+jellyfin:
+  enableDLNA: false
+  env:
+    - name: TZ
+      value: Europe/Warsaw
+    # - name: JELLYFIN_PublishedServerUrl
+    #   value: https://jellyfin.example.home
+    - name: JELLYFIN_CACHE_DIR
+      value: /cache
+
+persistence:
+  config:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 10Gi
+    storageClass: longhorn
+
+  media:
+    enabled: true
+    type: pvc
+    existingClaim: jellyfin-media
+
+  cache:
+    enabled: false
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 1Gi
+  limits:
+    memory: 4Gi
+
+securityContext:
+  privileged: false
+  capabilities:
+    add:
+      - SYS_ADMIN
+    drop:
+      - ALL
+
+volumes:
+  - name: render-device
+    hostPath:
+      path: /dev/dri
+      type: Directory
+
+volumeMounts:
+  - name: render-device
+    mountPath: /dev/dri
