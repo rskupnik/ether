@@ -37,19 +37,18 @@ resources:
     memory: 4Gi
 
 securityContext:
-  privileged: false
-  capabilities:
-    add:
-      - SYS_ADMIN
-    drop:
-      - ALL
+  privileged: true
+
+podSecurityContext:
+  supplementalGroups:
+    - 992
 
 volumes:
   - name: render-device
     hostPath:
-      path: /dev/dri
-      type: Directory
+      path: /dev/dri/renderD128
+      type: CharDevice
 
 volumeMounts:
   - name: render-device
-    mountPath: /dev/dri
+    mountPath: /dev/dri/renderD128
