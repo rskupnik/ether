@@ -6,25 +6,19 @@ helmCharts:
     version: 3.2.0
     valuesFile: values.yaml
 
-# generatorOptions:
-#   disableNameSuffixHash: true
+generatorOptions:
+  disableNameSuffixHash: true
 
-# components:
-#   - ../../components/ntfy-token
-#   - ../../components/offsite-ssh-key
-#   - ../../components/tls-ingress
+components:
+  - ../../components/tls-ingress
 
 resources:
   - storage.yaml
 
-# configMapGenerator:
-#   - name: immich-backup-job-definitions
-#     files:
-#       - backup/backup-media-job.yaml
-#       - backup/backup-db-job.yaml
-#   - name: tls-config
-#     literals:
-#       - host=photos.nora
-#       - service=immich-server
-#       - port=http
-#       - pathType=Prefix
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=jellyfin.nora
+      - service=jellyfin
+      - port=http
+      - pathType=Prefix

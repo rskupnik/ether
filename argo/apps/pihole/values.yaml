@@ -66,4 +66,5 @@ dnsmasq:
     - 192.168.0.240 sync.nora
     - 192.168.0.240 seafile.nora
     - 192.168.0.240 upsnap.nora
+    - 192.168.0.240 jellyfin.nora
     - 192.168.0.185 nas.nora
