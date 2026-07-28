@@ -9,8 +9,8 @@ jellyfin:
   env:
     - name: TZ
       value: Europe/Warsaw
-    # - name: JELLYFIN_PublishedServerUrl
-    #   value: https://jellyfin.example.home
+    - name: JELLYFIN_PublishedServerUrl
+      value: "https://jellyfin.nora"
     - name: JELLYFIN_CACHE_DIR
       value: /cache
 
