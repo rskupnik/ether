@@ -10,7 +10,7 @@ generatorOptions:
   disableNameSuffixHash: true
 
 components:
-  - ../../components/tls-ingress
+  - ../../../components/tls-ingress
 
 configMapGenerator:
   - name: tls-config
