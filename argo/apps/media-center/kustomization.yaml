@@ -1,3 +1,5 @@
+namespace: media
+
 resources:
   - storage.yaml
   - jellyfin

@@ -2,7 +2,7 @@ helmCharts:
   - name: jellyfin
     repo: https://jellyfin.github.io/jellyfin-helm
     releaseName: jellyfin
-    namespace: jellyfin
+    namespace: media
     version: 3.2.0
     valuesFile: values.yaml
 
