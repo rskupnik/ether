@@ -12,9 +12,6 @@ generatorOptions:
 components:
   - ../../components/tls-ingress
 
-resources:
-  - storage.yaml
-
 configMapGenerator:
   - name: tls-config
     literals:

@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: jellyfin
+  name: media-center
   namespace: argocd
 spec:
   project: applications
   source:
     repoURL: https://github.com/rskupnik/ether.git
     targetRevision: HEAD
-    path: argo/apps/jellyfin
+    path: argo/apps/media-center
   destination:
     server: https://kubernetes.default.svc
-    namespace: jellyfin
+    namespace: media
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: qnap-jellyfin-pv
+  name: qnap-media-pv
 spec:
   storageClassName: ""
   mountOptions:
@@ -13,12 +13,12 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: 192.168.0.185
-    path: /jellyfin
+    path: /media
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jellyfin-media
+  name: media
 spec:
   storageClassName: ""
   accessModes:
@@ -26,4 +26,4 @@ spec:
   resources:
     requests:
       storage: 7000Gi
-  volumeName: qnap-jellyfin-pv
+  volumeName: qnap-media-pv
