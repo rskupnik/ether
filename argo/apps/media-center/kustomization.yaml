@@ -2,11 +2,15 @@ namespace: media
 
 resources:
   - storage.yaml
+  - prowlarr
+  - sonar
   - jellyfin
-  - sonarr
 
 
 # TODO:
-# - Prevent Jellyfin config from being easily deleted (retain)
+# - Retain Jellyfin
 # - Backup Jellyfin config?
 # - Retain media storage
+# - Backup Sonarr and Prowlarr configs?
+# - Ingress for Sonarr/Prowlarr
+# - Add normal http for Jellyfin for TV integration

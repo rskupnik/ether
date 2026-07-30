@@ -1,0 +1,49 @@
+fullnameOverride: prowlarr
+
+controller:
+  replicas: 1
+  strategy: Recreate
+
+image:
+  repository: ghcr.io/home-operations/prowlarr
+  tag:
+  pullPolicy: IfNotPresent
+
+env:
+  TZ: Europe/Warsaw
+
+service:
+  main:
+    type: ClusterIP
+    ports:
+      http:
+        port: 9696
+        protocol: TCP
+
+persistence:
+  config:
+    enabled: true
+    existingClaim: prowlarr-config
+    mountPath: /config
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  fsGroupChangePolicy: OnRootMismatch
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 128Mi
+  limits:
+    memory: 512Mi
+
+metrics:
+  enabled: false

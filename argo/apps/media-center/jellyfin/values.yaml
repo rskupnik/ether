@@ -20,6 +20,8 @@ persistence:
     accessMode: ReadWriteOnce
     size: 10Gi
     storageClass: longhorn
+    annotations:
+      argocd.argoproj.io/sync-options: Delete=false
 
   media:
     enabled: true

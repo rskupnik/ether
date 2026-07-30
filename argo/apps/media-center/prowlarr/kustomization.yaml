@@ -1,0 +1,10 @@
+helmCharts:
+  - name: prowlarr
+    repo: https://charts.pree.dev
+    version: 1.54.0
+    releaseName: prowlarr
+    namespace: media
+    valuesFile: values.yaml
+
+resources:
+  - config-pvc.yaml
