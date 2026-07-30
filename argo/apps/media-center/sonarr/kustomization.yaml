@@ -1,0 +1,10 @@
+helmCharts:
+  - name: sonarr
+    repo: https://charts.pree.dev
+    version: 1.17.0
+    releaseName: sonarr
+    namespace: media
+    valuesFile: values.yaml
+
+resources:
+  - config-pvc.yaml

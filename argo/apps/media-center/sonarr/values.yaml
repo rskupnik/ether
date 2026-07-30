@@ -1,0 +1,62 @@
+global:
+  fullnameOverride: sonarr
+
+controller:
+  replicas: 1
+  strategy: Recreate
+
+image:
+  repository: ghcr.io/home-operations/sonarr
+
+  # Leave empty to use the appVersion bundled with chart 1.17.0.
+  tag:
+
+  pullPolicy: IfNotPresent
+
+env:
+  TZ: Europe/Warsaw
+
+service:
+  main:
+    type: ClusterIP
+
+    ports:
+      http:
+        port: 8989
+        protocol: TCP
+
+persistence:
+  config:
+    enabled: true
+    type: pvc
+    existingClaim: sonarr-config
+    mountPath: /config
+
+  media:
+    enabled: true
+    type: pvc
+    existingClaim: media-center-data
+    mountPath: /data
+
+podSecurityContext:
+  # Use the same UID/GID for Sonarr, qBittorrent, and ideally Jellyfin.
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  fsGroupChangePolicy: OnRootMismatch
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 256Mi
+  limits:
+    memory: 1Gi
+
+metrics:
+  enabled: false

@@ -3,3 +3,10 @@ namespace: media
 resources:
   - storage.yaml
   - jellyfin
+  - sonarr
+
+
+# TODO:
+# - Prevent Jellyfin config from being easily deleted (retain)
+# - Backup Jellyfin config?
+# - Retain media storage
