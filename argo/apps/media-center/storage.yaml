@@ -18,7 +18,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: media
+  name: media-center-data
 spec:
   storageClassName: ""
   accessModes:

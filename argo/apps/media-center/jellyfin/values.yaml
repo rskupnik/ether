@@ -24,7 +24,7 @@ persistence:
   media:
     enabled: true
     type: pvc
-    existingClaim: jellyfin-media
+    existingClaim: media-center-data
 
   cache:
     enabled: false
