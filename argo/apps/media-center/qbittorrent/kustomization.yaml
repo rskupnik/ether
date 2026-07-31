@@ -1,0 +1,10 @@
+helmCharts:
+  - name: qbittorrent
+    repo: https://charts.gabe565.com
+    version: 0.4.1
+    releaseName: qbittorrent
+    namespace: media
+    valuesFile: values.yaml
+
+resources:
+  - config-pvc.yaml

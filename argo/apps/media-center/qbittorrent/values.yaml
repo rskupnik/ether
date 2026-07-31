@@ -1,0 +1,74 @@
+global:
+  fullnameOverride: qbittorrent
+
+controller:
+  replicas: 1
+  strategy: Recreate
+
+image:
+  repository: ghcr.io/linuxserver/qbittorrent
+  tag: version-5.0.3-r0
+  pullPolicy: IfNotPresent
+
+env:
+  TZ: Europe/Warsaw
+
+  PUID: "1000"
+  PGID: "1000"
+  UMASK: "002"
+
+  WEBUI_PORT: "8080"
+  TORRENTING_PORT: "6881"
+
+service:
+  main:
+    enabled: true
+    primary: true
+    type: ClusterIP
+
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 8080
+        protocol: HTTP
+
+  bittorrent:
+    enabled: true
+    primary: false
+    type: ClusterIP
+
+    ports:
+      bittorrent-tcp:
+        enabled: true
+        port: 6881
+        protocol: TCP
+
+      bittorrent-udp:
+        enabled: true
+        port: 6881
+        protocol: UDP
+
+persistence:
+  config:
+    enabled: true
+    type: pvc
+    existingClaim: qbittorrent-config
+    mountPath: /config
+
+  data:
+    enabled: true
+    type: pvc
+    existingClaim: media-center-data
+    mountPath: /data
+
+podSecurityContext:
+  fsGroup: 1000
+  fsGroupChangePolicy: OnRootMismatch
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 256Mi
+  limits:
+    memory: 1Gi
