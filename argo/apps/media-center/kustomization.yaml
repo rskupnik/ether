@@ -6,13 +6,17 @@ resources:
   - sonarr
   - qbittorrent
   - jellyfin
+  - seerr
 
 
 # TODO:
 # - Retain Jellyfin
 # - Backup Jellyfin config?
 # - Retain media storage
-# - Backup Sonarr and Prowlarr configs?
-# - Ingress for Sonarr/Prowlarr
+# - Backup Sonarr/Prowlarr/QBitTorrent configs?
+# - Ingress for Sonarr/Prowlarr/QBitTorrent
 # - Add normal http for Jellyfin for TV integration
 # - Add everything to Homepage
+# - Add 1337x torrent tracker
+# - Bazarr for eng substitles?
+# - Maintainerr?
