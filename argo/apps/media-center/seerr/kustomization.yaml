@@ -8,17 +8,3 @@ helmCharts:
 
 resources:
   - config-pvc.yaml
-
-generatorOptions:
-  disableNameSuffixHash: true
-
-components:
-  - ../../../components/tls-ingress
-
-configMapGenerator:
-  - name: tls-config-seerr
-    literals:
-      - host=seerr.nora
-      - service=seerr
-      - port=http
-      - pathType=Prefix

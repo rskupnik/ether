@@ -8,17 +8,3 @@ helmCharts:
 
 resources:
   - config-pvc.yaml
-
-generatorOptions:
-  disableNameSuffixHash: true
-
-components:
-  - ../../../components/tls-ingress
-
-configMapGenerator:
-  - name: tls-config-prowlarr
-    literals:
-      - host=prowlarr.nora
-      - service=prowlarr
-      - port=http
-      - pathType=Prefix

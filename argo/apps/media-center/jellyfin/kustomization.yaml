@@ -6,16 +6,3 @@ helmCharts:
     version: 3.2.0
     valuesFile: values.yaml
 
-generatorOptions:
-  disableNameSuffixHash: true
-
-components:
-  - ../../../components/tls-ingress
-
-configMapGenerator:
-  - name: tls-config
-    literals:
-      - host=jellyfin.nora
-      - service=jellyfin
-      - port=http
-      - pathType=Prefix
