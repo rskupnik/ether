@@ -20,3 +20,7 @@ resources:
 # - Add 1337x torrent tracker
 # - Bazarr for eng substitles?
 # - Maintainerr?
+# - Add Radarr
+# - Make sure this all works properly
+# - Try to destroy and restore - are settings retained? (MAKE IT SAFE BEFORE TRYING)
+# - Need to automate some setup? (creating folders, giving permissions, etc?)

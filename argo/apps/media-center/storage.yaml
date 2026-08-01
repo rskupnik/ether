@@ -2,6 +2,8 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: qnap-media-pv
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
 spec:
   storageClassName: ""
   mountOptions:
@@ -20,7 +22,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: media-center-data
   annotations:
-    argocd.argoproj.io/sync-options: Delete=false
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
 spec:
   storageClassName: ""
   accessModes:
