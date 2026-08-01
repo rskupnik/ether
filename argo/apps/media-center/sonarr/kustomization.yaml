@@ -8,3 +8,17 @@ helmCharts:
 
 resources:
   - config-pvc.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+components:
+  - ../../../components/tls-ingress
+
+configMapGenerator:
+  - name: tls-config-sonarr
+    literals:
+      - host=sonarr.nora
+      - service=sonarr
+      - port=http
+      - pathType=Prefix

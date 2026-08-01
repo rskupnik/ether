@@ -8,3 +8,17 @@ helmCharts:
 
 resources:
   - config-pvc.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+components:
+  - ../../../components/tls-ingress
+
+configMapGenerator:
+  - name: tls-config-qbittorrent
+    literals:
+      - host=qbittorrent.nora
+      - service=qbittorrent
+      - port=http
+      - pathType=Prefix
