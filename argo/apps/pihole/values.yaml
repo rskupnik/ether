@@ -46,25 +46,10 @@ persistentVolumeClaim:
   size: 1Gi
 
 dnsmasq:
+  enableCustomDnsMasq: true
+
+  customDnsEntries:
+    - address=/.nora/192.168.0.240
+
   additionalHostsEntries:
-    - 192.168.0.240 longhorn.nora
-    - 192.168.0.240 pihole.nora
-    - 192.168.0.240 argocd.nora
-    - 192.168.0.240 grafana.nora
-    - 192.168.0.240 authentik.nora
-    - 192.168.0.240 edgar.nora
-    - 192.168.0.240 n8n.nora
-    - 192.168.0.240 uptime.nora
-    - 192.168.0.240 homepage.nora
-    - 192.168.0.240 photos.nora
-    - 192.168.0.240 papers.nora
-    - 192.168.0.240 acolyte.nora
-    - 192.168.0.240 umami.nora
-    - 192.168.0.240 ether-logo.nora
-    - 192.168.0.240 ntfy.nora
-    - 192.168.0.240 finachy.nora
-    - 192.168.0.240 sync.nora
-    - 192.168.0.240 seafile.nora
-    - 192.168.0.240 upsnap.nora
-    - 192.168.0.240 jellyfin.nora
     - 192.168.0.185 nas.nora
