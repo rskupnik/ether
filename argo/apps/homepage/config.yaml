@@ -88,6 +88,7 @@ data:
           href: https://nas.nora:8080/
       - Finachy:
           href: https://finachy.nora/
+    - Media:
       - Seerr:
           icon: seerr.png
           href: https://seerr.media.nora/
