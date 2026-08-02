@@ -88,6 +88,21 @@ data:
           href: https://nas.nora:8080/
       - Finachy:
           href: https://finachy.nora/
+      - Seerr:
+          icon: seerr.png
+          href: https://seerr.media.nora/
+      - Jellyfin:
+          icon: jellyfin.png
+          href: https://jellyfin.media.nora/
+      - Sonarr:
+          icon: sonarr.png
+          href: https://sonarr.media.nora/
+      - Prowlarr:
+          icon: prowlarr.png
+          href: https://prowlarr.media.nora/
+      - QBitTorrent:
+          icon: qbittorrent.png
+          href: https://torrent.media.nora/
   kubernetes.yaml: |
     mode: default
   widgets.yaml: |
@@ -154,6 +169,12 @@ data:
       - Facebook:
         - icon: facebook.png
           href: https://facebook.com/
+      - HackerNews:
+        - icon: hackernews.png
+          href: https://news.ycombinator.com/
+      - BlueSky:
+        - icon: bluesky.png
+          href: https://bsky.app/
 
     - Entertainment:
       - YouTube:

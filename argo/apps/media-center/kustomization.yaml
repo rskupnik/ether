@@ -12,11 +12,8 @@ resources:
 
 
 # TODO:
-# - Retain Jellyfin
 # - Backup Jellyfin config?
-# - Retain media storage
 # - Backup Sonarr/Prowlarr/QBitTorrent configs?
-# - Ingress for Sonarr/Prowlarr/QBitTorrent
 # - Add normal http for Jellyfin for TV integration
 # - Add everything to Homepage
 # - Add 1337x torrent tracker
@@ -24,5 +21,4 @@ resources:
 # - Maintainerr?
 # - Add Radarr
 # - Make sure this all works properly
-# - Try to destroy and restore - are settings retained? (MAKE IT SAFE BEFORE TRYING)
 # - Need to automate some setup? (creating folders, giving permissions, etc?)
