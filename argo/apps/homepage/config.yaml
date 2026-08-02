@@ -154,6 +154,9 @@ data:
       Myzopotamia:
         style: row
         columns: 3
+      Media:
+        style: row
+        columns: 3
     providers:
       longhorn:
         username: "admin"
