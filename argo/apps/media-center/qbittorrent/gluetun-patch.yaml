@@ -1,0 +1,122 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+spec:
+  template:
+    spec:
+      containers:
+        - name: gluetun
+          image: qmcgaw/gluetun:v3
+          imagePullPolicy: IfNotPresent
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              add:
+                - NET_ADMIN
+              drop:
+                - ALL
+
+          env:
+            - name: VPN_SERVICE_PROVIDER
+              value: airvpn
+
+            - name: VPN_TYPE
+              value: wireguard
+
+            - name: WIREGUARD_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airvpn-wireguard
+                  key: private-key
+
+            - name: WIREGUARD_PRESHARED_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airvpn-wireguard
+                  key: preshared-key
+
+            - name: WIREGUARD_ADDRESSES
+              valueFrom:
+                secretKeyRef:
+                  name: airvpn-wireguard
+                  key: addresses
+
+            # Choose one broad filter initially. Gluetun will select
+            # an AirVPN server in this country.
+            - name: SERVER_COUNTRIES
+              value: Poland
+
+            # Incoming connections from Kubernetes to qBittorrent's
+            # Web UI/API would otherwise be blocked by Gluetun.
+            - name: FIREWALL_INPUT_PORTS
+              value: "8080"
+
+            # Your fixed AirVPN forwarded port.
+            - name: FIREWALL_VPN_INPUT_PORTS
+              value: "43127"
+
+            # Permit access to your LAN and Kubernetes networks.
+            # Adjust these if your K3s CIDRs differ.
+            - name: FIREWALL_OUTBOUND_SUBNETS
+              value: "192.168.0.0/24,10.42.0.0/16,10.43.0.0/16"
+
+            - name: TZ
+              value: Europe/Warsaw
+
+            # Refresh Gluetun's provider server list periodically.
+            # The project recommends no more often than every 15 days.
+            - name: UPDATER_PERIOD
+              value: "720h"
+
+          volumeMounts:
+            - name: tun
+              mountPath: /dev/net/tun
+
+            - name: gluetun-data
+              mountPath: /gluetun
+
+          startupProbe:
+            exec:
+              command:
+                - /gluetun-entrypoint
+                - healthcheck
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 30
+
+          readinessProbe:
+            exec:
+              command:
+                - /gluetun-entrypoint
+                - healthcheck
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          livenessProbe:
+            exec:
+              command:
+                - /gluetun-entrypoint
+                - healthcheck
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+
+      volumes:
+        - name: tun
+          hostPath:
+            path: /dev/net/tun
+            type: CharDevice
+
+        - name: gluetun-data
+          emptyDir: {}

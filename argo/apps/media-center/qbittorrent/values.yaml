@@ -18,7 +18,7 @@ env:
   UMASK: "002"
 
   WEBUI_PORT: "8080"
-  TORRENTING_PORT: "6881"
+  TORRENTING_PORT: "43127"
 
 service:
   main:
@@ -31,22 +31,25 @@ service:
         primary: true
         port: 8080
         protocol: HTTP
-
+  
   bittorrent:
-    enabled: true
-    primary: false
-    type: ClusterIP
+    enabled: false
 
-    ports:
-      bittorrent:
-        enabled: true
-        port: 6881
-        protocol: TCP
+  # bittorrent:
+  #   enabled: true
+  #   primary: false
+  #   type: ClusterIP
 
-      bittorrent-udp:
-        enabled: true
-        port: 6881
-        protocol: UDP
+  #   ports:
+  #     bittorrent:
+  #       enabled: true
+  #       port: 6881
+  #       protocol: TCP
+
+  #     bittorrent-udp:
+  #       enabled: true
+  #       port: 6881
+  #       protocol: UDP
 
 persistence:
   config:

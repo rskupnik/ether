@@ -8,3 +8,12 @@ helmCharts:
 
 resources:
   - config-pvc.yaml
+  - secret_vpn.sealed.yaml
+
+patches:
+  - path: gluetun-patch.yaml
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: qbittorrent
