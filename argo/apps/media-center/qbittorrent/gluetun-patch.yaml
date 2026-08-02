@@ -46,7 +46,7 @@ spec:
             # Choose one broad filter initially. Gluetun will select
             # an AirVPN server in this country.
             - name: SERVER_COUNTRIES
-              value: Poland
+              value: Germany
 
             # Incoming connections from Kubernetes to qBittorrent's
             # Web UI/API would otherwise be blocked by Gluetun.
