@@ -3,7 +3,7 @@ namespace: media
 resources:
   - storage.yaml
   - prowlarr
-  - flamesolverr
+  - flaresolverr
   - sonarr
   - qbittorrent
   - jellyfin
