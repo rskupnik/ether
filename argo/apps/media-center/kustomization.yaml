@@ -3,6 +3,7 @@ namespace: media
 resources:
   - storage.yaml
   - prowlarr
+  - flamesolverr
   - sonarr
   - qbittorrent
   - jellyfin
@@ -14,8 +15,7 @@ resources:
 # TODO:
 # - Backup Jellyfin config?
 # - Backup Sonarr/Prowlarr/QBitTorrent configs?
-# - Add normal http for Jellyfin for TV integration
-# - Add everything to Homepage
+# - Add FlareSolverr
 # - Add 1337x torrent tracker
 # - Bazarr for eng substitles?
 # - Maintainerr?
