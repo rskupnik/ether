@@ -5,6 +5,7 @@ resources:
   - prowlarr
   - flaresolverr
   - sonarr
+  - radarr
   - qbittorrent
   - jellyfin
   - seerr
@@ -15,10 +16,8 @@ resources:
 # TODO:
 # - Backup Jellyfin config?
 # - Backup Sonarr/Prowlarr/QBitTorrent configs?
-# - Add FlareSolverr
-# - Add 1337x torrent tracker
 # - Bazarr for eng substitles?
 # - Maintainerr?
-# - Add Radarr
 # - Make sure this all works properly
 # - Need to automate some setup? (creating folders, giving permissions, etc?)
+# - Fix Bleach?

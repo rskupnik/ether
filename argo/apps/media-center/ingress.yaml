@@ -13,6 +13,7 @@ spec:
     - hosts:
         - jellyfin.media.nora
         - sonarr.media.nora
+        - radarr.media.nora
         - prowlarr.media.nora
         - seerr.media.nora
         - torrent.media.nora
@@ -40,6 +41,17 @@ spec:
                 name: sonarr
                 port:
                   number: 8989
+    
+    - host: radarr.media.nora
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: radarr
+                port:
+                  number: 7878
 
     - host: prowlarr.media.nora
       http:
