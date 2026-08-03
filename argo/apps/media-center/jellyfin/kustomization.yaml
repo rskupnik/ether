@@ -6,3 +6,5 @@ helmCharts:
     version: 3.2.0
     valuesFile: values.yaml
 
+resources:
+  - http-ingress.yaml
