@@ -107,44 +107,44 @@ glance:
             - type: group
               widgets:
 
-                - type: reddit
-                  title: Self Hosted
-                  subreddit: selfhosted
-                  show-thumbnails: true
-                  show-flairs: true
-                  limit: 15
-                  collapse-after: 8
-
-                - type: reddit
-                  title: Homelab
-                  subreddit: homelab
-                  show-thumbnails: true
-                  show-flairs: true
-                  limit: 15
-                  collapse-after: 8
-
-                - type: reddit
-                  title: Kubernetes
-                  subreddit: kubernetes
-                  show-thumbnails: true
-                  show-flairs: true
-                  limit: 15
-                  collapse-after: 8
-
-                - type: reddit
-                  title: Linux Gaming
-                  subreddit: linux_gaming
-                  show-thumbnails: true
-                  show-flairs: true
-                  limit: 15
-                  collapse-after: 8
-
                 - type: hacker-news
                   title: Hacker News
                   limit: 15
                   collapse-after: 8
                   sort-by: top
-                  extra-sort-by: engagement
+                  #extra-sort-by: engagement
+
+                # - type: reddit
+                #   title: Self Hosted
+                #   subreddit: selfhosted
+                #   show-thumbnails: true
+                #   show-flairs: true
+                #   limit: 15
+                #   collapse-after: 8
+
+                # - type: reddit
+                #   title: Homelab
+                #   subreddit: homelab
+                #   show-thumbnails: true
+                #   show-flairs: true
+                #   limit: 15
+                #   collapse-after: 8
+
+                # - type: reddit
+                #   title: Kubernetes
+                #   subreddit: kubernetes
+                #   show-thumbnails: true
+                #   show-flairs: true
+                #   limit: 15
+                #   collapse-after: 8
+
+                # - type: reddit
+                #   title: Linux Gaming
+                #   subreddit: linux_gaming
+                #   show-thumbnails: true
+                #   show-flairs: true
+                #   limit: 15
+                #   collapse-after: 8
 
 
         # --------------------------------------------------------
@@ -180,7 +180,7 @@ glance:
                       allow-insecure: true
 
                     - title: Pi-hole
-                      url: https://pihole.nora/admin
+                      url: https://pihole.nora/admin/login
                       icon: sh:pi-hole
                       allow-insecure: true
 
@@ -335,7 +335,7 @@ glance:
                   links:
 
                     - title: Pi-hole
-                      url: https://pihole.nora/admin
+                      url: https://pihole.nora/admin/login
                       icon: sh:pi-hole
 
                     - title: NAS
@@ -417,7 +417,7 @@ glance:
                       allow-insecure: true
 
                     - title: Pi-hole
-                      url: https://pihole.nora/admin
+                      url: https://pihole.nora/admin/login
                       icon: sh:pi-hole
                       allow-insecure: true
 
