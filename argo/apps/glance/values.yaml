@@ -19,4 +19,4 @@ glance:
           widgets:
             - type: iframe
               source: https://homepage.nora
-              height: 1200
+              height: 1800
