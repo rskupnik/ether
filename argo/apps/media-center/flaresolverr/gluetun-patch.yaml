@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaresolverr
+spec:
+  template:
+    spec:
+      containers:
+        - name: gluetun
+          image: qmcgaw/gluetun:v3
+          imagePullPolicy: IfNotPresent
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              add:
+                - NET_ADMIN
+              drop:
+                - ALL
+
+          env:
+            - name: VPN_SERVICE_PROVIDER
+              value: airvpn
+
+            - name: VPN_TYPE
+              value: wireguard
+
+            - name: WIREGUARD_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airvpn-wireguard
+                  key: private-key
+
+            - name: WIREGUARD_PRESHARED_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airvpn-wireguard
+                  key: preshared-key
+
+            - name: WIREGUARD_ADDRESSES
+              valueFrom:
+                secretKeyRef:
+                  name: airvpn-wireguard
+                  key: addresses
+
+            - name: SERVER_COUNTRIES
+              value: Germany
+
+            # Allow Kubernetes traffic into FlareSolverr's HTTP API.
+            # FlareSolverr listens on 8191.
+            - name: FIREWALL_INPUT_PORTS
+              value: "8191"
+
+            # Allow access back to LAN + K3s networks.
+            - name: FIREWALL_OUTBOUND_SUBNETS
+              value: "192.168.0.0/24,10.42.0.0/16,10.43.0.0/16"
+
+            - name: TZ
+              value: Europe/Warsaw
+
+            - name: UPDATER_PERIOD
+              value: "720h"
+
+          volumeMounts:
+            - name: tun
+              mountPath: /dev/net/tun
+
+            - name: gluetun-data
+              mountPath: /gluetun
+
+          startupProbe:
+            exec:
+              command:
+                - /gluetun-entrypoint
+                - healthcheck
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 30
+
+          readinessProbe:
+            exec:
+              command:
+                - /gluetun-entrypoint
+                - healthcheck
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          livenessProbe:
+            exec:
+              command:
+                - /gluetun-entrypoint
+                - healthcheck
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+
+      volumes:
+        - name: tun
+          hostPath:
+            path: /dev/net/tun
+            type: CharDevice
+
+        - name: gluetun-data
+          emptyDir: {}
