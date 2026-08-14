@@ -11,6 +11,8 @@ resources:
   - seerr
   - certificate.yaml
   - ingress.yaml
+  - secret_vpn.sealed.yaml
+  - gluetun-proxy.yaml
 
 
 # TODO:

@@ -1,0 +1,151 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gluetun-proxy
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: gluetun-proxy
+
+  template:
+    metadata:
+      labels:
+        app: gluetun-proxy
+
+    spec:
+      containers:
+        - name: gluetun
+          image: qmcgaw/gluetun:v3
+          imagePullPolicy: IfNotPresent
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              add:
+                - NET_ADMIN
+              drop:
+                - ALL
+
+          env:
+            - name: VPN_SERVICE_PROVIDER
+              value: airvpn
+
+            - name: VPN_TYPE
+              value: wireguard
+
+            - name: WIREGUARD_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airvpn-wireguard
+                  key: private-key
+
+            - name: WIREGUARD_PRESHARED_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airvpn-wireguard
+                  key: preshared-key
+
+            - name: WIREGUARD_ADDRESSES
+              valueFrom:
+                secretKeyRef:
+                  name: airvpn-wireguard
+                  key: addresses
+
+            - name: SERVER_COUNTRIES
+              value: Germany
+
+            # Enable Gluetun's built-in HTTP proxy
+            - name: HTTPPROXY
+              value: "on"
+
+            # This is actually the default, but I prefer making it explicit.
+            - name: HTTPPROXY_LISTENING_ADDRESS
+              value: ":8888"
+
+            # Allow Kubernetes clients to reach the proxy port.
+            - name: FIREWALL_INPUT_PORTS
+              value: "8888"
+
+            # Permit communication with LAN / K3s networks.
+            - name: FIREWALL_OUTBOUND_SUBNETS
+              value: "192.168.0.0/24,10.42.0.0/16,10.43.0.0/16"
+
+            - name: TZ
+              value: Europe/Warsaw
+
+            - name: UPDATER_PERIOD
+              value: "720h"
+
+          ports:
+            - name: http-proxy
+              containerPort: 8888
+              protocol: TCP
+
+          volumeMounts:
+            - name: tun
+              mountPath: /dev/net/tun
+
+            - name: gluetun-data
+              mountPath: /gluetun
+
+          startupProbe:
+            exec:
+              command:
+                - /gluetun-entrypoint
+                - healthcheck
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 30
+
+          readinessProbe:
+            exec:
+              command:
+                - /gluetun-entrypoint
+                - healthcheck
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          livenessProbe:
+            exec:
+              command:
+                - /gluetun-entrypoint
+                - healthcheck
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+
+      volumes:
+        - name: tun
+          hostPath:
+            path: /dev/net/tun
+            type: CharDevice
+
+        - name: gluetun-data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gluetun-proxy
+spec:
+  type: ClusterIP
+
+  selector:
+    app: gluetun-proxy
+
+  ports:
+    - name: http-proxy
+      port: 8888
+      targetPort: http-proxy
+      protocol: TCP

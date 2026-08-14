@@ -8,7 +8,6 @@ helmCharts:
 
 resources:
   - config-pvc.yaml
-  - secret_vpn.sealed.yaml
 
 patches:
   - path: gluetun-patch.yaml
