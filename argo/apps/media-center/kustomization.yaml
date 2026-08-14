@@ -12,7 +12,7 @@ resources:
   - certificate.yaml
   - ingress.yaml
   - secret_vpn.sealed.yaml
-  - gluetun-proxy.yaml
+  # - gluetun-proxy.yaml
 
 
 # TODO:
