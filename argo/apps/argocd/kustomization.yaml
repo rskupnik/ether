@@ -56,3 +56,4 @@ resources:
   - apps/llm-utils.yaml
   - apps/victoria-logs.yaml
   - apps/media-center.yaml
+  - apps/glance.yaml

@@ -1,0 +1,12 @@
+namespace: glance
+
+resources:
+  - ingress.yaml
+
+helmCharts:
+  - name: glance
+    repo: oci://ghcr.io/lukasdietrich/glance-k8s/chart
+    version: v0.8.3
+    releaseName: glance
+    namespace: glance
+    valuesFile: values.yaml
