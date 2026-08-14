@@ -2,21 +2,516 @@ glance:
   server:
     port: 8080
 
+  branding:
+    app-name: Nora
+    logo-text: N
+    hide-footer: true
+
+  # Catppuccin-Mocha-inspired
+  theme:
+    background-color: 240 21 15
+    primary-color: 217 92 76
+    positive-color: 115 54 76
+    negative-color: 343 81 75
+    contrast-multiplier: 1.1
+    text-saturation-multiplier: 0.9
+
   pages:
+
+    # ============================================================
+    # HOME
+    # ============================================================
+
     - name: Home
+      width: wide
+
       columns:
-        - size: full
+
+        # --------------------------------------------------------
+        # LEFT
+        # --------------------------------------------------------
+
+        - size: small
           widgets:
+
             - type: clock
               hour-format: 24h
 
+            - type: calendar
+              first-day-of-week: monday
+
             - type: weather
               location: Dębica, Poland
+              units: metric
+              hour-format: 24h
 
-    - name: Homepage
+            - type: bookmarks
+              title: Social
+              groups:
+                - links:
+                    - title: Facebook
+                      url: https://www.facebook.com/
+                      icon: si:facebook
+
+                    - title: Bluesky
+                      url: https://bsky.app/
+                      icon: si:bluesky
+
+                    - title: Reddit
+                      url: https://www.reddit.com/
+                      icon: si:reddit
+
+                    - title: Hacker News
+                      url: https://news.ycombinator.com/
+                      icon: si:ycombinator
+
+                    - title: Wykop
+                      url: https://wykop.pl/
+                      icon: si:wykop
+
+                    - title: YouTube
+                      url: https://www.youtube.com/
+                      icon: si:youtube
+
+
+        # --------------------------------------------------------
+        # CENTER
+        # --------------------------------------------------------
+
+        - size: full
+          widgets:
+
+            - type: search
+              autofocus: true
+              new-tab: true
+              search-engine: google
+              placeholder: Search the web...
+              bangs:
+                - title: YouTube
+                  shortcut: "!yt"
+                  url: https://www.youtube.com/results?search_query={QUERY}
+
+                - title: Reddit
+                  shortcut: "!r"
+                  url: https://www.reddit.com/search/?q={QUERY}
+
+                - title: GitHub
+                  shortcut: "!gh"
+                  url: https://github.com/search?q={QUERY}
+
+                - title: Wikipedia
+                  shortcut: "!w"
+                  url: https://en.wikipedia.org/wiki/Special:Search?search={QUERY}
+
+            # Tabs inside the main feed
+            - type: group
+              widgets:
+
+                - type: reddit
+                  title: Self Hosted
+                  subreddit: selfhosted
+                  show-thumbnails: true
+                  show-flairs: true
+                  limit: 15
+                  collapse-after: 8
+
+                - type: reddit
+                  title: Homelab
+                  subreddit: homelab
+                  show-thumbnails: true
+                  show-flairs: true
+                  limit: 15
+                  collapse-after: 8
+
+                - type: reddit
+                  title: Kubernetes
+                  subreddit: kubernetes
+                  show-thumbnails: true
+                  show-flairs: true
+                  limit: 15
+                  collapse-after: 8
+
+                - type: reddit
+                  title: Linux Gaming
+                  subreddit: linux_gaming
+                  show-thumbnails: true
+                  show-flairs: true
+                  limit: 15
+                  collapse-after: 8
+
+                - type: hacker-news
+                  title: Hacker News
+                  limit: 15
+                  collapse-after: 8
+                  sort-by: top
+                  extra-sort-by: engagement
+
+
+        # --------------------------------------------------------
+        # RIGHT
+        # --------------------------------------------------------
+
+        - size: small
+          widgets:
+
+            # A small at-a-glance service pulse.
+            #
+            # allow-insecure is here because your homelab uses its
+            # own CA. Later I'd install your CA certificate inside
+            # Glance and remove allow-insecure.
+
+            - type: group
+              widgets:
+
+                - type: monitor
+                  title: Core
+                  cache: 1m
+                  style: compact
+                  sites:
+
+                    - title: Immich
+                      url: https://immich.nora
+                      icon: sh:immich
+                      allow-insecure: true
+
+                    - title: Paperless
+                      url: https://paperless.nora
+                      icon: sh:paperless-ngx
+                      allow-insecure: true
+
+                    - title: Pi-hole
+                      url: https://pihole.nora
+                      icon: sh:pi-hole
+                      allow-insecure: true
+
+                    - title: ArgoCD
+                      url: https://argocd.nora
+                      icon: sh:argocd
+                      allow-insecure: true
+
+                    - title: Grafana
+                      url: https://grafana.nora
+                      icon: sh:grafana
+                      allow-insecure: true
+
+                    - title: Uptime Kuma
+                      url: https://uptime.nora
+                      icon: sh:uptime-kuma
+                      allow-insecure: true
+
+                    - title: NAS
+                      url: http://nas.nora:8080
+                      allow-insecure: true
+
+                - type: monitor
+                  title: Media
+                  cache: 1m
+                  style: compact
+                  sites:
+
+                    - title: Jellyfin
+                      url: https://jellyfin.media.nora
+                      icon: sh:jellyfin
+                      allow-insecure: true
+
+                    - title: Seerr
+                      url: https://seerr.media.nora
+                      icon: sh:seerr
+                      allow-insecure: true
+
+                    - title: Sonarr
+                      url: https://sonarr.media.nora
+                      icon: sh:sonarr
+                      allow-insecure: true
+
+                    - title: Radarr
+                      url: https://radarr.media.nora
+                      icon: sh:radarr
+                      allow-insecure: true
+
+                    - title: Prowlarr
+                      url: https://prowlarr.media.nora
+                      icon: sh:prowlarr
+                      allow-insecure: true
+
+                    - title: qBittorrent
+                      url: https://torrent.media.nora
+                      icon: sh:qbittorrent
+                      allow-insecure: true
+
+            - type: bookmarks
+              title: Quick Access
+              groups:
+
+                - title: Personal
+                  color: 217 92 76
+                  links:
+
+                    - title: Immich
+                      url: https://immich.nora
+                      icon: sh:immich
+
+                    - title: Paperless
+                      url: https://paperless.nora
+                      icon: sh:paperless-ngx
+
+                    - title: Finachy
+                      url: https://finachy.nora
+
+                    - title: Blog
+                      url: https://myzopotamia.dev
+
+                - title: Media
+                  color: 267 84 81
+                  links:
+
+                    - title: Jellyfin
+                      url: https://jellyfin.nora
+                      icon: sh:jellyfin
+
+                    - title: Seerr
+                      url: https://seerr.nora
+                      icon: sh:seerr
+
+
+    # ============================================================
+    # HOMELAB
+    # ============================================================
+
+    - name: Homelab
+      width: wide
+
+      columns:
+
+        # --------------------------------------------------------
+        # LEFT
+        # --------------------------------------------------------
+
+        - size: small
+          widgets:
+
+            - type: bookmarks
+              title: Infrastructure
+              groups:
+
+                - title: Kubernetes
+                  color: 217 92 76
+                  links:
+
+                    - title: ArgoCD
+                      url: https://argocd.nora
+                      icon: sh:argocd
+
+                    - title: Longhorn
+                      url: https://longhorn.nora
+                      icon: sh:longhorn
+
+                - title: Observability
+                  color: 115 54 76
+                  links:
+
+                    - title: Grafana
+                      url: https://grafana.nora
+                      icon: sh:grafana
+
+                    - title: Uptime Kuma
+                      url: https://uptime.nora
+                      icon: sh:uptime-kuma
+
+                    - title: Ntfy
+                      url: https://ntfy.nora
+                      icon: sh:ntfy
+
+                - title: Automation
+                  color: 267 84 81
+                  links:
+
+                    - title: n8n
+                      url: https://n8n.nora
+                      icon: sh:n8n
+
+                - title: Network
+                  color: 43 96 70
+                  links:
+
+                    - title: Pi-hole
+                      url: https://pihole.nora
+                      icon: sh:pi-hole
+
+                    - title: NAS
+                      url: http://nas.nora:8080
+
+
+        # --------------------------------------------------------
+        # CENTER
+        # --------------------------------------------------------
+
+        - size: full
+          widgets:
+
+            - type: split-column
+              widgets:
+
+                - type: monitor
+                  title: Applications
+                  cache: 1m
+                  sites:
+
+                    - title: Immich
+                      url: https://immich.nora
+                      icon: sh:immich
+                      allow-insecure: true
+
+                    - title: Paperless
+                      url: https://paperless.nora
+                      icon: sh:paperless-ngx
+                      allow-insecure: true
+
+                    - title: n8n
+                      url: https://n8n.nora
+                      icon: sh:n8n
+                      allow-insecure: true
+
+                    - title: Finachy
+                      url: https://finachy.nora
+                      allow-insecure: true
+
+                    - title: Umami
+                      url: https://umami.nora
+                      icon: sh:umami
+                      allow-insecure: true
+
+                    - title: Ntfy
+                      url: https://ntfy.nora
+                      icon: sh:ntfy
+                      allow-insecure: true
+
+                    - title: Blog
+                      url: https://myzopotamia.dev
+                      allow-insecure: true
+
+
+                - type: monitor
+                  title: Infrastructure
+                  cache: 1m
+                  sites:
+
+                    - title: ArgoCD
+                      url: https://argocd.nora
+                      icon: sh:argocd
+                      allow-insecure: true
+
+                    - title: Longhorn
+                      url: https://longhorn.nora
+                      icon: sh:longhorn
+                      allow-insecure: true
+
+                    - title: Grafana
+                      url: https://grafana.nora
+                      icon: sh:grafana
+                      allow-insecure: true
+
+                    - title: Uptime Kuma
+                      url: https://uptime.nora
+                      icon: sh:uptime-kuma
+                      allow-insecure: true
+
+                    - title: Pi-hole
+                      url: https://pihole.nora
+                      icon: sh:pi-hole
+                      allow-insecure: true
+
+                    - title: NAS
+                      url: http://nas.nora:8080
+                      allow-insecure: true
+
+
+            # This is one of the most useful Glance widgets for
+            # a homelab: immediately see when projects you run
+            # release a new version.
+
+            - type: releases
+              title: Homelab Updates
+              show-source-icon: true
+              limit: 15
+              collapse-after: 8
+              repositories:
+
+                - glanceapp/glance
+                - gethomepage/homepage
+                - immich-app/immich
+                - paperless-ngx/paperless-ngx
+                - pi-hole/pi-hole
+                - argoproj/argo-cd
+                - n8n-io/n8n
+                - umami-software/umami
+                - binwiederhier/ntfy
+                - longhorn/longhorn
+                - grafana/grafana
+                - louislam/uptime-kuma
+                - jellyfin/jellyfin
+                - Sonarr/Sonarr
+                - Radarr/Radarr
+                - Prowlarr/Prowlarr
+                - seerr-team/seerr
+                - qbittorrent/qBittorrent
+                - finachium/finachy
+
+
+        # --------------------------------------------------------
+        # RIGHT
+        # --------------------------------------------------------
+
+        - size: small
+          widgets:
+
+            - type: monitor
+              title: Media Stack
+              cache: 1m
+              sites:
+
+                - title: Jellyfin
+                  url: https://jellyfin.media.nora
+                  icon: sh:jellyfin
+                  allow-insecure: true
+
+                - title: Seerr
+                  url: https://seerr.media.nora
+                  icon: sh:seerr
+                  allow-insecure: true
+
+                - title: Sonarr
+                  url: https://sonarr.media.nora
+                  icon: sh:sonarr
+                  allow-insecure: true
+
+                - title: Radarr
+                  url: https://radarr.media.nora
+                  icon: sh:radarr
+                  allow-insecure: true
+
+                - title: Prowlarr
+                  url: https://prowlarr.media.nora
+                  icon: sh:prowlarr
+                  allow-insecure: true
+
+                - title: qBittorrent
+                  url: https://torrent.media.nora
+                  icon: sh:qbittorrent
+                  allow-insecure: true
+
+
+    # ============================================================
+    # HOMEPAGE
+    # ============================================================
+
+    - name: Apps
+      width: wide
+
       columns:
         - size: full
           widgets:
+
             - type: iframe
               source: https://homepage.nora
               height: 1800
