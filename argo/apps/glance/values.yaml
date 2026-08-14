@@ -13,15 +13,10 @@ glance:
             - type: weather
               location: Dębica, Poland
 
-            - type: bookmarks
-              groups:
-                - title: Homelab
-                  links:
-                    - title: Homepage
-                      url: https://home.nora
-
-                    - title: Jellyfin
-                      url: https://jellyfin.media.nora
-
-                    - title: Immich
-                      url: https://immich.nora
+    - name: Homepage
+      columns:
+        - size: full
+          widgets:
+            - type: iframe
+              source: https://homepage.nora
+              height: 1200
