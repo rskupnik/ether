@@ -1,28 +1,27 @@
-config:
-  glance.yml: |
-    server:
-      port: 8080
+glance:
+  server:
+    port: 8080
 
-    pages:
-      - name: Home
-        columns:
-          - size: full
-            widgets:
-              - type: clock
-                hour-format: 24h
+  pages:
+    - name: Home
+      columns:
+        - size: full
+          widgets:
+            - type: clock
+              hour-format: 24h
 
-              - type: weather
-                location: Dębica, Poland
+            - type: weather
+              location: Dębica, Poland
 
-              - type: bookmarks
-                groups:
-                  - title: Homelab
-                    links:
-                      - title: Homepage
-                        url: https://home.nora
+            - type: bookmarks
+              groups:
+                - title: Homelab
+                  links:
+                    - title: Homepage
+                      url: https://home.nora
 
-                      - title: Jellyfin
-                        url: https://jellyfin.media.nora
+                    - title: Jellyfin
+                      url: https://jellyfin.media.nora
 
-                      - title: Immich
-                        url: https://immich.nora
+                    - title: Immich
+                      url: https://immich.nora
