@@ -6,7 +6,7 @@ resources:
 helmCharts:
   - name: glance
     repo: oci://ghcr.io/lukasdietrich/glance-k8s/chart
-    version: v0.8.3
+    version: v0.8.5
     releaseName: glance
     namespace: glance
     valuesFile: values.yaml

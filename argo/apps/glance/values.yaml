@@ -3,8 +3,8 @@ glance:
     port: 8080
 
   branding:
-    app-name: Nora
-    logo-text: N
+    app-name: Myzopotamia
+    logo-text: "M"
     hide-footer: true
 
   # Catppuccin-Mocha-inspired
@@ -170,17 +170,17 @@ glance:
                   sites:
 
                     - title: Immich
-                      url: https://immich.nora
+                      url: https://photos.nora
                       icon: sh:immich
                       allow-insecure: true
 
                     - title: Paperless
-                      url: https://paperless.nora
+                      url: https://papers.nora
                       icon: sh:paperless-ngx
                       allow-insecure: true
 
                     - title: Pi-hole
-                      url: https://pihole.nora
+                      url: https://pihole.nora/admin
                       icon: sh:pi-hole
                       allow-insecure: true
 
@@ -248,11 +248,11 @@ glance:
                   links:
 
                     - title: Immich
-                      url: https://immich.nora
+                      url: https://photos.nora
                       icon: sh:immich
 
                     - title: Paperless
-                      url: https://paperless.nora
+                      url: https://papers.nora
                       icon: sh:paperless-ngx
 
                     - title: Finachy
@@ -335,7 +335,7 @@ glance:
                   links:
 
                     - title: Pi-hole
-                      url: https://pihole.nora
+                      url: https://pihole.nora/admin
                       icon: sh:pi-hole
 
                     - title: NAS
@@ -358,12 +358,12 @@ glance:
                   sites:
 
                     - title: Immich
-                      url: https://immich.nora
+                      url: https://photos.nora
                       icon: sh:immich
                       allow-insecure: true
 
                     - title: Paperless
-                      url: https://paperless.nora
+                      url: https://papers.nora
                       icon: sh:paperless-ngx
                       allow-insecure: true
 
@@ -417,7 +417,7 @@ glance:
                       allow-insecure: true
 
                     - title: Pi-hole
-                      url: https://pihole.nora
+                      url: https://pihole.nora/admin
                       icon: sh:pi-hole
                       allow-insecure: true
 
