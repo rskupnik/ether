@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
     - name: copy-container
-      image: alpine:3.20
+      image: alpine:3.24
       command: ["sleep", "infinity"]
       volumeMounts:
         - name: longhorn-data
