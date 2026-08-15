@@ -3,7 +3,7 @@ helmCharts:
     repo: oci://registry-1.docker.io/bitnamicharts
     releaseName: matomo
     namespace: matomo
-    version: 9.3.8
+    version: 9.3.13
     valuesFile: values.yaml
 
 resources:
