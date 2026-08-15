@@ -1,0 +1,5 @@
+namespace: renovate
+
+resources:
+  - cronjob.yaml
+  - github-secrets.sealed.yaml

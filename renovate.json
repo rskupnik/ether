@@ -1,0 +1,41 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
+  "extends": [
+    "config:recommended"
+  ],
+
+  "includePaths": [
+    "argo/**"
+  ],
+
+  "timezone": "Europe/Warsaw",
+
+  "dependencyDashboard": true,
+
+  "prConcurrentLimit": 5,
+
+  "kubernetes": {
+    "managerFilePatterns": [
+      "/^argo/.+\\.ya?ml$/"
+    ]
+  },
+
+  "argocd": {
+    "managerFilePatterns": [
+      "/^argo/apps/argocd/apps/.+\\.ya?ml$/"
+    ]
+  },
+
+  "packageRules": [
+    {
+      "description": "Update Renovate itself only weekly",
+      "matchPackageNames": [
+        "renovate/renovate"
+      ],
+      "schedule": [
+        "* * * * 0"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: renovate
+spec:
+  schedule: "17 */6 * * *"
+  concurrencyPolicy: Forbid
+
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+
+      template:
+        spec:
+          restartPolicy: Never
+
+          containers:
+            - name: renovate
+              image: renovate/renovate:44.30.3
+
+              env:
+                - name: RENOVATE_PLATFORM
+                  value: github
+
+                - name: RENOVATE_REPOSITORIES
+                  value: rskupnik/ether
+
+                - name: RENOVATE_GIT_AUTHOR
+                  value: "Renovate Bot <renovate@myzopotamia.dev>"
+
+                - name: LOG_LEVEL
+                  value: info
+
+              envFrom:
+                - secretRef:
+                    name: renovate-env
+
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+                limits:
+                  memory: 1Gi
