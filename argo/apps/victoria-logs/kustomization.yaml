@@ -3,7 +3,7 @@ helmCharts:
     repo: https://victoriametrics.github.io/helm-charts/
     releaseName: vls
     namespace: monitoring
-    version: 0.13.8
+    version: 0.13.9
     valuesFile: values.yaml
   - name: victoria-logs-collector
     repo: https://victoriametrics.github.io/helm-charts/
