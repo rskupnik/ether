@@ -8,3 +8,4 @@ helmCharts:
 
 resources:
   - config-pvc.yaml
+  - http-ingress.yaml
