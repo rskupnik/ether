@@ -1,7 +1,10 @@
 namespace: glance
 
-resources:
-  - ingress.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+
+components:
+  - ../../components/tls-ingress
 
 helmCharts:
   - name: glance
@@ -10,3 +13,11 @@ helmCharts:
     releaseName: glance
     namespace: glance
     valuesFile: values.yaml
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=glance.nora
+      - service=glance
+      - port=http
+      - pathType=Prefix
