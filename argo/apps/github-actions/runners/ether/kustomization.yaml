@@ -3,7 +3,7 @@ helmCharts:
     repo: "oci://ghcr.io/actions/actions-runner-controller-charts"
     releaseName: ether-runner
     namespace: github-actions-runners-ether
-    version: 0.11.0
+    version: 0.14.2
     valuesFile: values.yaml
 
 resources:
