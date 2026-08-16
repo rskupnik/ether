@@ -3,5 +3,5 @@ helmCharts:
     repo: "oci://ghcr.io/actions/actions-runner-controller-charts"
     releaseName: ether-arc-runner
     namespace: github-actions-controller
-    version: 0.11.0
+    version: 0.14.2
     includeCRDs: true
