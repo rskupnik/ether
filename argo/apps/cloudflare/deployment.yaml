@@ -14,6 +14,15 @@ spec:
         app: cloudflared
         app.kubernetes.io/name: cloudflared
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: NotIn
+                    values:
+                      - ethernode-gmk
       containers:
       - name: cloudflared
         image: cloudflare/cloudflared:2025.11.1-arm64
