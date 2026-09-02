@@ -3,7 +3,7 @@ helmCharts:
     repo: https://charts.authelia.com
     releaseName: authelia
     namespace: authelia
-    version: 0.10.42
+    version: 0.11.20
     valuesFile: values.yaml
 
 resources:
