@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: valheim
+spec:
+  replicas: 1
+
+  # Never try to briefly run two Valheim instances against
+  # the same world data during an update.
+  strategy:
+    type: Recreate
+
+  selector:
+    matchLabels:
+      app: valheim
+
+  template:
+    metadata:
+      labels:
+        app: valheim
+
+    spec:
+      # Gracefully let Valheim save the world before Kubernetes
+      # kills the process.
+      terminationGracePeriodSeconds: 120
+
+      # Force this workload onto the GMKtec.
+      nodeSelector:
+        kubernetes.io/hostname: ethernode-gmk
+
+      containers:
+        - name: valheim
+          image: ghcr.io/lloesche/valheim-server:latest
+          imagePullPolicy: IfNotPresent
+
+          env:
+            - name: SERVER_NAME
+              value: "Myzopotamia"
+
+            - name: WORLD_NAME
+              value: "Myzopotamia"
+
+            - name: SERVER_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: valheim-secret
+                  key: server-password
+
+            - name: SERVER_PUBLIC
+              value: "true"
+
+            # Uses PlayFab crossplay relay.
+            # No router port forwarding required.
+            - name: SERVER_ARGS
+              value: "-crossplay"
+
+            - name: TZ
+              value: "Europe/Warsaw"
+
+            # Automatic updates.
+            - name: UPDATE_CRON
+              value: "*/15 * * * *"
+
+            - name: UPDATE_IF_IDLE
+              value: "true"
+
+            # Built-in backups.
+            - name: BACKUPS
+              value: "true"
+
+            - name: BACKUPS_CRON
+              value: "0 * * * *"
+
+            - name: BACKUPS_MAX_AGE
+              value: "7"
+
+          ports:
+            - name: valheim
+              containerPort: 2456
+              protocol: UDP
+
+            - name: valheim-query
+              containerPort: 2457
+              protocol: UDP
+
+          resources:
+            requests:
+              cpu: "1000m"
+              memory: "2Gi"
+
+            limits:
+              memory: "6Gi"
+
+          volumeMounts:
+            - name: config
+              mountPath: /config
+
+            - name: server-data
+              mountPath: /opt/valheim
+
+      volumes:
+        - name: config
+          hostPath:
+            path: /srv/valheim/config
+            type: Directory
+
+        - name: server-data
+          hostPath:
+            path: /srv/valheim/data
+            type: Directory

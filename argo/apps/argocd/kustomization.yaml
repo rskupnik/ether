@@ -58,3 +58,4 @@ resources:
   - apps/media-center.yaml
   - apps/glance.yaml
   - apps/renovate.yaml
+  - apps/valheim.yaml
