@@ -12,7 +12,7 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: 192.168.0.185
+    server: 192.168.1.69
     path: /immich
 ---
 apiVersion: v1
