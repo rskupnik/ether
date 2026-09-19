@@ -14,21 +14,21 @@
 
 # will create kubernetes services for web admin
 serviceWeb:
-  loadBalancerIP: 192.168.0.240
+  loadBalancerIP: 192.168.1.240
   type: ClusterIP
-  
+
 # use the password we created in pihole-custom
 admin:
   existingSecret: pihole-password
-  
+
 # create a kubernetes service and expose
 # port 53 outside of cluster on the local network
 serviceDns:
-  loadBalancerIP: 192.168.0.241
+  loadBalancerIP: 192.168.1.241
   annotations:
     metallb.universe.tf/allow-shared-ip: pihole-svc
   type: LoadBalancer
-  
+
 # enables cloudflare tunnel sidecar container
 # and sets upstream dns in pihole to leverage it
 # doh:
@@ -37,7 +37,7 @@ serviceDns:
 #   envVars: {
 #     DOH_UPSTREAM: "https://1.1.1.1/dns-query"
 #   }
-  
+
 # pi-hole will automatially create a new
 # persistent volume managed by longhorn
 persistentVolumeClaim:
@@ -49,7 +49,7 @@ dnsmasq:
   enableCustomDnsMasq: true
 
   customDnsEntries:
-    - address=/.nora/192.168.0.240
+    - address=/.nora/192.168.1.240
 
   additionalHostsEntries:
-    - 192.168.0.185 nas.nora
+    - 192.168.1.69 nas.nora
