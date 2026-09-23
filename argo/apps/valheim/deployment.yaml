@@ -51,8 +51,8 @@ spec:
 
             # Uses PlayFab crossplay relay.
             # No router port forwarding required.
-            - name: SERVER_ARGS
-              value: "-crossplay"
+            # - name: SERVER_ARGS
+            #   value: "-crossplay"
 
             - name: TZ
               value: "Europe/Warsaw"
