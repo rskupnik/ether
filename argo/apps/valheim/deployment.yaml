@@ -97,6 +97,21 @@ spec:
 
             - name: server-data
               mountPath: /opt/valheim
+        - name: playit
+          image: ghcr.io/playit-cloud/playit-agent:1.0.10
+          env:
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: valheim-secret
+                  key: playit-secret
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
 
       volumes:
         - name: config
