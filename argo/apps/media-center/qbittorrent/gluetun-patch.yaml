@@ -60,7 +60,7 @@ spec:
             # Permit access to your LAN and Kubernetes networks.
             # Adjust these if your K3s CIDRs differ.
             - name: FIREWALL_OUTBOUND_SUBNETS
-              value: "192.168.0.0/24,10.42.0.0/16,10.43.0.0/16"
+              value: "192.168.1.0/24,10.42.0.0/16,10.43.0.0/16"
 
             - name: TZ
               value: Europe/Warsaw
