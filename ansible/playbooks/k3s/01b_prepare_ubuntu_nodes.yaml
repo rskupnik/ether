@@ -18,3 +18,19 @@
     - name: Show UFW status
       ansible.builtin.debug:
         var: ufw_status.stdout
+    
+    - name: Configure inotify limits
+      ansible.posix.sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        state: present
+        reload: true
+        sysctl_file: /etc/sysctl.d/99-inotify.conf
+      loop:
+        - name: fs.inotify.max_user_instances
+          value: "1024"
+        - name: fs.inotify.max_user_watches
+          value: "524288"
+        - name: fs.inotify.max_queued_events
+          value: "16384"
+      become: true

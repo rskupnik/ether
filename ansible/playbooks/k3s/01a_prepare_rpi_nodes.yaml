@@ -21,6 +21,22 @@
         'cgroup_memory=1' not in cmdline_content
         or 'cgroup_enable=memory' not in cmdline_content
       notify: Reboot required
+    
+    - name: Configure inotify limits
+      ansible.posix.sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        state: present
+        reload: true
+        sysctl_file: /etc/sysctl.d/99-inotify.conf
+      loop:
+        - name: fs.inotify.max_user_instances
+          value: "1024"
+        - name: fs.inotify.max_user_watches
+          value: "524288"
+        - name: fs.inotify.max_queued_events
+          value: "16384"
+      become: true
 
   handlers:
     - name: Reboot required
