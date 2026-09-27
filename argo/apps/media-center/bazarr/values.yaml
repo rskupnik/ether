@@ -1,7 +1,7 @@
 fullnameOverride: bazarr
 
 extraEnv:
-  TZ: Europe/Warsaw
+  - TZ: Europe/Warsaw
 
 config:
   persistence:
