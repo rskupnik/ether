@@ -1,6 +1,8 @@
 fullnameOverride: bazarr
 
-extraEnv: [ "TZ: Europe/Warsaw" ]
+extraEnv:
+  - name: TZ
+    value: Europe/Warsaw
 
 config:
   persistence:
