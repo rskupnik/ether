@@ -1,17 +1,13 @@
 fullnameOverride: bazarr
 
-image:
-  tag: "1.6.0"
-
-extraEnv:
+env:
   - name: TZ
     value: Europe/Warsaw
 
-config:
-  persistence:
-    enabled: true
-    size: 2Gi
-    storageClass: longhorn
+persistence:
+  enabled: true
+  size: 2Gi
+  storageClass: longhorn
 
 resources:
   requests:
