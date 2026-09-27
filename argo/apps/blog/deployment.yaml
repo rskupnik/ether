@@ -13,6 +13,8 @@ spec:
       labels:
         app: myzopotamia-blog
     spec:
+      nodeSelector:
+        kubernetes.io/arch: arm64
       containers:
         - name: myzopotamia-blog
           image: registry.gitlab.com/myzreal/ether/blog:latest

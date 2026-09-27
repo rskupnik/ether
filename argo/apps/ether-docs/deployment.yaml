@@ -13,6 +13,8 @@ spec:
       labels:
         app: ether-docs
     spec:
+      nodeSelector:
+        kubernetes.io/arch: arm64
       containers:
         - name: ether-docs
           image: registry.gitlab.com/myzreal/ether/ether-docs:latest
