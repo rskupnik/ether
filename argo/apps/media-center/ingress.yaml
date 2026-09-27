@@ -17,6 +17,7 @@ spec:
         - prowlarr.media.nora
         - seerr.media.nora
         - torrent.media.nora
+        - bazarr.media.nora
       secretName: media-center-tls
 
   rules:
@@ -41,7 +42,7 @@ spec:
                 name: sonarr
                 port:
                   number: 8989
-    
+
     - host: radarr.media.nora
       http:
         paths:
@@ -85,3 +86,14 @@ spec:
                 name: qbittorrent
                 port:
                   number: 8080
+
+    - host: bazarr.media.nora
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bazarr
+                port:
+                  number: 6767
