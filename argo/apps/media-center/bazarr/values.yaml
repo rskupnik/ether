@@ -1,5 +1,8 @@
 fullnameOverride: bazarr
 
+image:
+  tag: "1.6.0"
+
 extraEnv:
   - name: TZ
     value: Europe/Warsaw
