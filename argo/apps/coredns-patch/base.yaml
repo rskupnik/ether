@@ -24,14 +24,14 @@ data:
     }
 
     nora:53 {
-        forward . 192.168.0.241
+        forward . 192.168.1.241
     }
 
     import /etc/coredns/custom/*.server
   NodeHosts: |
-    192.168.0.192 ethernode1
-    192.168.0.193 ethernode2
-    192.168.0.194 ethernode3
+    192.168.1.11 ethernode1
+    192.168.1.12 ethernode2
+    192.168.1.13 ethernode3
 kind: ConfigMap
 metadata:
   name: coredns
