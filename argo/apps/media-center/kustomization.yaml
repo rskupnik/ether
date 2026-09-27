@@ -9,6 +9,7 @@ resources:
   - qbittorrent
   - jellyfin
   - seerr
+  - bazarr
   - certificate.yaml
   - ingress.yaml
   - secret_vpn.sealed.yaml
