@@ -104,6 +104,9 @@ data:
       - Prowlarr:
           icon: prowlarr.png
           href: https://prowlarr.media.nora/
+      - Bazarr:
+          icon: bazarr.png
+          href: https://bazarr.media.nora/
       - QBitTorrent:
           icon: qbittorrent.png
           href: https://torrent.media.nora/
