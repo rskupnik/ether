@@ -1,6 +1,10 @@
 fullnameOverride: bazarr
 
 env:
+  - name: PUID
+    value: "1000"
+  - name: PGID
+    value: "1000"
   - name: TZ
     value: Europe/Warsaw
 
@@ -8,6 +12,25 @@ persistence:
   enabled: true
   size: 2Gi
   storageClass: longhorn
+
+volumes:
+  - name: config
+    persistentVolumeClaim:
+      claimName: bazarr-config-iscsi-pvc
+  - name: movies
+    persistentVolumeClaim:
+      claimName: media-center-data
+  - name: tv
+    persistentVolumeClaim:
+      claimName: media-center-data
+
+volumeMounts:
+  - name: config
+    mountPath: /config
+  - name: movies
+    mountPath: /movies
+  - name: tv
+    mountPath: /tv
 
 resources:
   requests:
