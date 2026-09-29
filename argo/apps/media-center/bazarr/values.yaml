@@ -17,10 +17,7 @@ volumes:
   - name: config
     persistentVolumeClaim:
       claimName: bazarr-config-iscsi-pvc
-  - name: movies
-    persistentVolumeClaim:
-      claimName: media-center-data
-  - name: tv
+  - name: media
     persistentVolumeClaim:
       claimName: media-center-data
 
@@ -30,10 +27,12 @@ nodeSelector:
 volumeMounts:
   - name: config
     mountPath: /config
-  - name: movies
+  - name: media
     mountPath: /movies
-  - name: tv
+    subPath: media/movies
+  - name: media
     mountPath: /tv
+    subPath: media/tv
 
 resources:
   requests:
