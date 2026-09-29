@@ -24,6 +24,9 @@ volumes:
     persistentVolumeClaim:
       claimName: media-center-data
 
+nodeSelector:
+  kubernetes.io/hostname: ethernode1
+
 volumeMounts:
   - name: config
     mountPath: /config
