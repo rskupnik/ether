@@ -5,7 +5,7 @@
   become: true
   vars:
     this_subnet_cidr: "192.168.178.0/24"
-    other_subnet_cidr: "192.168.0.0/24"
+    other_subnet_cidr: "192.168.1.0/24"
     other_rpi_tailscale_ip: "100.94.36.28"
     admin_ip: "100.104.91.122"
 

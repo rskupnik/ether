@@ -6,7 +6,7 @@
   become: true
   vars:
     tailscale_authkey: "tskey-auth-blabla"  # Replace with your actual auth key, only needed for installation
-    tailscale_args: "--advertise-routes=192.168.0.0/24 --snat-subnet-routes=false --accept-routes"
+    tailscale_args: "--advertise-routes=192.168.1.0/24 --snat-subnet-routes=false --accept-routes"
 
   pre_tasks:
     - name: Enable IPv4 forwarding
