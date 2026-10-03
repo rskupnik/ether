@@ -11,5 +11,5 @@ helmCharts:
     namespace: forgejo
     valuesFile: values.yaml
 
-# resources:
-  # - resources/sealed-secret.yaml
+resources:
+  - resources/admin-secret-sealed.yaml
