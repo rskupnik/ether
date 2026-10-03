@@ -1,0 +1,50 @@
+image:
+  rootless: true
+
+persistence:
+  enabled: true
+  create: true
+  storageClass: longhorn
+  size: 20Gi
+  accessModes:
+    - ReadWriteOnce
+
+service:
+  http:
+    type: ClusterIP
+    port: 3000
+
+  ssh:
+    type: ClusterIP
+    port: 22
+
+ingress:
+  enabled: false
+  className: traefik
+
+  hosts:
+    - host: forgejo.nora
+      paths:
+        - path: /
+          pathType: Prefix
+
+  tls:
+    - secretName: forgejo-tls
+      hosts:
+        - forgejo.nora
+
+gitea:
+  config:
+    server:
+      DOMAIN: forgejo.nora
+      ROOT_URL: https://forgejo.nora/
+      SSH_DOMAIN: forgejo.nora
+
+    service:
+      DISABLE_REGISTRATION: true
+
+    repository:
+      DEFAULT_PRIVATE: private
+
+    database:
+      DB_TYPE: sqlite3
