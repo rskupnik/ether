@@ -59,3 +59,4 @@ resources:
   - apps/glance.yaml
   - apps/renovate.yaml
   - apps/valheim.yaml
+  - apps/forgejo.yaml
