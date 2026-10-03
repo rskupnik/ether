@@ -11,5 +11,16 @@ helmCharts:
     namespace: forgejo
     valuesFile: values.yaml
 
+components:
+  - ../../components/tls-ingress
+
 resources:
   - admin-secret.sealed.yaml
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=forgejo.nora
+      - service=forgejo-http
+      - port=http
+      - pathType=Prefix
