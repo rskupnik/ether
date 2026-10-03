@@ -12,4 +12,4 @@ helmCharts:
     valuesFile: values.yaml
 
 resources:
-  - admin-secret-sealed.yaml
+  - admin-secret.sealed.yaml
