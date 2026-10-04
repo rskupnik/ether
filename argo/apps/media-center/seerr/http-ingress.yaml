@@ -19,4 +19,4 @@ spec:
               service:
                 name: seerr
                 port:
-                  number: 8096
+                  number: 80
