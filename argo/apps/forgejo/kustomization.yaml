@@ -16,7 +16,6 @@ components:
 
 resources:
   - admin-secret.sealed.yaml
-  - traefik-ssh-helmchartconfig.yaml
 
 configMapGenerator:
   - name: tls-config
