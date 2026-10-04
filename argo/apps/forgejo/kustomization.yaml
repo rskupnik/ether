@@ -16,6 +16,7 @@ components:
 
 resources:
   - admin-secret.sealed.yaml
+  - ingress-tcp.yaml
 
 configMapGenerator:
   - name: tls-config
