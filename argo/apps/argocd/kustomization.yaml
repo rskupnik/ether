@@ -60,3 +60,4 @@ resources:
   - apps/renovate.yaml
   - apps/valheim.yaml
   - apps/forgejo.yaml
+  - apps/traefik.yaml
