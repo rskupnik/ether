@@ -1,6 +1,6 @@
 timeZone: "Europe/Warsaw"
 analyticsDisabled: true
-host: pocket-id.nora
+host: id.nora
 
 persistence:
   data:
@@ -9,7 +9,7 @@ persistence:
     size: 2Gi
 
 ingress:
-  enabled: true
+  enabled: false
   className: "traefik"
   host: pocket-id.nora
   paths:

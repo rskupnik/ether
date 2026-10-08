@@ -1,7 +1,20 @@
+namespace: pocket-id
+
 helmCharts:
   - name: pocket-id
     repo: https://anza-labs.github.io/charts
     releaseName: pocket-id
     namespace: pocket-id
-    version: 1.4.0
+    version: 2.2.2
     valuesFile: values.yaml
+
+components:
+  - ../../components/tls-ingress
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=id.nora
+      - service=pocked-id-http
+      - port=http
+      - pathType=ImplementationSpecific
