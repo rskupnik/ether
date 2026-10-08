@@ -18,6 +18,6 @@ configMapGenerator:
   - name: tls-config
     literals:
       - host=id.nora
-      - service=pocked-id-http
+      - service=pocket-id
       - port=http
       - pathType=ImplementationSpecific
