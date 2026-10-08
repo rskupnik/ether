@@ -10,6 +10,7 @@ helmCharts:
 
 resources:
   - pocket-id-secrets.sealed.yaml
+  - integrations/argocd/pocket-id-secrets.sealed.yaml
 
 components:
   - ../../components/tls-ingress

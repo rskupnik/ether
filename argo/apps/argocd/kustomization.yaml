@@ -6,7 +6,8 @@ helmCharts:
     version: 10.1.3
     valuesFile: values.yaml
     additionalValuesFiles:
-      - authentik-values.yaml   # Comment to disable Authentik
+      # - authentik-values.yaml   # Comment to disable Authentik
+      - pocket-id-values.yaml     # Comment to disable Pocket ID
 
 components:
   - ../../components/tls-ingress
