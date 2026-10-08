@@ -2,6 +2,12 @@ timeZone: "Europe/Warsaw"
 analyticsDisabled: true
 host: id.nora
 
+encryptionKey: ""
+
+secret:
+  create: false
+  name: pocket-id-secrets
+
 persistence:
   data:
     enabled: true

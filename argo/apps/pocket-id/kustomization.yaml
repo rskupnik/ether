@@ -8,6 +8,9 @@ helmCharts:
     version: 2.2.2
     valuesFile: values.yaml
 
+resources:
+  - pocket-id-secrets.sealed.yaml
+
 components:
   - ../../components/tls-ingress
 
