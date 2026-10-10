@@ -36,10 +36,10 @@ data:
             key: {{HOMEPAGE_VAR_CLOUDFLARE_TOKEN}}
       - ArgoCD:
           icon: argo-cd.png
-          href: https://argocd.nora/
+          href: https://argocd.myzopotamia.dev
           widget:
             type: argocd
-            url: https://argocd.nora/
+            url: https://argocd.myzopotamia.dev
             key: {{HOMEPAGE_VAR_ARGO_TOKEN}}
       - Immich:
           icon: immich.png
@@ -74,7 +74,7 @@ data:
           href: https://myzopotamia.dev/
       - Umami:
           icon: umami.png
-          href: https://umami.nora/
+          href: https://umami.myzopotamia.dev
           app: umami
           namespace: umami
       - Ntfy:

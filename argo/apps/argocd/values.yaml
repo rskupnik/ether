@@ -6,7 +6,7 @@ configs:
   cm:
     accounts.readonly: apiKey
     kustomize.buildOptions: --enable-helm
-    url: https://argocd.nora
+    url: https://argocd.myzopotamia.dev
   # Uncomment if not using authentik
   # rbac:
   #   policy.csv: |

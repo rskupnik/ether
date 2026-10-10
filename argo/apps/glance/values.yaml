@@ -185,7 +185,7 @@ glance:
                       allow-insecure: true
 
                     - title: ArgoCD
-                      url: https://argocd.nora
+                      url: https://argocd.myzopotamia.dev
                       icon: sh:argocd
                       allow-insecure: true
 
@@ -299,7 +299,7 @@ glance:
                   links:
 
                     - title: ArgoCD
-                      url: https://argocd.nora
+                      url: https://argocd.myzopotamia.dev
                       icon: sh:argocd
 
                     - title: Longhorn
@@ -377,7 +377,7 @@ glance:
                       allow-insecure: true
 
                     - title: Umami
-                      url: https://umami.nora
+                      url: https://umami.myzopotamia.dev
                       icon: sh:umami
                       allow-insecure: true
 
@@ -397,7 +397,7 @@ glance:
                   sites:
 
                     - title: ArgoCD
-                      url: https://argocd.nora
+                      url: https://argocd.myzopotamia.dev
                       icon: sh:argocd
                       allow-insecure: true
 
