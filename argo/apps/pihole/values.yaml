@@ -57,6 +57,10 @@ dnsmasq:
 
   customDnsEntries:
     - address=/.nora/192.168.1.240
+    - address=/*.myzopotamia.dev/192.168.1.240
+    - server=/etherdocs.myzopotamia.dev/#
+    - server=/stats.myzopotamia.dev/#
+    - server=/www.myzopotamia.dev/#
 
   additionalHostsEntries:
     - 192.168.1.69 nas.nora
