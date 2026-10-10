@@ -12,12 +12,12 @@ resources:
   - pvc-retain-patch.yaml
 
 components:
-  - ../../components/tls-ingress
+  - ../../components/tls-ingress-myzopotamia
 
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=umami.nora
+      - host=umami.myzopotamia.dev
       - service=umami
       - port=http
       - pathType=ImplementationSpecific

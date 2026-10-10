@@ -8,4 +8,5 @@ helmCharts:
 
 resources:
   - nora-ca-secret.sealed.yaml
-  - issuer.yaml
+  - cloudflare-secret.sealed.yaml
+  - issuers.yaml
