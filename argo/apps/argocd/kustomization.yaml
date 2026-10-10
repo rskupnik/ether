@@ -10,12 +10,12 @@ helmCharts:
       - pocket-id-values.yaml     # Comment to disable Pocket ID
 
 components:
-  - ../../components/tls-ingress
+  - ../../components/tls-ingress-myzopotamia
 
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=argocd.nora
+      - host=argocd.myzopotamia.dev
       - service=argocd-server
       - port=http
       - pathType=Prefix
