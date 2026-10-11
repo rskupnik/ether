@@ -16,7 +16,7 @@ components:
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=pihole.nora
+      - host=pihole.myzopotamia.dev
       - service=pihole-web
       - port=http
       - pathType=ImplementationSpecific

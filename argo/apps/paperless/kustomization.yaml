@@ -33,7 +33,7 @@ configMapGenerator:
       - backup/backup-redis-job.yaml
   - name: tls-config
     literals:
-      - host=papers.nora
+      - host=papers.myzopotamia.dev
       - service=paperless
       - port=http
       - pathType=ImplementationSpecific

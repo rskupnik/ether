@@ -15,11 +15,11 @@ resources:
 
 configMapGenerator:
   - name: server-config
-    files: 
+    files:
       - server.yml
   - name: tls-config
     literals:
-      - host=ntfy.nora
+      - host=ntfy.myzopotamia.dev
       - service=ntfy-svc
       - port=http-ntfy-out
       - pathType=Prefix

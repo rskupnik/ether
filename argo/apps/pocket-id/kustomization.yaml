@@ -16,7 +16,7 @@ components:
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=id.nora
+      - host=id.myzopotamia.dev
       - service=pocket-id
       - port=http
       - pathType=ImplementationSpecific

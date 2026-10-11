@@ -17,7 +17,7 @@ helmCharts:
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=glance.nora
+      - host=glance.myzopotamia.dev
       - service=glance
       - port=http
       - pathType=Prefix

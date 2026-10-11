@@ -15,8 +15,7 @@ resources:
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=sync.nora
+      - host=sync.myzopotamia.dev
       - service=syncthing
       - port=web
       - pathType=Prefix
-  

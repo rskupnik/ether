@@ -29,7 +29,7 @@ configMapGenerator:
       - backup/backup-db-job.yaml
   - name: tls-config
     literals:
-      - host=photos.nora
+      - host=photos.myzopotamia.dev
       - service=immich-server
       - port=http
       - pathType=Prefix

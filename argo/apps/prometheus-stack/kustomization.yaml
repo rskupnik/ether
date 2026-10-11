@@ -15,7 +15,7 @@ components:
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=grafana.nora
+      - host=grafana.myzopotamia.dev
       - service=kube-prometheus-stack-grafana
       - port=http-web
       - pathType=Prefix

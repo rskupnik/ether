@@ -11,7 +11,7 @@ resources:
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=upsnap.nora
+      - host=upsnap.myzopotamia.dev
       - service=upsnap
       - port=web
       - pathType=Prefix

@@ -20,7 +20,7 @@ configMapGenerator:
       - backup/backup-db-job.yaml
   - name: tls-config
     literals:
-      - host=authentik.nora
+      - host=authentik.myzopotamia.dev
       - service=authentik-server
       - port=http
       - pathType=Prefix
@@ -30,7 +30,7 @@ resources:
   - secrets/authentik-postgresql-custom-sealed.yaml
   - backup/rbac.yaml
   - backup/orchestrator-cronjob.yaml
-  
+
   # --- INTEGRATIONS
 
   # ARGOCD

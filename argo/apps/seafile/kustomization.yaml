@@ -26,7 +26,7 @@ resources:
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=seafile.nora
+      - host=seafile.myzopotamia.dev
       - service=seafile
       - port=80
       - pathType=Prefix

@@ -12,7 +12,7 @@ components:
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=uptime.nora
+      - host=uptime.myzopotamia.dev
       - service=uptime-kuma
       - port=http
       - pathType=ImplementationSpecific

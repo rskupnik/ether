@@ -16,7 +16,7 @@ components:
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=longhorn.nora
+      - host=longhorn.myzopotamia.dev
       - service=longhorn-frontend
       - port=http
       - pathType=Prefix

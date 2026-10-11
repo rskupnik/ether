@@ -21,7 +21,7 @@ resources:
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=forgejo.nora
+      - host=forgejo.myzopotamia.dev
       - service=forgejo-http
       - port=http
       - pathType=Prefix

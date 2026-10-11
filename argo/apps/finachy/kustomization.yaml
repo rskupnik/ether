@@ -22,7 +22,7 @@ resources:
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=finachy.nora
+      - host=finachy.myzopotamia.dev
       - service=finachy-web
       - port=http
       - pathType=ImplementationSpecific
