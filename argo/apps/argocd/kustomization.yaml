@@ -10,7 +10,7 @@ helmCharts:
       - pocket-id-values.yaml     # Comment to disable Pocket ID
 
 components:
-  - ../../components/tls-ingress-myzopotamia
+  - ../../components/tls-ingress
 
 configMapGenerator:
   - name: tls-config

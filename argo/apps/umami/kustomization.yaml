@@ -12,7 +12,7 @@ resources:
   - pvc-retain-patch.yaml
 
 components:
-  - ../../components/tls-ingress-myzopotamia
+  - ../../components/tls-ingress
 
 configMapGenerator:
   - name: tls-config

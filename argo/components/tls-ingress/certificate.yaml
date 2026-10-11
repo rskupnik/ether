@@ -5,7 +5,7 @@ metadata:
 spec:
   secretName: tls
   issuerRef:
-    name: nora-ca
+    name: letsencrypt-cloudflare
     kind: ClusterIssuer
   commonName: HOST_PLACEHOLDER
   dnsNames:

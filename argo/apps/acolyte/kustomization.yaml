@@ -11,8 +11,7 @@ resources:
 configMapGenerator:
   - name: tls-config
     literals:
-      - host=acolyte.nora
+      - host=acolyte.myzopotamia.dev
       - service=acolyte
       - port=http
       - pathType=Prefix
-      

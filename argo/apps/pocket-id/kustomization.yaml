@@ -20,3 +20,5 @@ configMapGenerator:
       - service=pocket-id
       - port=http
       - pathType=ImplementationSpecific
+
+# TODO: BACKUP (and test restore)
