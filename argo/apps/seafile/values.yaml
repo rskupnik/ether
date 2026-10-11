@@ -3,18 +3,18 @@ seafile:
 
   # The following are the configurations of seafile container
   configs:
-    image: seafileltd/seafile-mc:13.0-latest 
-    seafileDataVolume: 
+    image: seafileltd/seafile-mc:13.0-latest
+    seafileDataVolume:
       storage: 10Gi
       storageClassName: "longhorn"
-  
+
   # The following are environments of seafile services
   env:
     # for Seafile server
     TIME_ZONE: "UTC"
     SEAFILE_LOG_TO_STDOUT: "true"
     SITE_ROOT: "/"
-    SEAFILE_SERVER_HOSTNAME: "seafile.nora"
+    SEAFILE_SERVER_HOSTNAME: "seafile.myzopotamia.dev"
     SEAFILE_SERVER_PROTOCOL: "http"
 
     # for database
@@ -74,7 +74,7 @@ seafile:
     REDIS_PASSWORD:
       secret: seafile-secret
       key: REDIS_PASSWORD
-  
+
   # extra configurations
   extraResources: {}
   extraEnv: []

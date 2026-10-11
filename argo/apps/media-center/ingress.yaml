@@ -11,17 +11,17 @@ spec:
 
   tls:
     - hosts:
-        - jellyfin.media.nora
-        - sonarr.media.nora
-        - radarr.media.nora
-        - prowlarr.media.nora
-        - seerr.media.nora
-        - torrent.media.nora
-        - bazarr.media.nora
+        - jellyfin.media.myzopotamia.dev
+        - sonarr.media.myzopotamia.dev
+        - radarr.media.myzopotamia.dev
+        - prowlarr.media.myzopotamia.dev
+        - seerr.media.myzopotamia.dev
+        - torrent.media.myzopotamia.dev
+        - bazarr.media.myzopotamia.dev
       secretName: media-center-tls
 
   rules:
-    - host: jellyfin.media.nora
+    - host: jellyfin.media.myzopotamia.dev
       http:
         paths:
           - path: /
@@ -32,7 +32,7 @@ spec:
                 port:
                   number: 8096
 
-    - host: sonarr.media.nora
+    - host: sonarr.media.myzopotamia.dev
       http:
         paths:
           - path: /
@@ -43,7 +43,7 @@ spec:
                 port:
                   number: 8989
 
-    - host: radarr.media.nora
+    - host: radarr.media.myzopotamia.dev
       http:
         paths:
           - path: /
@@ -54,7 +54,7 @@ spec:
                 port:
                   number: 7878
 
-    - host: prowlarr.media.nora
+    - host: prowlarr.media.myzopotamia.dev
       http:
         paths:
           - path: /
@@ -65,7 +65,7 @@ spec:
                 port:
                   number: 9696
 
-    - host: seerr.media.nora
+    - host: seerr.media.myzopotamia.dev
       http:
         paths:
           - path: /
@@ -76,7 +76,7 @@ spec:
                 port:
                   number: 80
 
-    - host: torrent.media.nora
+    - host: torrent.media.myzopotamia.dev
       http:
         paths:
           - path: /
@@ -87,7 +87,7 @@ spec:
                 port:
                   number: 8080
 
-    - host: bazarr.media.nora
+    - host: bazarr.media.myzopotamia.dev
       http:
         paths:
           - path: /

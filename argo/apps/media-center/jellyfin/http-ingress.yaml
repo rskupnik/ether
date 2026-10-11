@@ -10,7 +10,7 @@ spec:
   ingressClassName: traefik
 
   rules:
-    - host: jellyfin.media.nora
+    - host: jellyfin.media.myzopotamia.dev
       http:
         paths:
           - path: /

@@ -4,7 +4,7 @@ metadata:
   name: glance
 spec:
   rules:
-    - host: glance.nora
+    - host: glance.myzopotamia.dev
       http:
         paths:
           - path: /

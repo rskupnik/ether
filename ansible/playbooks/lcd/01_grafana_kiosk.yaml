@@ -4,7 +4,7 @@
 
   vars:
     kiosk_user: "pi"
-    kiosk_url: "http://ether-logo.nora/?nocache=$(date +%s)"
+    kiosk_url: "http://ether-logo.myzopotamia.dev/?nocache=$(date +%s)"
     autostart_path: "/home/{{ kiosk_user }}/.config/autostart"
 
   tasks:

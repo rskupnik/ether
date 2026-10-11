@@ -7,6 +7,6 @@ spec:
   secretName: media-center-tls
   issuerRef:
     kind: ClusterIssuer
-    name: nora-ca
+    name: letsencrypt-cloudflare
   dnsNames:
-    - "*.media.nora"
+    - "*.media.myzopotamia.dev"

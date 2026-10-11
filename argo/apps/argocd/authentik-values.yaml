@@ -3,7 +3,7 @@ configs:
     admin.enabled: true
     oidc.config: |
       name: Authentik
-      issuer: https://authentik.nora/application/o/argocd/
+      issuer: https://authentik.myzopotamia.dev/application/o/argocd/
       clientID: aFSFW4aaKGi9oizCImusjLuTBxe2xJ2SNEm9QsiO
       clientSecret: $authentik-oidc-secrets:client-secret
       requestedScopes: ["openid", "profile", "email", "groups"]

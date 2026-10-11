@@ -7,7 +7,7 @@ metadata:
     components.nora/ntfy-token: enabled
 spec:
   schedule: "0 3 * * *"
-  
+
   jobTemplate:
     spec:
       backoffLimit: 0
@@ -15,7 +15,7 @@ spec:
         spec:
           restartPolicy: Never
           serviceAccountName: paperless-backup-sa
-          
+
           containers:
             - name: orchestrator
               image: bitnami/kubectl:latest
@@ -32,7 +32,7 @@ spec:
                       -H "Tags: white_check_mark" \
                       -d "Paperless backup successful" \
                       --insecure \
-                      https://ntfy.nora/backups
+                      https://ntfy.myzopotamia.dev/backups
                   }
 
                   notify_failure() {
@@ -45,7 +45,7 @@ spec:
                       -H "Tags: warning" \
                       -d "Paperless backup FAILED at: ${failed_at}. Exit code: ${exit_code}" \
                       --insecure \
-                      https://ntfy.nora/backups || true
+                      https://ntfy.myzopotamia.dev/backups || true
                   }
 
                   scale_paperless_up() {
@@ -99,7 +99,7 @@ spec:
               volumeMounts:
                 - name: job-definitions
                   mountPath: /configs
-          
+
           volumes:
             - name: job-definitions
               configMap:

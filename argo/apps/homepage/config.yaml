@@ -8,22 +8,22 @@ data:
     - Myzopotamia:
       - PiHole:
           icon: pi-hole.png
-          href: https://pihole.nora/admin/login
+          href: https://pihole.myzopotamia.dev/admin/login
           app: pihole
           namespace: pihole
           widget:
             type: pihole
-            url: https://pihole.nora/
+            url: https://pihole.myzopotamia.dev/
             version: 6
             key: {{HOMEPAGE_VAR_PIHOLE_PASSWORD}}
       - Uptime Kuma:
           icon: uptime-kuma.png
-          href: https://uptime.nora/
+          href: https://uptime.myzopotamia.dev/
           app: uptime-kuma
           namespace: uptime-kuma
           widget:
             type: uptimekuma
-            url: https://uptime.nora/
+            url: https://uptime.myzopotamia.dev/
             slug: for-homepage
       - Cloudflared:
           icon: cloudflare.png
@@ -43,31 +43,31 @@ data:
             key: {{HOMEPAGE_VAR_ARGO_TOKEN}}
       - Immich:
           icon: immich.png
-          href: https://photos.nora/
+          href: https://photos.myzopotamia.dev/
           widget:
             type: immich
-            url: https://photos.nora/
+            url: https://photos.myzopotamia.dev/
             key: {{HOMEPAGE_VAR_IMMICH_TOKEN}}
             version: 2
       - Paperless:
           icon: paperless.png
-          href: https://papers.nora/
+          href: https://papers.myzopotamia.dev/
           widget:
             type: paperlessngx
-            url: https://papers.nora/
+            url: https://papers.myzopotamia.dev/
             key: {{HOMEPAGE_VAR_PAPERLESS_TOKEN}}
       - Grafana:
           icon: grafana.png
-          href: https://grafana.nora/
+          href: https://grafana.myzopotamia.dev/
           widget:
             type: grafana
             version: 2
-            url: https://grafana.nora/
+            url: https://grafana.myzopotamia.dev/
             username: admin
             password: {{HOMEPAGE_VAR_GRAFANA_PASSWORD}}
       - N8N:
           icon: n8n.png
-          href: https://n8n.nora/
+          href: https://n8n.myzopotamia.dev/
           app: n8n
           namespace: n8n
       - Blog:
@@ -79,37 +79,37 @@ data:
           namespace: umami
       - Ntfy:
           icon: ntfy.png
-          href: https://ntfy.nora/
+          href: https://ntfy.myzopotamia.dev/
       - Longhorn:
           icon: longhorn.png
-          href: https://longhorn.nora/
+          href: https://longhorn.myzopotamia.dev/
       - NAS:
           icon: qnap.png
-          href: https://nas.nora:8080/
+          href: https://nas.myzopotamia.dev:8080/
       - Finachy:
-          href: https://finachy.nora/
+          href: https://finachy.myzopotamia.dev/
     - Media:
       - Seerr:
           icon: seerr.png
-          href: https://seerr.media.nora/
+          href: https://seerr.media.myzopotamia.dev/
       - Jellyfin:
           icon: jellyfin.png
-          href: https://jellyfin.media.nora/
+          href: https://jellyfin.media.myzopotamia.dev/
       - Sonarr:
           icon: sonarr.png
-          href: https://sonarr.media.nora/
+          href: https://sonarr.media.myzopotamia.dev/
       - Radarr:
           icon: radarr.png
-          href: https://radarr.media.nora/
+          href: https://radarr.media.myzopotamia.dev/
       - Prowlarr:
           icon: prowlarr.png
-          href: https://prowlarr.media.nora/
+          href: https://prowlarr.media.myzopotamia.dev/
       - Bazarr:
           icon: bazarr.png
-          href: https://bazarr.media.nora/
+          href: https://bazarr.media.myzopotamia.dev/
       - QBitTorrent:
           icon: qbittorrent.png
-          href: https://torrent.media.nora/
+          href: https://torrent.media.myzopotamia.dev/
   kubernetes.yaml: |
     mode: default
   widgets.yaml: |
@@ -167,7 +167,7 @@ data:
       longhorn:
         username: "admin"
         password: {{HOMEPAGE_VAR_LONGHORN_PASSWORD}}
-        url: https://longhorn.nora
+        url: https://longhorn.myzopotamia.dev
   bookmarks.yaml: |
     - Social:
       - Reddit:

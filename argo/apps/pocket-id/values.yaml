@@ -1,6 +1,6 @@
 timeZone: "Europe/Warsaw"
 analyticsDisabled: true
-host: id.nora
+host: id.myzopotamia.dev
 
 encryptionKey: ""
 
@@ -17,7 +17,7 @@ persistence:
 ingress:
   enabled: false
   className: "traefik"
-  host: pocket-id.nora
+  host: pocket-id.myzopotamia.dev
   paths:
     - path: /
       pathType: ImplementationSpecific

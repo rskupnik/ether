@@ -170,17 +170,17 @@ glance:
                   sites:
 
                     - title: Immich
-                      url: https://photos.nora
+                      url: https://photos.myzopotamia.dev
                       icon: sh:immich
                       allow-insecure: true
 
                     - title: Paperless
-                      url: https://papers.nora
+                      url: https://papers.myzopotamia.dev
                       icon: sh:paperless-ngx
                       allow-insecure: true
 
                     - title: Pi-hole
-                      url: https://pihole.nora/admin/login
+                      url: https://pihole.myzopotamia.dev/admin/login
                       icon: sh:pi-hole
                       allow-insecure: true
 
@@ -190,17 +190,17 @@ glance:
                       allow-insecure: true
 
                     - title: Grafana
-                      url: https://grafana.nora
+                      url: https://grafana.myzopotamia.dev
                       icon: sh:grafana
                       allow-insecure: true
 
                     - title: Uptime Kuma
-                      url: https://uptime.nora
+                      url: https://uptime.myzopotamia.dev
                       icon: sh:uptime-kuma
                       allow-insecure: true
 
                     - title: NAS
-                      url: http://nas.nora:8080
+                      url: http://nas.myzopotamia.dev:8080
                       allow-insecure: true
 
                 - type: monitor
@@ -210,32 +210,32 @@ glance:
                   sites:
 
                     - title: Jellyfin
-                      url: https://jellyfin.media.nora
+                      url: https://jellyfin.media.myzopotamia.dev
                       icon: sh:jellyfin
                       allow-insecure: true
 
                     - title: Seerr
-                      url: https://seerr.media.nora
+                      url: https://seerr.media.myzopotamia.dev
                       icon: sh:seerr
                       allow-insecure: true
 
                     - title: Sonarr
-                      url: https://sonarr.media.nora
+                      url: https://sonarr.media.myzopotamia.dev
                       icon: sh:sonarr
                       allow-insecure: true
 
                     - title: Radarr
-                      url: https://radarr.media.nora
+                      url: https://radarr.media.myzopotamia.dev
                       icon: sh:radarr
                       allow-insecure: true
 
                     - title: Prowlarr
-                      url: https://prowlarr.media.nora
+                      url: https://prowlarr.media.myzopotamia.dev
                       icon: sh:prowlarr
                       allow-insecure: true
 
                     - title: qBittorrent
-                      url: https://torrent.media.nora
+                      url: https://torrent.media.myzopotamia.dev
                       icon: sh:qbittorrent
                       allow-insecure: true
 
@@ -248,15 +248,15 @@ glance:
                   links:
 
                     - title: Immich
-                      url: https://photos.nora
+                      url: https://photos.myzopotamia.dev
                       icon: sh:immich
 
                     - title: Paperless
-                      url: https://papers.nora
+                      url: https://papers.myzopotamia.dev
                       icon: sh:paperless-ngx
 
                     - title: Finachy
-                      url: https://finachy.nora
+                      url: https://finachy.myzopotamia.dev
 
                     - title: Blog
                       url: https://myzopotamia.dev
@@ -266,11 +266,11 @@ glance:
                   links:
 
                     - title: Jellyfin
-                      url: https://jellyfin.nora
+                      url: https://jellyfin.myzopotamia.dev
                       icon: sh:jellyfin
 
                     - title: Seerr
-                      url: https://seerr.nora
+                      url: https://seerr.myzopotamia.dev
                       icon: sh:seerr
 
 
@@ -303,7 +303,7 @@ glance:
                       icon: sh:argocd
 
                     - title: Longhorn
-                      url: https://longhorn.nora
+                      url: https://longhorn.myzopotamia.dev
                       icon: sh:longhorn
 
                 - title: Observability
@@ -311,15 +311,15 @@ glance:
                   links:
 
                     - title: Grafana
-                      url: https://grafana.nora
+                      url: https://grafana.myzopotamia.dev
                       icon: sh:grafana
 
                     - title: Uptime Kuma
-                      url: https://uptime.nora
+                      url: https://uptime.myzopotamia.dev
                       icon: sh:uptime-kuma
 
                     - title: Ntfy
-                      url: https://ntfy.nora
+                      url: https://ntfy.myzopotamia.dev
                       icon: sh:ntfy
 
                 - title: Automation
@@ -327,7 +327,7 @@ glance:
                   links:
 
                     - title: n8n
-                      url: https://n8n.nora
+                      url: https://n8n.myzopotamia.dev
                       icon: sh:n8n
 
                 - title: Network
@@ -335,11 +335,11 @@ glance:
                   links:
 
                     - title: Pi-hole
-                      url: https://pihole.nora/admin/login
+                      url: https://pihole.myzopotamia.dev/admin/login
                       icon: sh:pi-hole
 
                     - title: NAS
-                      url: http://nas.nora:8080
+                      url: http://nas.myzopotamia.dev:8080
 
 
         # --------------------------------------------------------
@@ -358,22 +358,22 @@ glance:
                   sites:
 
                     - title: Immich
-                      url: https://photos.nora
+                      url: https://photos.myzopotamia.dev
                       icon: sh:immich
                       allow-insecure: true
 
                     - title: Paperless
-                      url: https://papers.nora
+                      url: https://papers.myzopotamia.dev
                       icon: sh:paperless-ngx
                       allow-insecure: true
 
                     - title: n8n
-                      url: https://n8n.nora
+                      url: https://n8n.myzopotamia.dev
                       icon: sh:n8n
                       allow-insecure: true
 
                     - title: Finachy
-                      url: https://finachy.nora
+                      url: https://finachy.myzopotamia.dev
                       allow-insecure: true
 
                     - title: Umami
@@ -382,7 +382,7 @@ glance:
                       allow-insecure: true
 
                     - title: Ntfy
-                      url: https://ntfy.nora
+                      url: https://ntfy.myzopotamia.dev
                       icon: sh:ntfy
                       allow-insecure: true
 
@@ -402,27 +402,27 @@ glance:
                       allow-insecure: true
 
                     - title: Longhorn
-                      url: https://longhorn.nora
+                      url: https://longhorn.myzopotamia.dev
                       icon: sh:longhorn
                       allow-insecure: true
 
                     - title: Grafana
-                      url: https://grafana.nora
+                      url: https://grafana.myzopotamia.dev
                       icon: sh:grafana
                       allow-insecure: true
 
                     - title: Uptime Kuma
-                      url: https://uptime.nora
+                      url: https://uptime.myzopotamia.dev
                       icon: sh:uptime-kuma
                       allow-insecure: true
 
                     - title: Pi-hole
-                      url: https://pihole.nora/admin/login
+                      url: https://pihole.myzopotamia.dev/admin/login
                       icon: sh:pi-hole
                       allow-insecure: true
 
                     - title: NAS
-                      url: http://nas.nora:8080
+                      url: http://nas.myzopotamia.dev:8080
                       allow-insecure: true
 
 
@@ -471,32 +471,32 @@ glance:
               sites:
 
                 - title: Jellyfin
-                  url: https://jellyfin.media.nora
+                  url: https://jellyfin.media.myzopotamia.dev
                   icon: sh:jellyfin
                   allow-insecure: true
 
                 - title: Seerr
-                  url: https://seerr.media.nora
+                  url: https://seerr.media.myzopotamia.dev
                   icon: sh:seerr
                   allow-insecure: true
 
                 - title: Sonarr
-                  url: https://sonarr.media.nora
+                  url: https://sonarr.media.myzopotamia.dev
                   icon: sh:sonarr
                   allow-insecure: true
 
                 - title: Radarr
-                  url: https://radarr.media.nora
+                  url: https://radarr.media.myzopotamia.dev
                   icon: sh:radarr
                   allow-insecure: true
 
                 - title: Prowlarr
-                  url: https://prowlarr.media.nora
+                  url: https://prowlarr.media.myzopotamia.dev
                   icon: sh:prowlarr
                   allow-insecure: true
 
                 - title: qBittorrent
-                  url: https://torrent.media.nora
+                  url: https://torrent.media.myzopotamia.dev
                   icon: sh:qbittorrent
                   allow-insecure: true
 
@@ -513,5 +513,5 @@ glance:
           widgets:
 
             - type: iframe
-              source: https://homepage.nora
+              source: https://homepage.myzopotamia.dev
               height: 1800

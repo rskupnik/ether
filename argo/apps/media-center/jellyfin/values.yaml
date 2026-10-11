@@ -10,7 +10,7 @@ jellyfin:
     - name: TZ
       value: Europe/Warsaw
     - name: JELLYFIN_PublishedServerUrl
-      value: "https://jellyfin.nora"
+      value: "https://jellyfin.myzopotamia.dev"
     - name: JELLYFIN_CACHE_DIR
       value: /cache
 

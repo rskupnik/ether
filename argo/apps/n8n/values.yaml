@@ -15,7 +15,7 @@ main:
         allow:
           builtin: net
     n8n:
-      host: n8n.nora
+      host: n8n.myzopotamia.dev
       protocol: https
       secure_cookie: false
       skip_auth_on_oauth_callback: true

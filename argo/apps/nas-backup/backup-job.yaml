@@ -8,7 +8,7 @@ metadata:
     components.nora/offsite-ssh: enabled
 spec:
   schedule: "20 1 * * *"
-  
+
   jobTemplate:
     spec:
       backoffLimit: 0
@@ -44,7 +44,7 @@ spec:
                       -H "Tags: white_check_mark" \
                       -d "Backup of critical NAS data successful" \
                       --insecure \
-                      https://ntfy.nora/backups
+                      https://ntfy.myzopotamia.dev/backups
                   }
 
                   notify_failure() {
@@ -57,7 +57,7 @@ spec:
                       -H "Tags: warning" \
                       -d "Backup of critical NAS data FAILED at: ${FAILED_AT}. Exit code: ${EXIT_CODE}" \
                       --insecure \
-                      https://ntfy.nora/backups || true
+                      https://ntfy.myzopotamia.dev/backups || true
                   }
 
                   fail() {

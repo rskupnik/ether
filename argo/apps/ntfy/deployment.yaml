@@ -18,7 +18,7 @@ spec:
         app: ntfy-pod
     spec:
       containers:
-        - name: ntfy 
+        - name: ntfy
           image: binwiederhier/ntfy:v2.27.0
           args: ["serve"]
           env:
@@ -29,7 +29,7 @@ spec:
             - name: NTFY_LOG_LEVEL
               value: INFO
             - name: NTFY_BASE_URL
-              value: http://ntfy.nora 
+              value: http://ntfy.myzopotamia.dev
             - name: NTFY_CACHE_FILE
               value: /var/cache/ntfy/cache.db
             - name: NTFY_AUTH_FILE
@@ -45,7 +45,7 @@ spec:
           envFrom:
             - secretRef:
                 name: auth
-          ports: 
+          ports:
             - containerPort: 80
               name: http-ntfy
           resources:

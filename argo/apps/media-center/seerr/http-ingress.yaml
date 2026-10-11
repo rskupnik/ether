@@ -10,7 +10,7 @@ spec:
   ingressClassName: traefik
 
   rules:
-    - host: seerr.media.nora
+    - host: seerr.media.myzopotamia.dev
       http:
         paths:
           - path: /

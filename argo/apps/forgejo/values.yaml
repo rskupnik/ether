@@ -23,7 +23,7 @@ ingress:
   className: traefik
 
   hosts:
-    - host: forgejo.nora
+    - host: forgejo.myzopotamia.dev
       paths:
         - path: /
           pathType: Prefix
@@ -31,16 +31,16 @@ ingress:
   tls:
     - secretName: forgejo-tls
       hosts:
-        - forgejo.nora
+        - forgejo.myzopotamia.dev
 
 gitea:
   admin:
     existingSecret: forgejo-admin
   config:
     server:
-      DOMAIN: forgejo.nora
-      ROOT_URL: https://forgejo.nora/
-      SSH_DOMAIN: forgejo.nora
+      DOMAIN: forgejo.myzopotamia.dev
+      ROOT_URL: https://forgejo.myzopotamia.dev/
+      SSH_DOMAIN: forgejo.myzopotamia.dev
 
     service:
       DISABLE_REGISTRATION: true

@@ -4,7 +4,7 @@ metadata:
   name: ether-logo
 spec:
   rules:
-    - host: ether-logo.nora
+    - host: ether-logo.myzopotamia.dev
       http:
         paths:
           - path: /

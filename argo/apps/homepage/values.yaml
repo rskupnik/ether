@@ -1,6 +1,6 @@
 extraEnv:
   - name: HOMEPAGE_ALLOWED_HOSTS
-    value: homepage.nora
+    value: homepage.myzopotamia.dev
 
 extraEnvFrom:
   - secretRef:

@@ -7,7 +7,7 @@ metadata:
     components.nora/ntfy-token: enabled
 spec:
   schedule: "30 2 * * *"
-  
+
   jobTemplate:
     spec:
       backoffLimit: 0
@@ -15,7 +15,7 @@ spec:
         spec:
           restartPolicy: Never
           serviceAccountName: authentik-backup-sa
-          
+
           containers:
             - name: orchestrator
               image: bitnami/kubectl:latest
@@ -40,14 +40,14 @@ spec:
                     -H "Priority: min" -H "Tags: white_check_mark" \
                     -d "Authentik backup successful" \
                     --insecure \
-                    https://ntfy.nora/backups
+                    https://ntfy.myzopotamia.dev/backups
 
                   echo "Backup complete."
               envFrom: []
               volumeMounts:
                 - name: job-definitions
                   mountPath: /configs
-          
+
           volumes:
             - name: job-definitions
               configMap:

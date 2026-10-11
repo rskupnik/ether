@@ -3,7 +3,7 @@ configs:
     admin.enabled: true
     oidc.config: |
       name: Pocket ID
-      issuer: https://id.nora
+      issuer: https://id.myzopotamia.dev
       clientID: 59fac9fd-3867-4f1a-a664-c71f3ebdc902
       clientSecret: $pocket-id-oidc-secrets:client-secret
       requestedScopes:
