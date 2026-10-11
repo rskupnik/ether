@@ -23,7 +23,7 @@ data:
         import /etc/coredns/custom/*.override
     }
 
-    nora:53 {
+    myzopotamia.dev:53 {
         forward . 192.168.1.241
     }
 

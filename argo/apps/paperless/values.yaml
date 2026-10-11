@@ -1,6 +1,6 @@
 fullnameOverride: paperless
 config:
-  url: https://papers.nora
+  url: https://papers.myzopotamia.dev
   # redis:
   #   url: redis://paperless-redis-master:6379
   database:
