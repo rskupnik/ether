@@ -40,6 +40,9 @@ spec:
             - name: WORLD_NAME
               value: "Myzopotamia"
 
+            - name: SERVER_PORT
+              value: "52936"
+
             - name: SERVER_PASS
               valueFrom:
                 secretKeyRef:
@@ -76,11 +79,11 @@ spec:
 
           ports:
             - name: valheim
-              containerPort: 2456
+              containerPort: 52936
               protocol: UDP
 
             - name: valheim-query
-              containerPort: 2457
+              containerPort: 52937
               protocol: UDP
 
           resources:
@@ -153,12 +156,12 @@ spec:
 
             # Incoming connections from Kubernetes to qBittorrent's
             # Web UI/API would otherwise be blocked by Gluetun.
-            - name: FIREWALL_INPUT_PORTS
-              value: "2456,2457"
+            # - name: FIREWALL_INPUT_PORTS
+            #   value: "2456,2457"
 
             # Your fixed AirVPN forwarded port.
             - name: FIREWALL_VPN_INPUT_PORTS
-              value: "52936"
+              value: "52936,52937"
               #value: "2456,2457"
 
             # Permit access to your LAN and Kubernetes networks.
