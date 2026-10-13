@@ -62,3 +62,4 @@ resources:
   - apps/valheim.yaml
   - apps/forgejo.yaml
   - apps/traefik.yaml
+  - apps/nas-webdav-proxy.yaml

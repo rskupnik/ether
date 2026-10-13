@@ -1,0 +1,5 @@
+namespace: nas-webdav
+
+resources:
+  - certificate.yaml
+  - endpoint.yaml

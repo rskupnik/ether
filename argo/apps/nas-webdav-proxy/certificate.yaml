@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nas-webdav-tls
+spec:
+  secretName: nas-webdav-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-cloudflare
+  dnsNames:
+    - "webdav.myzopotamia.dev"
