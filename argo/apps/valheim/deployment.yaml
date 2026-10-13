@@ -158,7 +158,8 @@ spec:
 
             # Your fixed AirVPN forwarded port.
             - name: FIREWALL_VPN_INPUT_PORTS
-              value: "2456,2457"
+              value: "52936"
+              #value: "2456,2457"
 
             # Permit access to your LAN and Kubernetes networks.
             # Adjust these if your K3s CIDRs differ.
@@ -172,14 +173,14 @@ spec:
             # The project recommends no more often than every 15 days.
             - name: UPDATER_PERIOD
               value: "720h"
-          
+
           volumeMounts:
             - name: tun
               mountPath: /dev/net/tun
 
             - name: gluetun-data
               mountPath: /gluetun
-          
+
           resources:
             requests:
               cpu: 25m
@@ -197,7 +198,7 @@ spec:
           hostPath:
             path: /srv/valheim/data
             type: Directory
-        
+
         - name: tun
           hostPath:
             path: /dev/net/tun
