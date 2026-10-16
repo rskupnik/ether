@@ -1,0 +1,9 @@
+namespace: isponsorblocktv
+
+helmCharts:
+  - name: isponsorblocktv
+    repo: https://xvilo.github.io/helm-charts
+    releaseName: isponsorblocktv
+    namespace: isponsorblocktv
+    version: 1.0.5
+    valuesFile: values.yaml

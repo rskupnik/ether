@@ -63,3 +63,4 @@ resources:
   - apps/forgejo.yaml
   - apps/traefik.yaml
   - apps/nas-webdav-proxy.yaml
+  - apps/isponsorblocktv.yaml
