@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: isponsorblocktv
+spec:
+  template:
+    spec:
+      volumes:
+        - name: isponsorblocktv-config
+          configMap: null
+          secret:
+            secretName: isponsorblocktv-config
+            items:
+              - key: config.json
+                path: config.json

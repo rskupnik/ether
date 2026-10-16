@@ -7,3 +7,9 @@ helmCharts:
     namespace: isponsorblocktv
     version: 1.0.5
     valuesFile: values.yaml
+
+resources:
+  - config-secret.sealed.yaml
+
+patches:
+  - path: patch-config.yaml
