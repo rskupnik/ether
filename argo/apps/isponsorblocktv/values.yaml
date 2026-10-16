@@ -1,0 +1,5 @@
+config:
+  devices:
+    - screen_id: "900767949611"
+      name: "Sandomierska Samsung"
+      offset: 0
