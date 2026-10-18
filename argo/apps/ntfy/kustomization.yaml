@@ -4,14 +4,14 @@ namespace: ntfy
 
 components:
   - ../../components/tls-ingress
-  - ../../components/nginx-proxy
+  #- ../../components/nginx-proxy
 
 resources:
   - auth-secret.sealed.yaml
   - deployment.yaml
   - service.yaml
   - pvc.yaml
-  - nginx-config.yaml
+  #- nginx-config.yaml
 
 configMapGenerator:
   - name: server-config
