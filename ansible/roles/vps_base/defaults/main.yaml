@@ -1,0 +1,12 @@
+---
+vps_timezone: Etc/UTC
+vps_ssh_port: 22
+
+vps_packages:
+  - ca-certificates
+  - curl
+  - gnupg
+  - git
+  - ufw
+  - unattended-upgrades
+  - python3

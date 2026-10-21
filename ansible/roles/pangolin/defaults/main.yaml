@@ -1,0 +1,14 @@
+---
+pangolin_install_dir: /opt/pangolin
+
+pangolin_base_domain: example.com
+pangolin_dashboard_domain: pangolin.example.com
+
+pangolin_site_port: 51820
+pangolin_client_port: 21820
+
+pangolin_image: fosrl/pangolin:latest
+pangolin_gerbil_image: fosrl/gerbil:latest
+pangolin_traefik_image: traefik:v3.7
+
+pangolin_badger_version: v1.4.1

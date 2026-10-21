@@ -1,0 +1,16 @@
+---
+- name: Provision Pangolin VPS
+  hosts: pangolin_vps
+  become: true
+
+  pre_tasks:
+    - name: Load encrypted Pangolin secrets
+      community.sops.load_vars:
+        file: >-
+          {{ playbook_dir }}/../inventory/group_vars/pangolin_vps/secrets.enc.yaml
+      no_log: false
+
+  roles:
+    - vps_base
+    - docker
+    - pangolin

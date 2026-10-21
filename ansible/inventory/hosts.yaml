@@ -24,3 +24,9 @@ all:
           ansible_host: 192.168.1.14
           ansible_user: myzreal
           node_hostname: ethernode-gmk
+    
+    pangolin_vps:
+      hosts:
+        pangolin:
+          ansible_host: 193.181.220.251
+          ansible_user: myzek

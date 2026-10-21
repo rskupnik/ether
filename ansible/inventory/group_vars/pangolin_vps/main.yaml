@@ -1,0 +1,10 @@
+---
+pangolin_base_domain: myzopotamia.dev
+pangolin_dashboard_domain: pangolin.myzopotamia.dev
+
+pangolin_endpoint: "{{ ansible_host }}"
+
+pangolin_install_dir: /opt/pangolin
+
+pangolin_site_port: 51820
+pangolin_client_port: 21820

@@ -1,0 +1,5 @@
+- name: Restart Pangolin Traefik
+  ansible.builtin.command:
+    cmd: docker compose restart traefik
+    chdir: "{{ pangolin_install_dir }}"
+  changed_when: true
