@@ -61,6 +61,7 @@ dnsmasq:
     - server=/etherdocs.myzopotamia.dev/#
     - server=/stats.myzopotamia.dev/#
     - server=/www.myzopotamia.dev/#
+    - server=/pangolin.myzopotamia.dev/#
 
   additionalHostsEntries:
     - 192.168.1.69 nas.myzopotamia.dev
