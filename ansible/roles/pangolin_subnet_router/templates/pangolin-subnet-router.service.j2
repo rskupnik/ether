@@ -1,5 +1,5 @@
 [Unit]
-Description=Pangolin LAN Subnet Router
+Description=Pangolin subnet router
 Wants=network-online.target
 After=network-online.target
 
@@ -7,9 +7,10 @@ After=network-online.target
 Type=simple
 User=root
 Group=root
-ExecStart={{ pangolin_cli_binary }} up client --id {{ pangolin_machine_id }} --secret {{ pangolin_machine_secret }} --endpoint {{ pangolin_cli_endpoint }} --subnet-router --attach
+EnvironmentFile=/etc/pangolin/client.env
+ExecStart=/bin/sh -c 'exec {{ pangolin_cli_binary }} up client --id "$PANGOLIN_CLIENT_ID" --secret "$PANGOLIN_CLIENT_SECRET" --endpoint "$PANGOLIN_ENDPOINT" --subnet-router --attach'
 Restart=always
-RestartSec=10
+RestartSec=5
 UMask=0077
 
 [Install]

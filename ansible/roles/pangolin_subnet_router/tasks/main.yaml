@@ -1,52 +1,76 @@
 ---
-- name: Install required packages
+- name: Verify machine client credentials
+  ansible.builtin.assert:
+    that:
+      - pangolin_machine_id is defined
+      - pangolin_machine_secret is defined
+      - pangolin_machine_id | length > 0
+      - pangolin_machine_secret | length > 0
+  no_log: true
+
+- name: Install dependencies
   ansible.builtin.apt:
     name:
-      - curl
       - ca-certificates
-      - nftables
+      - curl
     state: present
     update_cache: true
 
-- name: Check Pangolin CLI installation
+- name: Check Pangolin CLI binary
+  ansible.builtin.stat:
+    path: "{{ pangolin_cli_binary }}"
+  register: pangolin_cli_stat
+
+- name: Download Pangolin CLI installer
+  ansible.builtin.get_url:
+    url: https://static.pangolin.net/get-cli.sh
+    dest: "{{ pangolin_cli_installer }}"
+    mode: "0755"
+  when: not pangolin_cli_stat.stat.exists
+
+- name: Install Pangolin CLI
+  ansible.builtin.command:
+    cmd: "bash {{ pangolin_cli_installer }}"
+  when: not pangolin_cli_stat.stat.exists
+
+- name: Verify CLI installation
   ansible.builtin.stat:
     path: "{{ pangolin_cli_binary }}"
   register: pangolin_cli_installed
 
-- name: Download official Pangolin CLI installer
-  ansible.builtin.get_url:
-    url: https://static.pangolin.net/get-cli.sh
-    dest: /tmp/install-pangolin-cli.sh
-    mode: "0755"
-  when: not pangolin_cli_installed.stat.exists
-
-- name: Install Pangolin CLI
-  ansible.builtin.command:
-    cmd: /bin/bash /tmp/install-pangolin-cli.sh
-  when: not pangolin_cli_installed.stat.exists
-
-- name: Verify Pangolin CLI binary
-  ansible.builtin.stat:
-    path: "{{ pangolin_cli_binary }}"
-  register: pangolin_cli_binary_stat
-
-- name: Assert Pangolin CLI was installed
+- name: Ensure CLI exists
   ansible.builtin.assert:
     that:
-      - pangolin_cli_binary_stat.stat.exists
-    fail_msg: "Pangolin CLI was not found at the configured path"
+      - pangolin_cli_installed.stat.exists
 
-- name: Install subnet router systemd service
+- name: Create Pangolin configuration directory
+  ansible.builtin.file:
+    path: /etc/pangolin
+    state: directory
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: Deploy machine client credentials
   ansible.builtin.template:
-    src: pangolin-subnet-router.service.j2
-    dest: /etc/systemd/system/pangolin-subnet-router.service
+    src: pangolin-client.env.j2
+    dest: /etc/pangolin/client.env
     owner: root
     group: root
     mode: "0600"
   no_log: true
   notify: Restart Pangolin subnet router
 
-- name: Enable Pangolin subnet router
+- name: Deploy systemd service
+  ansible.builtin.template:
+    src: pangolin-subnet-router.service.j2
+    dest: /etc/systemd/system/pangolin-subnet-router.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart Pangolin subnet router
+
+- name: Enable and start subnet router
   ansible.builtin.systemd_service:
     name: pangolin-subnet-router
     enabled: true

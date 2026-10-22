@@ -1,10 +1,10 @@
 ---
-- name: Configure Pangolin LAN routers
+- name: Deploy Pangolin subnet routers
   hosts: pangolin_subnet_routers
   become: true
 
   pre_tasks:
-    - name: Load Pangolin network credentials
+    - name: Load Pangolin machine credentials
       community.sops.load_vars:
         file: >-
           {{ playbook_dir }}/../inventory/group_vars/pangolin_subnet_routers/secrets.enc.yaml
