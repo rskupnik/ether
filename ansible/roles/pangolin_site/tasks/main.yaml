@@ -1,0 +1,80 @@
+---
+- name: Verify Newt credentials are available
+  ansible.builtin.assert:
+    that:
+      - pangolin_site_id is defined
+      - pangolin_site_secret is defined
+      - pangolin_site_id | length > 0
+      - pangolin_site_secret | length > 0
+    fail_msg: "Missing Pangolin Site credentials"
+  no_log: true
+
+- name: Install Newt dependencies
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+    state: present
+    update_cache: true
+
+- name: Check if Newt is installed
+  ansible.builtin.stat:
+    path: "{{ pangolin_site_binary }}"
+  register: newt_binary
+
+- name: Download Newt installation script
+  ansible.builtin.get_url:
+    url: https://static.pangolin.net/get-newt.sh
+    dest: "{{ pangolin_site_install_script }}"
+    mode: "0755"
+  when: not newt_binary.stat.exists
+
+- name: Install Newt
+  ansible.builtin.command:
+    cmd: "bash {{ pangolin_site_install_script }}"
+  when: not newt_binary.stat.exists
+
+- name: Verify Newt binary exists
+  ansible.builtin.stat:
+    path: "{{ pangolin_site_binary }}"
+  register: newt_installed
+
+- name: Assert Newt installation succeeded
+  ansible.builtin.assert:
+    that:
+      - newt_installed.stat.exists
+    fail_msg: "Newt was not installed at {{ pangolin_site_binary }}"
+
+- name: Create Newt configuration directory
+  ansible.builtin.file:
+    path: /etc/newt
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Deploy Newt environment file
+  ansible.builtin.template:
+    src: newt.env.j2
+    dest: /etc/newt/newt.env
+    owner: root
+    group: root
+    mode: "0600"
+  no_log: true
+  notify: Restart Newt
+
+- name: Deploy Newt systemd service
+  ansible.builtin.template:
+    src: newt.service.j2
+    dest: /etc/systemd/system/newt.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart Newt
+
+- name: Enable and start Newt
+  ansible.builtin.systemd_service:
+    name: newt
+    enabled: true
+    state: started
+    daemon_reload: true

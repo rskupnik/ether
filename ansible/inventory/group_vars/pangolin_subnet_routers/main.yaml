@@ -1,0 +1,3 @@
+---
+pangolin_cli_endpoint: https://pangolin.myzopotamia.dev
+pangolin_cli_binary: /usr/local/bin/pangolin

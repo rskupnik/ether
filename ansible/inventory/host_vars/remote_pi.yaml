@@ -1,0 +1,13 @@
+---
+pangolin_site_name: remote-home
+
+pangolin_local_subnet: 192.168.178.0/24
+pangolin_remote_subnet: 192.168.1.0/24
+
+pangolin_router_lan_ip: 192.168.178.69
+
+pangolin_machine_id: "{{ vault_pangolin_remote_machine_id }}"
+pangolin_machine_secret: "{{ vault_pangolin_remote_machine_secret }}"
+
+pangolin_site_id: "{{ vault_pangolin_remote_site_id }}"
+pangolin_site_secret: "{{ vault_pangolin_remote_site_secret }}"

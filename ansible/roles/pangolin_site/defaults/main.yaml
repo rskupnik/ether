@@ -1,0 +1,4 @@
+---
+pangolin_site_endpoint: "https://pangolin.myzopotamia.dev"
+pangolin_site_binary: /usr/local/bin/newt
+pangolin_site_install_script: /tmp/install-newt.sh

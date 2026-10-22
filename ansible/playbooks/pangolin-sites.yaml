@@ -1,0 +1,14 @@
+---
+- name: Deploy Pangolin Site connectors
+  hosts: pangolin_site_hosts
+  become: true
+
+  pre_tasks:
+    - name: Load Pangolin Site credentials
+      community.sops.load_vars:
+        file: >-
+          {{ playbook_dir }}/../inventory/group_vars/pangolin_site_hosts/secrets.enc.yaml
+      no_log: true
+
+  roles:
+    - pangolin_site

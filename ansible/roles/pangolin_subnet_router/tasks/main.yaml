@@ -1,0 +1,54 @@
+---
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - curl
+      - ca-certificates
+      - nftables
+    state: present
+    update_cache: true
+
+- name: Check Pangolin CLI installation
+  ansible.builtin.stat:
+    path: "{{ pangolin_cli_binary }}"
+  register: pangolin_cli_installed
+
+- name: Download official Pangolin CLI installer
+  ansible.builtin.get_url:
+    url: https://static.pangolin.net/get-cli.sh
+    dest: /tmp/install-pangolin-cli.sh
+    mode: "0755"
+  when: not pangolin_cli_installed.stat.exists
+
+- name: Install Pangolin CLI
+  ansible.builtin.command:
+    cmd: /bin/bash /tmp/install-pangolin-cli.sh
+  when: not pangolin_cli_installed.stat.exists
+
+- name: Verify Pangolin CLI binary
+  ansible.builtin.stat:
+    path: "{{ pangolin_cli_binary }}"
+  register: pangolin_cli_binary_stat
+
+- name: Assert Pangolin CLI was installed
+  ansible.builtin.assert:
+    that:
+      - pangolin_cli_binary_stat.stat.exists
+    fail_msg: "Pangolin CLI was not found at the configured path"
+
+- name: Install subnet router systemd service
+  ansible.builtin.template:
+    src: pangolin-subnet-router.service.j2
+    dest: /etc/systemd/system/pangolin-subnet-router.service
+    owner: root
+    group: root
+    mode: "0600"
+  no_log: true
+  notify: Restart Pangolin subnet router
+
+- name: Enable Pangolin subnet router
+  ansible.builtin.systemd_service:
+    name: pangolin-subnet-router
+    enabled: true
+    state: started
+    daemon_reload: true

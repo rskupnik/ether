@@ -1,0 +1,18 @@
+[Unit]
+Description=Pangolin Newt Site Connector
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+EnvironmentFile=/etc/newt/newt.env
+ExecStart={{ pangolin_site_binary }}
+Restart=always
+RestartSec=5
+UMask=0077
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
