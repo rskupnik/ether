@@ -1,0 +1,76 @@
+---
+- name: Remove Tailscale from remote Raspberry Pi
+  hosts: ethernode1
+  become: true
+
+  tasks:
+    - name: Stop and disable Tailscale
+      ansible.builtin.systemd_service:
+        name: tailscaled
+        state: stopped
+        enabled: false
+      failed_when: false
+
+    - name: Find Tailscale APT repository files
+      ansible.builtin.find:
+        paths: /etc/apt/sources.list.d
+        patterns:
+          - "*tailscale*.list"
+          - "*tailscale*.sources"
+        file_type: file
+      register: tailscale_apt_sources
+
+    - name: Remove Tailscale APT repository files
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ tailscale_apt_sources.files }}"
+
+    - name: Remove Tailscale APT signing keys
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /usr/share/keyrings/tailscale-archive-keyring.gpg
+        - /etc/apt/keyrings/tailscale.gpg
+
+    - name: Remove Tailscale package
+      ansible.builtin.apt:
+        name: tailscale
+        state: absent
+        purge: true
+        update_cache: false
+
+    - name: Remove Tailscale configuration and state
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/tailscale
+        - /etc/default/tailscaled
+        - /etc/tailscale
+
+    - name: Remove Tailscale APT repository files
+      ansible.builtin.shell: |
+        rm -f /etc/apt/sources.list.d/tailscale*.list
+        rm -f /etc/apt/sources.list.d/tailscale*.sources
+        rm -f /usr/share/keyrings/tailscale-archive-keyring.gpg
+      changed_when: true
+
+    - name: Reload systemd
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+    
+    - name: Remove IPv4 forwarding override
+      ansible.builtin.sysctl:
+        name: net.ipv4.ip_forward
+        state: absent
+        reload: yes
+    
+    - name: Disable IPv4 forwarding
+      ansible.builtin.sysctl:
+        name: net.ipv4.ip_forward
+        value: '0'
+        state: present
+        sysctl_set: yes
+        reload: yes

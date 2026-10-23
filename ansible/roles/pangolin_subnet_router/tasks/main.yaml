@@ -15,6 +15,7 @@
       - curl
     state: present
     update_cache: true
+    lock_timeout: 30
 
 - name: Check Pangolin CLI binary
   ansible.builtin.stat:
@@ -69,6 +70,29 @@
     group: root
     mode: "0644"
   notify: Restart Pangolin subnet router
+
+- name: Allow LAN traffic through Pangolin
+  ansible.builtin.iptables:
+    chain: FORWARD
+    in_interface: "{{ item.in_iface }}"
+    out_interface: "{{ item.out_iface }}"
+    source: "{{ item.source }}"
+    destination: "{{ item.dest }}"
+    jump: ACCEPT
+    ip_version: ipv4
+    state: present
+    action: insert
+  loop:
+    - in_iface: "{{ pangolin_lan_interface }}"
+      out_iface: "pangolin"
+      source: "{{ pangolin_local_subnet }}"
+      dest: "{{ pangolin_remote_subnet }}"
+
+    - in_iface: "pangolin"
+      out_iface: "{{ pangolin_lan_interface }}"
+      source: "{{ pangolin_remote_subnet }}"
+      dest: "{{ pangolin_local_subnet }}"
+  when: pangolin_manage_forwarding_rules | bool
 
 - name: Enable and start subnet router
   ansible.builtin.systemd_service:

@@ -11,3 +11,6 @@ pangolin_machine_secret: "{{ vault_pangolin_remote_machine_secret }}"
 
 pangolin_site_id: "{{ vault_pangolin_remote_site_id }}"
 pangolin_site_secret: "{{ vault_pangolin_remote_site_secret }}"
+
+pangolin_manage_forwarding_rules: true
+pangolin_lan_interface: wlan0
