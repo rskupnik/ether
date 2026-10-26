@@ -8,6 +8,7 @@ helmCharts:
 
 resources:
   - grafana-secrets-sealed.yaml
+  - oidc-secrets.sealed.yaml
 
 components:
   - ../../components/tls-ingress
