@@ -28,4 +28,4 @@ grafana:
       api_url: https://id.myzopotamia.dev/api/oidc/userinfo
 
       allow_sign_up: true
-      auto_login: true
+      auto_login: false
