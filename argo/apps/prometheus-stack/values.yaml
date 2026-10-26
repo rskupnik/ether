@@ -3,15 +3,29 @@ grafana:
   adminPassword: ""
   admin:
     existingSecret: grafana-custom-password
-  # ingress:
-  #   enabled: true
-  #   ingressClassName: traefik
-  #   annotations:
-  #     kubernetes.io/ingress.class: "traefik"
-  #     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-  #   hosts:
-  #     - grafana.nora
-  #   tls:
-  #     - secretName: grafana-nora-tls
-  #       hosts:
-  #         - grafana.nora
+  envValueFrom:
+    GF_AUTH_GENERIC_OAUTH_CLIENT_ID:
+      secretKeyRef:
+        name: grafana-pocket-id
+        key: client-id
+
+    GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
+      secretKeyRef:
+        name: grafana-pocket-id
+        key: client-secret
+
+  grafana.ini:
+    server:
+      root_url: https://grafana.myzopotamia.dev/
+
+    auth.generic_oauth:
+      enabled: true
+      name: Pocket ID
+
+      scopes: openid email profile
+      auth_url: https://id.myzopotamia.dev/authorize
+      token_url: https://id.myzopotamia.dev/api/oidc/token
+      api_url: https://id.myzopotamia.dev/api/oidc/userinfo
+
+      allow_sign_up: false
+      auto_login: false
