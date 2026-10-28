@@ -8,9 +8,28 @@ vikunja:
     main:
       enabled: false
   configMaps:
-      config:
-        enabled: true
-        data:
-          config.yml: |
-            service:
-              publicurl: https://vikunja.myzopotamia.dev
+    config:
+      enabled: true
+      data:
+        config.yml: |
+          service:
+            publicurl: https://vikunja.myzopotamia.dev
+            enableregistration: false
+
+          auth:
+            local:
+              enabled: true
+            openid:
+              enabled: true
+              providers:
+                pocketid:
+                  name: "Pocket ID"
+                  authurl: "https://id.myzopotamia.dev"
+                  clientid: "286df1c0-2b60-40f0-adf9-33d3861165e4"
+                  scope: "openid profile email"
+  env:
+    VIKUNJA_AUTH_OPENID_PROVIDERS_POCKETID_CLIENTSECRET:
+      valueFrom:
+        secretKeyRef:
+          name: vikunja-oidc
+          key: client-secret
