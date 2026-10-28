@@ -1,0 +1,18 @@
+helmCharts:
+  - name: vikunja
+    repo: oci://ghcr.io/go-vikunja/helm-chart
+    releaseName: vikunja
+    namespace: vikunja
+    version: 2.2.1
+    valuesFile: values.yaml
+
+components:
+  - ../../components/tls-ingress
+
+configMapGenerator:
+  - name: tls-config
+    literals:
+      - host=vikunja.myzopotamia.dev
+      - service=vikunja
+      - port=http
+      - pathType=ImplementationSpecific

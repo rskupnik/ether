@@ -64,3 +64,4 @@ resources:
   - apps/traefik.yaml
   - apps/nas-webdav-proxy.yaml
   - apps/isponsorblocktv.yaml
+  - apps/vikunja.yaml

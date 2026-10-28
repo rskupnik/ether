@@ -1,0 +1,16 @@
+vikunja:
+  persistence:
+    data:
+      storageClass: longhorn
+    database:
+      storageClass: longhorn
+  ingress:
+    main:
+      enabled: false
+  configMaps:
+      config:
+        enabled: true
+        data:
+          config.yml: |
+            service:
+              publicurl: https://vikunja.myzopotamia.dev
