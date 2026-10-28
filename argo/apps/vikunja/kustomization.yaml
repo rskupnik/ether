@@ -9,6 +9,9 @@ helmCharts:
 components:
   - ../../components/tls-ingress
 
+resources:
+  - oidc-secret.sealed.yaml
+
 configMapGenerator:
   - name: tls-config
     literals:
