@@ -13,8 +13,8 @@ generatorOptions:
 
 components:
   - ../../components/ntfy-token
-  - ../../components/offsite-ssh-key
   - ../../components/tls-ingress
+  - ../../components/backup/db
 
 resources:
   - db-creds-secret.sealed.yaml
@@ -22,15 +22,16 @@ resources:
   - extra-env-secret.sealed.yaml
   - pvc-patch-job.yaml
   - pvc-patch-rbac.yaml
-  - backup/rbac.yaml
-  - backup/orchestrator-cronjob.yaml
 
 configMapGenerator:
-  - name: paperless-backup-job-definitions
-    files:
-      - backup/backup-media-job.yaml
-      - backup/backup-db-job.yaml
-      - backup/backup-redis-job.yaml
+  - name: db-backup-config
+    literals:
+      - DB_HOST=paperless-postgresql.paperless.svc.cluster.local
+      - DB_USER=paperless
+      - DB_PATH=paperless
+      - DB_SECRET_NAME=db-creds
+      - DB_SECRET_KEY=postgres
+      - BACKUP_SCHEDULE="0 3 * * *"
   - name: tls-config
     literals:
       - host=papers.myzopotamia.dev
