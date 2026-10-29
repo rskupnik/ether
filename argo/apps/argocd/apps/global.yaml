@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: global
+  namespace: argocd
+spec:
+  project: platform
+  source:
+    repoURL: https://github.com/rskupnik/ether.git
+    targetRevision: HEAD
+    path: argo/apps/global
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

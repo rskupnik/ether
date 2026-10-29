@@ -11,7 +11,7 @@ generatorOptions:
 
 components:
   - ../../components/ntfy-token
-  - ../../components/offsite-ssh-key
+  # - ../../components/offsite-ssh-key
   - ../../components/tls-ingress
 
 resources:
@@ -19,14 +19,14 @@ resources:
   - postgres/statefulset.yaml
   - postgres/service.yaml
   - storage.yaml
-  - backup/rbac.yaml
-  - backup/orchestrator-cronjob.yaml
+  # - backup/rbac.yaml
+  # - backup/orchestrator-cronjob.yaml
 
 configMapGenerator:
-  - name: immich-backup-job-definitions
-    files:
-      - backup/backup-media-job.yaml
-      - backup/backup-db-job.yaml
+  # - name: immich-backup-job-definitions
+  #   files:
+  #     - backup/backup-media-job.yaml
+  #     - backup/backup-db-job.yaml
   - name: tls-config
     literals:
       - host=photos.myzopotamia.dev

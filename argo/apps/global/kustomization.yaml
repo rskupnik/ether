@@ -1,0 +1,2 @@
+resources:
+  - ssh-key-secret.sealed.yaml
