@@ -1,0 +1,61 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+resources:
+  - backup-job.yaml
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: db-backup-config
+      fieldPath: data.DB_HOST
+    targets:
+      - select:
+          kind: Job
+          name: backup-db
+        fieldPaths:
+          - spec.template.spec.containers.[name=backup-db].env.[name=DB_HOST].value
+
+  - source:
+      kind: ConfigMap
+      name: db-backup-config
+      fieldPath: data.DB_USER
+    targets:
+      - select:
+          kind: Job
+          name: backup-db
+        fieldPaths:
+          - spec.template.spec.containers.[name=backup-db].env.[name=DB_USER].value
+
+  - source:
+      kind: ConfigMap
+      name: db-backup-config
+      fieldPath: data.DB_PATH
+    targets:
+      - select:
+          kind: Job
+          name: backup-db
+        fieldPaths:
+          - spec.template.spec.containers.[name=backup-db].env.[name=DB_PATH].value
+
+  - source:
+      kind: ConfigMap
+      name: db-backup-config
+      fieldPath: data.DB_SECRET_NAME
+    targets:
+      - select:
+          kind: Job
+          name: backup-db
+        fieldPaths:
+          - spec.template.spec.containers.[name=backup-db].env.[name=PGPASSWORD].valueFrom.secretKeyRef.name
+
+  - source:
+      kind: ConfigMap
+      name: db-backup-config
+      fieldPath: data.DB_SECRET_KEY
+    targets:
+      - select:
+          kind: Job
+          name: backup-db
+        fieldPaths:
+          - spec.template.spec.containers.[name=backup-db].env.[name=PGPASSWORD].valueFrom.secretKeyRef.key

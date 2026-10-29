@@ -1,0 +1,57 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: backup-db
+  labels:
+    app: backup
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: backup
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: backup-db
+          image: postgres:17-alpine
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Install rsync"
+              apk add --no-cache rsync openssh-client
+
+              echo "Dumping all PostgreSQL databases..."
+              pg_dumpall --clean --if-exists -h ${DB_HOST} -U ${DB_USER} > /tmp/all.sql
+
+              echo "Ensuring target directory exists..."
+              ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+                pi@192.168.178.69 "mkdir -p /mnt/backup/${DB_PATH}/db"
+
+              echo "Sending DB dump to remote host..."
+              rsync -av \
+                -e "ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                /tmp/all.sql \
+                pi@192.168.178.69:/mnt/backup/${DB_PATH}/db/
+
+              echo "Backup completed."
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: placeholder
+                  key: password
+            - name: DB_HOST
+              value: placeholder
+            - name: DB_USER
+              value: placeholder
+            - name: DB_PATH
+              value: placeholder
+          volumeMounts:
+            - name: ssh-keys
+              mountPath: /ssh-keys
+      volumes:
+        - name: ssh-keys
+          secret:
+            secretName: ssh-keys
+            defaultMode: 0600
