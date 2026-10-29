@@ -28,6 +28,7 @@ configMapGenerator:
       - DB_PATH=immich
       - DB_SECRET_NAME=immich-postgres-credentials
       - DB_SECRET_KEY=password
+      - BACKUP_SCHEDULE="0 2 * * *"
   - name: tls-config
     literals:
       - host=photos.myzopotamia.dev
