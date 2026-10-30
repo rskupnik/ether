@@ -8,16 +8,12 @@ helmCharts:
 
 components:
   - ../../components/ntfy-token
-  - ../../components/offsite-ssh-key
   - ../../components/tls-ingress
 
 generatorOptions:
   disableNameSuffixHash: true
 
 configMapGenerator:
-  - name: authentik-backup-job-definitions
-    files:
-      - backup/backup-db-job.yaml
   - name: tls-config
     literals:
       - host=authentik.myzopotamia.dev
@@ -28,8 +24,6 @@ configMapGenerator:
 resources:
   - secrets/authentik-config-sealed.yaml
   - secrets/authentik-postgresql-custom-sealed.yaml
-  - backup/rbac.yaml
-  - backup/orchestrator-cronjob.yaml
 
   # --- INTEGRATIONS
 
