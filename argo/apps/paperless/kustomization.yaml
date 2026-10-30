@@ -15,6 +15,7 @@ components:
   - ../../components/ntfy-token
   - ../../components/tls-ingress
   - ../../components/backup/db
+  - ../../components/backup/data
 
 resources:
   - db-creds-secret.sealed.yaml
@@ -31,6 +32,12 @@ configMapGenerator:
       - DB_PATH=paperless
       - DB_SECRET_NAME=db-creds
       - DB_SECRET_KEY=postgres
+      - BACKUP_SCHEDULE="0 3 * * *"
+  - name: data-backup-config
+    literals:
+      - DEPLOYMENT_NAME=paperless
+      - DESTINATION_PATH=paperless/data/
+      - PVC_CLAIM_NAME=paperless-data
       - BACKUP_SCHEDULE="0 3 * * *"
   - name: tls-config
     literals:

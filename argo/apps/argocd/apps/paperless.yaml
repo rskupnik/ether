@@ -12,9 +12,17 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: paperless
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: paperless
+      namespace: paperless
+      jsonPointers:
+        - /spec/replicas
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - RespectIgnoreDifferences=true
     automated:
       prune: true
       selfHeal: true
