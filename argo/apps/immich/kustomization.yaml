@@ -13,6 +13,7 @@ components:
   - ../../components/ntfy-token
   - ../../components/tls-ingress
   - ../../components/backup/db
+  - ../../components/backup/data
 
 resources:
   - db-credentials-secret.sealed.yaml
@@ -28,6 +29,12 @@ configMapGenerator:
       - DB_PATH=immich
       - DB_SECRET_NAME=immich-postgres-credentials
       - DB_SECRET_KEY=password
+      - BACKUP_SCHEDULE="0 2 * * *"
+  - name: data-backup-config
+    literals:
+      - DEPLOYMENT_NAME=immich-server
+      - DESTINATION_PATH=immich/data/
+      - PVC_CLAIM_NAME=immich-data-nas
       - BACKUP_SCHEDULE="0 2 * * *"
   - name: tls-config
     literals:

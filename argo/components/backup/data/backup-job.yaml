@@ -1,0 +1,67 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-data
+  labels:
+    app: backup
+spec:
+  schedule: "0 3 * * *"
+  timeZone: Europe/Warsaw
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          labels:
+            app: backup
+        spec:
+          restartPolicy: Never
+          serviceAccountName: data-backup-sa
+          containers:
+            - name: backup-data
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  echo "Scaling down"
+                  kubectl scale deploy ${DEPLOYMENT_NAME} --replicas=0
+                  sleep 6
+
+                  echo "Install rsync"
+                  apk add --no-cache rsync openssh-client
+
+                  echo "Ensuring target directory exists..."
+                  ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+                    pi@192.168.178.69 "mkdir -p /mnt/backup/${DESTINATION_PATH}"
+                  
+                  echo "Starting data backup..."
+                  rsync -avh --delete \
+                    -e "ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                    /data/ \
+                    pi@192.168.178.69:/mnt/backup/${DESTINATION_PATH}
+
+                  echo "Scaling up"
+                  kubectl scale deploy ${DEPLOYMENT_NAME} --replicas=1
+
+                  echo "Backup complete."
+              env:
+                - name: DEPLOYMENT_NAME
+                  value: placeholder
+                - name: DESTINATION_PATH
+                  value: placeholder
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                - name: ssh-keys
+                  mountPath: /ssh-keys
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: placeholder
+            - name: ssh-keys
+              secret:
+                secretName: ssh-keys
+                defaultMode: 0600

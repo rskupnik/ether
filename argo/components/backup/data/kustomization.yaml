@@ -1,0 +1,52 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+resources:
+  - backup-job.yaml
+  - rbac.yaml
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: data-backup-config
+      fieldPath: data.BACKUP_SCHEDULE
+    targets:
+      - select:
+          kind: CronJob
+          name: backup-data
+        fieldPaths:
+          - spec.schedule
+
+  - source:
+      kind: ConfigMap
+      name: data-backup-config
+      fieldPath: data.DEPLOYMENT_NAME
+    targets:
+      - select:
+          kind: CronJob
+          name: backup-data
+        fieldPaths:
+          - spec.jobTemplate.spec.template.spec.containers.[name=backup-data].env.[name=DEPLOYMENT_NAME].value
+
+  - source:
+      kind: ConfigMap
+      name: data-backup-config
+      fieldPath: data.DESTINATION_PATH
+    targets:
+      - select:
+          kind: CronJob
+          name: backup-data
+        fieldPaths:
+          - spec.jobTemplate.spec.template.spec.containers.[name=backup-data].env.[name=DESTINATION_PATH].value
+  
+  - source:
+      kind: ConfigMap
+      name: data-backup-config
+      fieldPath: data.PVC_CLAIM_NAME
+    targets:
+      - select:
+          kind: CronJob
+          name: backup-data
+        fieldPaths:
+          - spec.jobTemplate.spec.template.spec.volumes.[name=data].persistentVolumeClaim.claimName
+
