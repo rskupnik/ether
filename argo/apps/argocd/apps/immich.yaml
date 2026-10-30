@@ -12,9 +12,17 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: immich
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: immich-server
+      namespace: immich
+      jsonPointers:
+        - /spec/replicas
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - RespectIgnoreDifferences=true
     automated:
       prune: true
       selfHeal: true
