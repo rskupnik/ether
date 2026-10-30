@@ -22,16 +22,16 @@ spec:
           serviceAccountName: data-backup-sa
           containers:
             - name: backup-data
-              image: bitnami/kubectl:latest
+              image: alpine:latest
               command: ["/bin/sh", "-c"]
               args:
                 - |
+                  echo "Install rsync and kubectl"
+                  apk add --no-cache rsync openssh-client kubectl
+
                   echo "Scaling down"
                   kubectl scale deploy ${DEPLOYMENT_NAME} --replicas=0
                   sleep 6
-
-                  echo "Install rsync"
-                  apk add --no-cache rsync openssh-client
 
                   echo "Ensuring target directory exists..."
                   ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
