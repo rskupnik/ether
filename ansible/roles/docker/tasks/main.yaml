@@ -23,14 +23,13 @@
 - name: Add Docker APT repository
   ansible.builtin.deb822_repository:
     name: docker
-    types:
-      - deb
-    uris: https://download.docker.com/linux/ubuntu
+    types: [deb]
+    uris:
+      - "https://download.docker.com/linux/{{ ansible_facts['distribution'] | lower }}"
     suites:
-      - "{{ ansible_distribution_release }}"
-    components:
-      - stable
-    signed_by: /etc/apt/keyrings/docker.asc
+      - "{{ ansible_facts['distribution_release'] }}"
+    components: [stable]
+    signed_by: "https://download.docker.com/linux/{{ ansible_facts['distribution'] | lower }}/gpg"
     state: present
 
 - name: Install Docker Engine and Compose

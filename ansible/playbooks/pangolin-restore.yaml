@@ -1,0 +1,130 @@
+
+---
+- name: Restore Pangolin from backup
+  hosts: pangolin
+  become: true
+  gather_facts: false
+
+  vars:
+    pangolin_dir: /opt/pangolin
+    pangolin_backup_file: "{{ playbook_dir }}/../pangolin-backup.tar.gz"
+    pangolin_restore_archive: /tmp/pangolin-restore.tar.gz
+    pangolin_rollback_dir: /opt/pangolin-before-restore
+
+  tasks:
+    - name: Verify local backup exists
+      ansible.builtin.stat:
+        path: "{{ pangolin_backup_file }}"
+      delegate_to: localhost
+      become: false
+      register: backup_stat
+
+    - name: Fail if backup is missing
+      ansible.builtin.assert:
+        that:
+          - backup_stat.stat.exists
+          - backup_stat.stat.isreg
+        fail_msg: "Backup not found: {{ pangolin_backup_file }}"
+
+    - name: Upload backup to VPS
+      ansible.builtin.copy:
+        src: "{{ pangolin_backup_file }}"
+        dest: "{{ pangolin_restore_archive }}"
+        mode: "0600"
+
+    - name: Verify backup archive structure
+      ansible.builtin.command:
+        argv:
+          - tar
+          - -tzf
+          - "{{ pangolin_restore_archive }}"
+      register: archive_contents
+      changed_when: false
+
+    - name: Validate Pangolin backup
+      ansible.builtin.assert:
+        that:
+          - "'pangolin/' in archive_contents.stdout_lines"
+          - "archive_contents.stdout is search('pangolin/config/')"
+        fail_msg: "Archive does not look like a Pangolin backup"
+
+    - name: Check existing installation
+      ansible.builtin.stat:
+        path: "{{ pangolin_dir }}"
+      register: pangolin_installation
+
+    - name: Stop Pangolin
+      community.docker.docker_compose_v2:
+        project_src: "{{ pangolin_dir }}"
+        state: absent
+        remove_volumes: false
+      when: pangolin_installation.stat.exists
+
+    - name: Check existing rollback directory
+      ansible.builtin.stat:
+        path: "{{ pangolin_rollback_dir }}"
+      register: rollback_stat
+
+    - name: Refuse to overwrite existing rollback
+      ansible.builtin.assert:
+        that:
+          - not rollback_stat.stat.exists
+        fail_msg: >-
+          Rollback directory already exists:
+          {{ pangolin_rollback_dir }}.
+          Move or remove it manually before restoring.
+
+    - name: Preserve current installation
+      ansible.builtin.command:
+        argv:
+          - mv
+          - "{{ pangolin_dir }}"
+          - "{{ pangolin_rollback_dir }}"
+      when: pangolin_installation.stat.exists
+
+    - name: Restore Pangolin files
+      ansible.builtin.command:
+        argv:
+          - tar
+          - --acls
+          - --xattrs
+          - --numeric-owner
+          - -xzf
+          - "{{ pangolin_restore_archive }}"
+          - -C
+          - /opt
+
+    - name: Start restored Pangolin
+      community.docker.docker_compose_v2:
+        project_src: "{{ pangolin_dir }}"
+        state: present
+        pull: never
+
+    - name: Wait for Pangolin containers
+      ansible.builtin.command:
+        argv:
+          - docker
+          - compose
+          - ps
+          - --status
+          - running
+          - --services
+      args:
+        chdir: "{{ pangolin_dir }}"
+      register: running_services
+      retries: 12
+      delay: 5
+      until: "'pangolin' in running_services.stdout_lines"
+      changed_when: false
+
+    - name: Remove uploaded backup
+      ansible.builtin.file:
+        path: "{{ pangolin_restore_archive }}"
+        state: absent
+
+    - name: Show restore result
+      ansible.builtin.debug:
+        msg:
+          - "Pangolin restored from {{ pangolin_backup_file }}"
+          - "Previous installation: {{ pangolin_rollback_dir }}"
+          - "Verify login, Newt connectors, and public resources."
