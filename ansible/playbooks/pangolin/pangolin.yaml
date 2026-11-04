@@ -7,7 +7,7 @@
     - name: Load encrypted Pangolin secrets
       community.sops.load_vars:
         file: >-
-          {{ playbook_dir }}/../inventory/group_vars/pangolin_vps/secrets.enc.yaml
+          {{ playbook_dir }}/../../inventory/group_vars/pangolin_vps/secrets.enc.yaml
       no_log: false
 
   roles:

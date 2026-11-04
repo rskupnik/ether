@@ -7,7 +7,7 @@
     - name: Load Pangolin machine credentials
       community.sops.load_vars:
         file: >-
-          {{ playbook_dir }}/../inventory/group_vars/pangolin_subnet_routers/secrets.enc.yaml
+          {{ playbook_dir }}/../../inventory/group_vars/pangolin_subnet_routers/secrets.enc.yaml
       no_log: true
 
   roles:

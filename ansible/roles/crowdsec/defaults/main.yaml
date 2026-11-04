@@ -1,0 +1,11 @@
+
+---
+crowdsec_collections:
+  - crowdsecurity/sshd
+
+crowdsec_enable_ssh_acquisition: true
+
+# Leave enforcement disabled until detection is verified.
+crowdsec_firewall_bouncer_enabled: true
+
+crowdsec_console_name: pangolin-vps

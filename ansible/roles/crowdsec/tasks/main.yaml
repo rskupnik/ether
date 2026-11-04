@@ -1,0 +1,142 @@
+
+---
+- name: Assert supported operating system
+  ansible.builtin.assert:
+    that:
+      - ansible_facts['distribution'] == 'Debian'
+      - ansible_facts['distribution_major_version'] == '13'
+    fail_msg: "This role currently supports Debian 13 only."
+
+- name: Install prerequisites
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+      - python3-debian
+    state: present
+    update_cache: true
+
+- name: Download CrowdSec repository installer
+  ansible.builtin.get_url:
+    url: https://install.crowdsec.net
+    dest: /tmp/install-crowdsec.sh
+    mode: "0644"
+
+# The official installer configures the CrowdSec APT repository.
+# Review/pin the installer before using this in production.
+- name: Check whether CrowdSec repository exists
+  ansible.builtin.find:
+    paths: /etc/apt/sources.list.d
+    patterns: "*crowdsec*"
+  register: crowdsec_repos
+
+- name: Configure CrowdSec APT repository
+  ansible.builtin.command:
+    cmd: sh /tmp/install-crowdsec.sh
+  when: crowdsec_repos.matched == 0
+
+- name: Install CrowdSec
+  ansible.builtin.apt:
+    name: crowdsec
+    state: present
+    update_cache: true
+
+- name: Enable CrowdSec service
+  ansible.builtin.systemd_service:
+    name: crowdsec
+    enabled: true
+    state: started
+
+- name: Check installed collections
+  ansible.builtin.command:
+    cmd: cscli collections list -o json
+  register: installed_collections
+  changed_when: false
+
+- name: Install required collections
+  ansible.builtin.command:
+    argv:
+      - cscli
+      - collections
+      - install
+      - "{{ item }}"
+  loop: "{{ crowdsec_collections }}"
+  when: item not in (installed_collections.stdout | from_json)
+  notify: Restart CrowdSec
+
+- name: Configure SSH journal acquisition
+  ansible.builtin.template:
+    src: sshd-acquis.yaml.j2
+    dest: /etc/crowdsec/acquis.d/sshd.yaml
+    owner: root
+    group: root
+    mode: "0644"
+  when: crowdsec_enable_ssh_acquisition
+  notify: Restart CrowdSec
+
+- name: Validate CrowdSec configuration
+  ansible.builtin.command:
+    cmd: crowdsec -t
+  changed_when: false
+
+- name: Apply pending configuration changes
+  ansible.builtin.meta: flush_handlers
+
+- name: Check Console enrollment status
+  ansible.builtin.command:
+    cmd: cscli console status -o json
+  register: crowdsec_console_status
+  changed_when: false
+  failed_when: false
+  when: crowdsec_console_enrollment_key | length > 0
+  no_log: true
+
+- name: Enroll CrowdSec in Console
+  ansible.builtin.command:
+    argv:
+      - cscli
+      - console
+      - enroll
+      - --name
+      - "{{ crowdsec_console_name }}"
+      - "{{ crowdsec_console_enrollment_key }}"
+  when:
+    - crowdsec_console_enrollment_key | length > 0
+    - crowdsec_console_status.stdout is not search('"validated":\\s*true')
+  no_log: true
+  notify: Restart CrowdSec
+
+- name: Install nftables firewall bouncer
+  ansible.builtin.apt:
+    name: crowdsec-firewall-bouncer-nftables
+    state: present
+  when: crowdsec_firewall_bouncer_enabled
+
+- name: Enable and start firewall bouncer
+  ansible.builtin.systemd_service:
+    name: crowdsec-firewall-bouncer
+    enabled: true
+    state: started
+  when: crowdsec_firewall_bouncer_enabled
+
+- name: Disable firewall bouncer
+  ansible.builtin.systemd_service:
+    name: crowdsec-firewall-bouncer
+    enabled: false
+    state: stopped
+  when: not crowdsec_firewall_bouncer_enabled
+  failed_when: false
+
+- name: Apply pending service changes
+  ansible.builtin.meta: flush_handlers
+
+- name: Display CrowdSec status
+  ansible.builtin.command:
+    cmd: cscli metrics show acquisition
+  register: crowdsec_metrics
+  changed_when: false
+
+- name: Show acquisition metrics
+  ansible.builtin.debug:
+    var: crowdsec_metrics.stdout_lines

@@ -1,4 +1,4 @@
 creation_rules:
   - path_regex: secrets\.yaml$
-    encrypted_regex: (pangolin_server_secret|pangolin_letsencrypt_email)
+    encrypted_regex: (pangolin_server_secret|pangolin_letsencrypt_email|crowdsec_console_enrollment_key)
     pgp: 7A3BC6EAE9EC0EF9156D6E8D0D02F4D5C2B918B5

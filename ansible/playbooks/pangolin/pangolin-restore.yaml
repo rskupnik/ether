@@ -7,7 +7,7 @@
 
   vars:
     pangolin_dir: /opt/pangolin
-    pangolin_backup_file: "{{ playbook_dir }}/../pangolin-backup.tar.gz"
+    pangolin_backup_file: "{{ playbook_dir }}/../../pangolin-backup.tar.gz"
     pangolin_restore_archive: /tmp/pangolin-restore.tar.gz
     pangolin_rollback_dir: /opt/pangolin-before-restore
 
