@@ -16,6 +16,13 @@ experimental:
     badger:
       moduleName: "github.com/fosrl/badger"
       version: "{{ pangolin_badger_version }}"
+    crowdsec:
+      moduleName: "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
+      version: "{{ pangolin_crowdsec_plugin_version }}"
+
+accessLog:
+  filePath: /var/log/traefik/access.log
+  format: json
 
 log:
   level: INFO
@@ -39,6 +46,8 @@ entryPoints:
       respondingTimeouts:
         readTimeout: "30m"
     http:
+      middlewares:
+        - crowdsec@file
       tls:
         certResolver: letsencrypt
 
