@@ -22,6 +22,68 @@
     - "{{ pangolin_install_dir }}/config/db"
     - "{{ pangolin_install_dir }}/config/traefik"
     - "{{ pangolin_install_dir }}/config/letsencrypt"
+    - "{{ pangolin_install_dir }}/config/traefik/logs"
+    - "{{ pangolin_install_dir }}/config/crowdsec"
+    - "{{ pangolin_install_dir }}/config/crowdsec/db"
+    - "{{ pangolin_install_dir }}/config/crowdsec/acquis.d"
+
+- name: Verify SSH authentication logs are available
+  ansible.builtin.stat:
+    path: /var/log/auth.log
+  register: pangolin_auth_log
+
+- name: Require syslog-backed SSH logging
+  ansible.builtin.assert:
+    that: pangolin_auth_log.stat.exists
+    fail_msg: "SSH /var/log/auth.log is missing. Configure rsyslog on the VPS or use a journal acquisition before enabling CrowdSec."
+
+- name: Generate persistent CrowdSec bouncer keys
+  ansible.builtin.shell: |
+    umask 077
+    openssl rand -hex 32 > "{{ pangolin_install_dir }}/config/crowdsec/{{ item }}.key"
+  args:
+    creates: "{{ pangolin_install_dir }}/config/crowdsec/{{ item }}.key"
+  loop:
+    - traefik
+    - vps_firewall
+  no_log: true
+
+- name: Read persistent CrowdSec bouncer keys
+  ansible.builtin.slurp:
+    src: "{{ pangolin_install_dir }}/config/crowdsec/{{ item }}.key"
+  register: pangolin_crowdsec_key_files
+  loop:
+    - traefik
+    - vps_firewall
+  no_log: true
+
+- name: Set CrowdSec bouncer keys
+  ansible.builtin.set_fact:
+    pangolin_crowdsec_traefik_key: "{{ pangolin_crowdsec_key_files.results[0].content | b64decode | trim }}"
+    pangolin_crowdsec_firewall_key: "{{ pangolin_crowdsec_key_files.results[1].content | b64decode | trim }}"
+  no_log: true
+
+- name: Deploy CrowdSec log acquisitions
+  ansible.builtin.copy:
+    dest: "{{ pangolin_install_dir }}/config/crowdsec/acquis.d/{{ item.name }}"
+    content: "{{ item.content }}"
+    owner: root
+    group: root
+    mode: "0644"
+  loop:
+    - name: traefik.yaml
+      content: |
+        filenames:
+          - /var/log/traefik/access.log
+        labels:
+          type: traefik
+    - name: syslog.yaml
+      content: |
+        filenames:
+          - /var/log/auth.log
+          - /var/log/syslog
+        labels:
+          type: syslog
 
 - name: Deploy Pangolin configuration
   ansible.builtin.template:
@@ -48,6 +110,7 @@
     group: root
     mode: "0644"
   notify: Restart Pangolin Traefik
+  no_log: true
 
 - name: Deploy Compose configuration
   ansible.builtin.template:
@@ -55,7 +118,8 @@
     dest: "{{ pangolin_install_dir }}/docker-compose.yml"
     owner: root
     group: root
-    mode: "0644"
+    mode: "0600"
+  no_log: true
 
 - name: Start Pangolin stack
   community.docker.docker_compose_v2:
@@ -63,3 +127,11 @@
     state: present
     pull: missing
     remove_orphans: true
+- name: Wait for CrowdSec local API
+  ansible.builtin.wait_for:
+    host: 127.0.0.1
+    port: "{{ pangolin_crowdsec_lapi_port }}"
+    timeout: 120
+
+- name: Configure host firewall bouncer
+  ansible.builtin.import_tasks: crowdsec_firewall.yaml
