@@ -3,3 +3,7 @@
     cmd: docker compose restart traefik
     chdir: "{{ pangolin_install_dir }}"
   changed_when: true
+- name: Restart CrowdSec firewall bouncer
+  ansible.builtin.systemd:
+    name: crowdsec-firewall-bouncer
+    state: restarted
