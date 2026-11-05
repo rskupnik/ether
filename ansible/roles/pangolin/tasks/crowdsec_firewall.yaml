@@ -1,0 +1,46 @@
+---
+# Pangolin's CrowdSec container is the only CrowdSec engine.
+# The native firewall bouncer enforces its decisions for SSH.
+- name: Install CrowdSec repository prerequisites
+  ansible.builtin.apt:
+    name:
+      - curl
+      - ca-certificates
+      - gnupg
+    state: present
+    update_cache: true
+
+- name: Install CrowdSec package repository
+  ansible.builtin.shell: |
+    set -o pipefail
+    curl -fsSL https://install.crowdsec.net | bash
+  args:
+    executable: /bin/bash
+    creates: /etc/apt/sources.list.d/crowdsec_crowdsec.list
+
+- name: Install host firewall bouncer
+  ansible.builtin.apt:
+    name: crowdsec-firewall-bouncer-iptables
+    state: present
+    update_cache: true
+
+- name: Configure host firewall bouncer API URL
+  ansible.builtin.lineinfile:
+    path: /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml
+    regexp: '^api_url:'
+    line: 'api_url: http://127.0.0.1:{{ pangolin_crowdsec_lapi_port }}/'
+  notify: Restart CrowdSec firewall bouncer
+
+- name: Configure host firewall bouncer API key
+  ansible.builtin.lineinfile:
+    path: /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml
+    regexp: '^api_key:'
+    line: 'api_key: {{ pangolin_crowdsec_firewall_key }}'
+  no_log: true
+  notify: Restart CrowdSec firewall bouncer
+
+- name: Enable host firewall bouncer
+  ansible.builtin.systemd:
+    name: crowdsec-firewall-bouncer
+    enabled: true
+    state: started
