@@ -1,5 +1,14 @@
 http:
   middlewares:
+    crowdsec:
+      plugin:
+        crowdsec:
+          enabled: true
+          crowdsecMode: stream
+          crowdsecLapiScheme: http
+          crowdsecLapiHost: "crowdsec:8080"
+          crowdsecLapiKey: "{{ pangolin_crowdsec_traefik_key }}"
+
     badger:
       plugin:
         badger:
