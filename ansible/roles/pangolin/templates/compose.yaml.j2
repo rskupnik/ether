@@ -39,6 +39,23 @@ services:
       - "80:80"
       - "443:443"
 
+  crowdsec:
+    image: "{{ pangolin_crowdsec_image }}"
+    container_name: crowdsec
+    restart: unless-stopped
+    environment:
+      COLLECTIONS: "{{ pangolin_crowdsec_collections }}"
+      BOUNCER_KEY_traefik: "{{ pangolin_crowdsec_traefik_key }}"
+      BOUNCER_KEY_vps_firewall: "{{ pangolin_crowdsec_firewall_key }}"
+    volumes:
+      - ./config/crowdsec:/etc/crowdsec
+      - ./config/crowdsec/db:/var/lib/crowdsec/data
+      - ./config/traefik/logs:/var/log/traefik:ro
+      - /var/log/auth.log:/var/log/auth.log:ro
+      - /var/log/syslog:/var/log/syslog:ro
+    ports:
+      - "127.0.0.1:{{ pangolin_crowdsec_lapi_port }}:8080"
+
   traefik:
     image: "{{ pangolin_traefik_image }}"
     container_name: traefik
@@ -47,10 +64,13 @@ services:
     depends_on:
       pangolin:
         condition: service_healthy
+      crowdsec:
+        condition: service_started
     command:
       - --configFile=/etc/traefik/traefik_config.yml
     volumes:
       - ./config/traefik:/etc/traefik:ro
+      - ./config/traefik/logs:/var/log/traefik
       - ./config/letsencrypt:/letsencrypt
 
 networks:
