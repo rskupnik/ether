@@ -4,3 +4,4 @@
 .DS_Store
 *.bkp
 .nocommit/
+/ansible/backups

@@ -10,7 +10,7 @@
   gather_facts: true
   vars:
     pangolin_backup_source: /opt/pangolin
-    pangolin_backup_destination: "{{ playbook_dir }}/../backups/pangolin"
+    pangolin_backup_destination: "{{ playbook_dir }}/../../backups/pangolin"
     pangolin_backup_filename: "pangolin-{{ inventory_hostname }}-{{ ansible_date_time.iso8601_basic_short }}.tar.gz"
     pangolin_backup_remote_file: "/tmp/{{ pangolin_backup_filename }}"
 
