@@ -27,6 +27,24 @@
     - "{{ pangolin_install_dir }}/config/crowdsec/db"
     - "{{ pangolin_install_dir }}/config/crowdsec/acquis.d"
 
+- name: Install rsyslog for CrowdSec host log acquisition
+  ansible.builtin.apt:
+    name: rsyslog
+    state: present
+    update_cache: true
+
+- name: Enable and start rsyslog
+  ansible.builtin.systemd:
+    name: rsyslog
+    enabled: true
+    state: started
+
+- name: Wait for SSH authentication log to appear
+  ansible.builtin.wait_for:
+    path: /var/log/auth.log
+    state: present
+    timeout: 30
+
 - name: Verify SSH authentication logs are available
   ansible.builtin.stat:
     path: /var/log/auth.log
