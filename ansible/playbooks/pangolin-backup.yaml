@@ -1,0 +1,70 @@
+---
+# Run from the Ansible control machine:
+# ansible-playbook playbooks/pangolin-backup.yaml
+#
+# The archive contains the top-level pangolin/ directory (not /opt itself).
+# Pangolin is stopped briefly to keep its SQLite database consistent.
+- name: Back up Pangolin from the VPS to the Ansible control machine
+  hosts: pangolin
+  become: true
+  gather_facts: true
+  vars:
+    pangolin_backup_source: /opt/pangolin
+    pangolin_backup_destination: "{{ playbook_dir }}/../backups/pangolin"
+    pangolin_backup_filename: "pangolin-{{ inventory_hostname }}-{{ ansible_date_time.iso8601_basic_short }}.tar.gz"
+    pangolin_backup_remote_file: "/tmp/{{ pangolin_backup_filename }}"
+
+  tasks:
+    - name: Check Pangolin directory exists
+      ansible.builtin.stat:
+        path: "{{ pangolin_backup_source }}"
+      register: pangolin_backup_source_stat
+
+    - name: Require Pangolin directory
+      ansible.builtin.assert:
+        that:
+          - pangolin_backup_source_stat.stat.isdir | default(false)
+        fail_msg: "Pangolin directory does not exist: {{ pangolin_backup_source }}"
+
+    - name: Create local backup destination
+      ansible.builtin.file:
+        path: "{{ pangolin_backup_destination }}"
+        state: directory
+        mode: "0700"
+      become: false
+      delegate_to: localhost
+
+    - name: Stop Pangolin, archive its state, then restart
+      block:
+        - name: Stop Pangolin stack for consistent database backup
+          community.docker.docker_compose_v2:
+            project_src: "{{ pangolin_backup_source }}"
+            state: stopped
+
+        - name: Create Pangolin tar.gz on VPS
+          community.general.archive:
+            path: "{{ pangolin_backup_source }}"
+            dest: "{{ pangolin_backup_remote_file }}"
+            format: gz
+            mode: "0600"
+
+      always:
+        - name: Restart Pangolin stack
+          community.docker.docker_compose_v2:
+            project_src: "{{ pangolin_backup_source }}"
+            state: present
+
+    - name: Download Pangolin archive to development machine
+      ansible.builtin.fetch:
+        src: "{{ pangolin_backup_remote_file }}"
+        dest: "{{ pangolin_backup_destination }}/{{ pangolin_backup_filename }}"
+        flat: true
+
+    - name: Remove temporary archive from VPS
+      ansible.builtin.file:
+        path: "{{ pangolin_backup_remote_file }}"
+        state: absent
+
+    - name: Report local backup location
+      ansible.builtin.debug:
+        msg: "Pangolin backup downloaded to {{ pangolin_backup_destination }}/{{ pangolin_backup_filename }}"
