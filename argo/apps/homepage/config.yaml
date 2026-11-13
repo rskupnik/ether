@@ -77,6 +77,18 @@ data:
           href: https://umami.myzopotamia.dev
           app: umami
           namespace: umami
+      - Vikunja:
+          icon: vikunja.png
+          href: https://vikunja.myzopotamia.dev/
+      - Pangolin:
+          icon: pangolin.png
+          href: https://pangolin.myzopotamia.dev/
+      - PocketID:
+          icon: pocket-id.png
+          href: https://id.myzopotamia.dev/
+      - Forgejo:
+          icon: forgejo.png
+          href: https://forgejo.myzopotamia.dev/
       - Ntfy:
           icon: ntfy.png
           href: https://ntfy.myzopotamia.dev/
@@ -88,14 +100,6 @@ data:
           href: https://nas.myzopotamia.dev:8080/
       - Finachy:
           href: https://finachy.myzopotamia.dev/
-      - Vikunja:
-          href: https://vikunja.myzopotamia.dev/
-      - Pangolin:
-          href: https://pangolin.myzopotamia.dev/
-      - PocketID:
-          href: https://id.myzopotamia.dev/
-      - Forgejo:
-          href: https://forgejo.myzopotamia.dev/
     - Media:
       - Seerr:
           icon: seerr.png
