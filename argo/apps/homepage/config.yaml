@@ -47,7 +47,7 @@ data:
           icon: immich.png
           href: https://photos.myzopotamia.dev/
           namespace: immich
-          app: immich-server
+          app: server
           widget:
             type: immich
             url: https://photos.myzopotamia.dev/
@@ -57,7 +57,7 @@ data:
           icon: paperless.png
           href: https://papers.myzopotamia.dev/
           namespace: paperless
-          app: paperless
+          app: paperless-ngx
           widget:
             type: paperlessngx
             url: https://papers.myzopotamia.dev/
@@ -66,7 +66,7 @@ data:
           icon: grafana.png
           href: https://grafana.myzopotamia.dev/
           namespace: monitoring
-          app: kube-prometheus-stack-grafana
+          app: grafana
           widget:
             type: grafana
             version: 2
@@ -107,7 +107,10 @@ data:
           icon: ntfy.png
           href: https://ntfy.myzopotamia.dev/
           namespace: ntfy
-          app: ntfy-deployment
+          podSelector: >-
+            app in (
+                ntfy-pod
+            )
       - Longhorn:
           icon: longhorn.png
           href: https://longhorn.myzopotamia.dev/
@@ -116,14 +119,18 @@ data:
           href: https://nas.myzopotamia.dev:8080/
       - Finachy:
           href: https://finachy.myzopotamia.dev/
-          app: finachy-web
           namespace: finachy
+          podSelector: >-
+            app in (
+                finachy-web,
+                finachy-worker
+            )
     - Media:
       - Seerr:
           icon: seerr.png
           href: https://seerr.media.myzopotamia.dev/
           namespace: media
-          app: seerr
+          app: seerr-chart
       - Jellyfin:
           icon: jellyfin.png
           href: https://jellyfin.media.myzopotamia.dev/
