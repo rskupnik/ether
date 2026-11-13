@@ -37,6 +37,8 @@ data:
       - ArgoCD:
           icon: argo-cd.png
           href: https://argocd.myzopotamia.dev
+          app: argocd-server
+          namespace: argocd
           widget:
             type: argocd
             url: https://argocd.myzopotamia.dev
@@ -88,6 +90,8 @@ data:
       - PocketID:
           icon: pocket-id.png
           href: https://id.myzopotamia.dev/
+          app: pocket-id
+          namespace: pocket-id
       - Forgejo:
           icon: forgejo.png
           href: https://forgejo.myzopotamia.dev/
