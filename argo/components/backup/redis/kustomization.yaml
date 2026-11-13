@@ -1,0 +1,61 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+resources:
+  - backup-job.yaml
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: redis-backup-config
+      fieldPath: data.BACKUP_SCHEDULE
+    targets:
+      - select:
+          kind: CronJob
+          name: backup-redis
+        fieldPaths:
+          - spec.schedule
+
+  - source:
+      kind: ConfigMap
+      name: redis-backup-config
+      fieldPath: data.DB_HOST
+    targets:
+      - select:
+          kind: CronJob
+          name: backup-redis
+        fieldPaths:
+          - spec.jobTemplate.spec.template.spec.containers.[name=backup-redis].env.[name=DB_HOST].value
+
+  - source:
+      kind: ConfigMap
+      name: redis-backup-config
+      fieldPath: data.DB_PATH
+    targets:
+      - select:
+          kind: CronJob
+          name: backup-redis
+        fieldPaths:
+          - spec.jobTemplate.spec.template.spec.containers.[name=backup-redis].env.[name=DB_PATH].value
+
+  - source:
+      kind: ConfigMap
+      name: redis-backup-config
+      fieldPath: data.DB_SECRET_NAME
+    targets:
+      - select:
+          kind: CronJob
+          name: backup-redis
+        fieldPaths:
+          - spec.jobTemplate.spec.template.spec.containers.[name=backup-redis].env.[name=DB_PASSWORD].valueFrom.secretKeyRef.name
+
+  - source:
+      kind: ConfigMap
+      name: redis-backup-config
+      fieldPath: data.DB_SECRET_KEY
+    targets:
+      - select:
+          kind: CronJob
+          name: backup-redis
+        fieldPaths:
+          - spec.jobTemplate.spec.template.spec.containers.[name=backup-redis].env.[name=DB_PASSWORD].valueFrom.secretKeyRef.key

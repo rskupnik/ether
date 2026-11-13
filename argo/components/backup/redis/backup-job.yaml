@@ -1,0 +1,78 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-redis
+  labels:
+    app: backup
+spec:
+  schedule: "0 3 * * *"
+  timeZone: Europe/Warsaw
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          labels:
+            app: backup
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: backup-redis
+              image: redis:8-alpine
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  set -e
+
+                  echo "Installing rsync and ssh..."
+                  apk add --no-cache rsync openssh-client
+
+                  echo "Triggering Redis RDB snapshot..."
+                  redis-cli \
+                    -h ${DB_HOST} \
+                    -a "$DB_PASSWORD" \
+                    BGSAVE
+
+                  echo "Waiting for Redis snapshot to complete..."
+                  while [ "$(redis-cli -h ${DB_HOST} -a "$REDIS_PASSWORD" INFO persistence | grep rdb_bgsave_in_progress | cut -d: -f2 | tr -d '\r')" = "1" ]; do
+                    sleep 1
+                  done
+
+                  echo "Copying dump.rdb from Redis..."
+                  redis-cli \
+                    -h ${DB_HOST} \
+                    -a "$REDIS_PASSWORD" \
+                    --rdb /tmp/dump.rdb
+
+                  echo "Ensuring target directory exists..."
+                  ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+                    pi@192.168.178.69 "mkdir -p /mnt/backup/${DB_PATH}/redis"
+
+                  echo "Sending Redis dump to remote host..."
+                  rsync -av \
+                    -e "ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                    /tmp/dump.rdb \
+                    pi@192.168.178.69:/mnt/backup/${DB_PATH}/redis/
+
+                  echo "Redis backup completed."
+              env:
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: placeholder
+                      key: password
+                - name: DB_HOST
+                  value: placeholder
+                - name: DB_PATH
+                  value: placeholder
+              volumeMounts:
+                - name: ssh-keys
+                  mountPath: /ssh-keys
+          volumes:
+            - name: ssh-keys
+              secret:
+                secretName: ssh-keys
+                defaultMode: 0600
