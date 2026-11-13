@@ -48,12 +48,12 @@ spec:
                     --rdb /tmp/dump.rdb
 
                   echo "Ensuring target directory exists..."
-                  ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+                  ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
                     pi@192.168.178.69 "mkdir -p /mnt/backup/${DB_PATH}/redis"
 
                   echo "Sending Redis dump to remote host..."
                   rsync -av \
-                    -e "ssh -i /offsite-ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                    -e "ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
                     /tmp/dump.rdb \
                     pi@192.168.178.69:/mnt/backup/${DB_PATH}/redis/
 
