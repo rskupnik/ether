@@ -1,2 +1,3 @@
 *.key
+*.p12
 !*.encrypted.*

@@ -1,0 +1,36 @@
+set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
+
+ca_dir := "../../root-ca"
+
+generate name:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    umask 077
+
+    openssl req -newkey rsa:2048 -noenc \
+        -keyout "{{name}}.key" \
+        -out "{{name}}.csr" \
+        -subj "/CN={{name}}"
+
+    openssl x509 -req \
+        -in "{{name}}.csr" \
+        -CA "{{ca_dir}}/rootCA.crt" \
+        -CAkey "{{ca_dir}}/rootCA.key" \
+        -CAcreateserial \
+        -out "{{name}}.crt" \
+        -days 365 \
+        -sha256 \
+        -extfile <(printf '%s\n' \
+            "basicConstraints=critical,CA:FALSE" \
+            "keyUsage=critical,digitalSignature" \
+            "extendedKeyUsage=clientAuth")
+
+    openssl pkcs12 -export \
+        -inkey "{{name}}.key" \
+        -in "{{name}}.crt" \
+        -certfile "{{ca_dir}}/rootCA.crt" \
+        -out "{{name}}.p12"
+
+encrypt name:
+    sops --encrypt "{{name}}.key" > "{{name}}.encrypted.key"
+    sops --encrypt "{{name}}.p12" > "{{name}}.encrypted.p12"
