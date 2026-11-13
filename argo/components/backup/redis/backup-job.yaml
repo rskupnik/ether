@@ -37,14 +37,14 @@ spec:
                     BGSAVE
 
                   echo "Waiting for Redis snapshot to complete..."
-                  while [ "$(redis-cli -h ${DB_HOST} -a "$REDIS_PASSWORD" INFO persistence | grep rdb_bgsave_in_progress | cut -d: -f2 | tr -d '\r')" = "1" ]; do
+                  while [ "$(redis-cli -h ${DB_HOST} -a "$DB_PASSWORD" INFO persistence | grep rdb_bgsave_in_progress | cut -d: -f2 | tr -d '\r')" = "1" ]; do
                     sleep 1
                   done
 
                   echo "Copying dump.rdb from Redis..."
                   redis-cli \
                     -h ${DB_HOST} \
-                    -a "$REDIS_PASSWORD" \
+                    -a "$DB_PASSWORD" \
                     --rdb /tmp/dump.rdb
 
                   echo "Ensuring target directory exists..."
