@@ -80,6 +80,8 @@ data:
       - Vikunja:
           icon: vikunja.png
           href: https://vikunja.myzopotamia.dev/
+          app: vikunja
+          namespace: vikunja
       - Pangolin:
           icon: pangolin.png
           href: https://pangolin.myzopotamia.dev/
