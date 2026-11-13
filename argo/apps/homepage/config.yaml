@@ -46,6 +46,8 @@ data:
       - Immich:
           icon: immich.png
           href: https://photos.myzopotamia.dev/
+          namespace: immich
+          app: immich-server
           widget:
             type: immich
             url: https://photos.myzopotamia.dev/
@@ -54,6 +56,8 @@ data:
       - Paperless:
           icon: paperless.png
           href: https://papers.myzopotamia.dev/
+          namespace: paperless
+          app: paperless
           widget:
             type: paperlessngx
             url: https://papers.myzopotamia.dev/
@@ -61,6 +65,8 @@ data:
       - Grafana:
           icon: grafana.png
           href: https://grafana.myzopotamia.dev/
+          namespace: monitoring
+          app: kube-prometheus-stack-grafana
           widget:
             type: grafana
             version: 2
@@ -95,9 +101,13 @@ data:
       - Forgejo:
           icon: forgejo.png
           href: https://forgejo.myzopotamia.dev/
+          namespace: forgejo
+          app: forgejo
       - Ntfy:
           icon: ntfy.png
           href: https://ntfy.myzopotamia.dev/
+          namespace: ntfy
+          app: ntfy-deployment
       - Longhorn:
           icon: longhorn.png
           href: https://longhorn.myzopotamia.dev/
@@ -106,28 +116,44 @@ data:
           href: https://nas.myzopotamia.dev:8080/
       - Finachy:
           href: https://finachy.myzopotamia.dev/
+          app: finachy-web
+          namespace: finachy
     - Media:
       - Seerr:
           icon: seerr.png
           href: https://seerr.media.myzopotamia.dev/
+          namespace: media
+          app: seerr
       - Jellyfin:
           icon: jellyfin.png
           href: https://jellyfin.media.myzopotamia.dev/
+          namespace: media
+          app: jellyfin
       - Sonarr:
           icon: sonarr.png
           href: https://sonarr.media.myzopotamia.dev/
+          namespace: media
+          app: sonarr
       - Radarr:
           icon: radarr.png
           href: https://radarr.media.myzopotamia.dev/
+          namespace: media
+          app: radarr
       - Prowlarr:
           icon: prowlarr.png
           href: https://prowlarr.media.myzopotamia.dev/
+          namespace: media
+          app: prowlarr
       - Bazarr:
           icon: bazarr.png
           href: https://bazarr.media.myzopotamia.dev/
+          namespace: media
+          app: bazarr
       - QBitTorrent:
           icon: qbittorrent.png
           href: https://torrent.media.myzopotamia.dev/
+          namespace: media
+          app: qbittorrent
   kubernetes.yaml: |
     mode: default
   widgets.yaml: |
