@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pocket-id-backup-sa
+  namespace: pocket-id
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pocket-id-backup-role
+  namespace: pocket-id
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pocket-id-backup-rb
+  namespace: pocket-id
+subjects:
+  - kind: ServiceAccount
+    name: pocket-id-backup-sa
+    namespace: pocket-id
+roleRef:
+  kind: Role
+  name: pocket-id-backup-role
+  apiGroup: rbac.authorization.k8s.io
