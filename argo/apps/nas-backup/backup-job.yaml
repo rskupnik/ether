@@ -27,6 +27,9 @@ spec:
                   #!/bin/sh
                   set -eu
 
+                  # Folders to back up
+                  FOLDERS="wesele odzyskane"
+
                   SSH_KEY="/offsite-ssh/id_ed25519"
                   REMOTE_USER="pi"
                   REMOTE_HOST="192.168.178.69"
@@ -94,26 +97,20 @@ spec:
                     fail "$?" "Remote backup disk is not mounted, marker missing, or not writable"
                   fi
 
-                  echo "Ensuring target directory exists..."
-                  if ! ssh $SSH_OPTS "$REMOTE" "mkdir -p '$REMOTE_DATA/wesele' '$REMOTE_DATA/odzyskane'"; then
-                    fail "$?" "Creating remote target directories"
-                  fi
+                  for FOLDER in $FOLDERS; do
+                    echo "Ensuring target directory exists for ${FOLDER}..."
+                    if ! ssh $SSH_OPTS "$REMOTE" "mkdir -p '$REMOTE_DATA/$FOLDER'"; then
+                      fail "$?" "Creating remote target directory for ${FOLDER}"
+                    fi
 
-                  echo "Starting backup of folder wesele..."
-                  if ! rsync -avh --delete \
-                    -e "ssh $SSH_OPTS" \
-                    /data/wesele/ \
-                    "$REMOTE:$REMOTE_DATA/wesele/"; then
-                    fail "$?" "rsync backup of /data/wesele"
-                  fi
-
-                  echo "Starting backup of folder odzyskane..."
-                  if ! rsync -avh --delete \
-                    -e "ssh $SSH_OPTS" \
-                    /data/odzyskane/ \
-                    "$REMOTE:$REMOTE_DATA/odzyskane/"; then
-                    fail "$?" "rsync backup of /data/odzyskane"
-                  fi
+                    echo "Starting backup of folder ${FOLDER}..."
+                    if ! rsync -avh --delete \
+                      -e "ssh $SSH_OPTS" \
+                      "/data/${FOLDER}/" \
+                      "$REMOTE:$REMOTE_DATA/${FOLDER}/"; then
+                      fail "$?" "rsync backup of /data/${FOLDER}"
+                    fi
+                  done
 
                   notify_success
 
