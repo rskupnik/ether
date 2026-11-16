@@ -9,8 +9,8 @@ helmCharts:
 resources:
   - pocket-id-secrets.sealed.yaml
   - integrations/argocd/pocket-id-secrets.sealed.yaml
-  - backup-cronjob.yaml
-  - backup-rbac.yaml
+  - backup/job.yaml
+  - backup/rbac.yaml
 
 components:
   - ../../components/tls-ingress
