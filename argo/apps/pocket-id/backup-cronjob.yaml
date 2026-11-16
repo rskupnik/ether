@@ -1,0 +1,94 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pocket-id-backup
+  namespace: pocket-id
+  labels:
+    components.nora/ntfy-token: enabled
+spec:
+  schedule: "40 2 * * *"
+  timeZone: Europe/Warsaw
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          serviceAccountName: pocket-id-backup-sa
+          restartPolicy: Never
+          containers:
+            - name: backup
+              image: alpine:3.22
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  #!/bin/sh
+                  set -eu
+
+                  SSH_KEY="/ssh-keys/offsite"
+                  REMOTE="pi@192.168.178.69"
+                  REMOTE_BASE="/mnt/backup"
+                  REMOTE_DIR="${REMOTE_BASE}/pocket-id"
+                  MARKER="${REMOTE_BASE}/.THIS_IS_THE_BACKUP_DISK"
+                  SSH_OPTS="-i ${SSH_KEY} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+                  BACKUP="/tmp/pocket-id.zip"
+
+                  notify() {
+                    PRIORITY="$1"
+                    TAG="$2"
+                    MESSAGE="$3"
+                    curl -fsS --insecure --max-time 15 \
+                      -H "Authorization: Bearer ${NTFY_TOKEN}" \
+                      -H "Priority: ${PRIORITY}" \
+                      -H "Tags: ${TAG}" \
+                      -d "${MESSAGE}" \
+                      https://ntfy.myzopotamia.dev/backups || true
+                  }
+
+                  on_exit() {
+                    CODE="$?"
+                    if [ "$CODE" -ne 0 ]; then
+                      notify high warning "Pocket ID backup FAILED (exit code: ${CODE})"
+                    fi
+                  }
+                  trap on_exit EXIT
+
+                  apk add --no-cache kubectl openssh-client curl unzip
+
+                  echo "Checking offsite backup disk..."
+                  ssh $SSH_OPTS "$REMOTE" \
+                    "mountpoint -q '${REMOTE_BASE}' && test -f '${MARKER}' && test -w '${REMOTE_BASE}'"
+
+                  echo "Finding running Pocket ID pod..."
+                  POD="$(kubectl -n pocket-id get pods \
+                    -l app.kubernetes.io/instance=pocket-id \
+                    --field-selector=status.phase=Running \
+                    -o jsonpath='{.items[0].metadata.name}')"
+                  test -n "$POD"
+
+                  echo "Exporting Pocket ID database and uploads..."
+                  kubectl -n pocket-id exec "$POD" -- \
+                    /app/pocket-id export --path - > "$BACKUP"
+                  test -s "$BACKUP"
+                  unzip -tq "$BACKUP"
+
+                  echo "Uploading archive to offsite backup..."
+                  ssh $SSH_OPTS "$REMOTE" "mkdir -p '${REMOTE_DIR}'"
+                  scp $SSH_OPTS "$BACKUP" "$REMOTE:${REMOTE_DIR}/pocket-id.zip.tmp"
+                  ssh $SSH_OPTS "$REMOTE" \
+                    "mv -f '${REMOTE_DIR}/pocket-id.zip.tmp' '${REMOTE_DIR}/pocket-id.zip'"
+
+                  notify min white_check_mark "Pocket ID backup successful"
+                  echo "Pocket ID backup completed."
+              envFrom: []
+              volumeMounts:
+                - name: ssh-keys
+                  mountPath: /ssh-keys
+                  readOnly: true
+          volumes:
+            - name: ssh-keys
+              secret:
+                secretName: ssh-keys
+                defaultMode: 0400
