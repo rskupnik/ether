@@ -1,2 +1,3 @@
 resources:
   - ssh-key-secret.sealed.yaml
+  - discord-secrets.sealed.yaml
