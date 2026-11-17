@@ -26,8 +26,43 @@ spec:
               command: ["/bin/sh", "-c"]
               args:
                 - |
+                  #!/bin/sh
+                  set -eu
+
+                  notify() {
+                    status="$1"
+                    message="$2"
+
+                    if [ "$status" = "success" ]; then
+                      webhook="$DISCORD_BACKUPS_WEBHOOK"
+                      message="✅ $message"
+                    else
+                      webhook="$DISCORD_ALERTS_WEBHOOK"
+                      message="❌ <@${DISCORD_USER_ID}> $message"
+                    fi
+
+                    curl -fsS --retry 2 --max-time 10 \
+                      --data-urlencode "content=$message" \
+                      "${webhook}?wait=true" \
+                      || echo "WARNING: Discord notification failed"
+                  }
+
+                  on_exit() {
+                    exit_code="$1"
+
+                    trap - EXIT
+
+                    if [ "$exit_code" -eq 0 ]; then
+                      notify success "Data backup completed: ${DESTINATION_PATH}"
+                    else
+                      notify failure "Data backup FAILED: ${DESTINATION_PATH} (exit code: ${exit_code})"
+                    fi
+                  }
+
+                  trap 'on_exit "$?"' EXIT
+
                   echo "Install rsync and kubectl"
-                  apk add --no-cache rsync openssh-client kubectl
+                  apk add --no-cache rsync openssh-client kubectl curl
 
                   echo "Scaling down"
                   kubectl scale deploy ${DEPLOYMENT_NAME} --replicas=0
@@ -47,6 +82,9 @@ spec:
                   kubectl scale deploy ${DEPLOYMENT_NAME} --replicas=1
 
                   echo "Backup complete."
+              envFrom:
+                - secretRef:
+                    name: discord-secrets
               env:
                 - name: DEPLOYMENT_NAME
                   value: placeholder
