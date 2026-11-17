@@ -27,7 +27,7 @@ spec:
                   # Folders to back up
                   FOLDERS="wesele odzyskane"
 
-                  SSH_KEY="/offsite-ssh/id_ed25519"
+                  SSH_KEY="/ssh-keys/offsite"
                   REMOTE_USER="pi"
                   REMOTE_HOST="192.168.178.69"
                   REMOTE="${REMOTE_USER}@${REMOTE_HOST}"
@@ -97,7 +97,13 @@ spec:
               volumeMounts:
                 - name: nas-data
                   mountPath: /data
+                - name: ssh-keys
+                  mountPath: /ssh-keys
           volumes:
             - name: nas-data
               persistentVolumeClaim:
                 claimName: public-data-nas
+            - name: ssh-keys
+              secret:
+                secretName: ssh-keys
+                defaultMode: 0600
