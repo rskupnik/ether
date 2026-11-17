@@ -52,9 +52,9 @@ spec:
                     trap - EXIT
 
                     if [ "$exit_code" -eq 0 ]; then
-                      notify success "Database backup completed: ${DB_PATH}"
+                      notify success "Redis backup completed: ${DB_PATH}"
                     else
-                      notify failure "Database backup FAILED: ${DB_PATH} (exit code: ${exit_code})"
+                      notify failure "Redis backup FAILED: ${DB_PATH} (exit code: ${exit_code})"
                     fi
                   }
 

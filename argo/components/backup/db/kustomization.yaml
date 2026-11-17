@@ -48,6 +48,17 @@ replacements:
           name: backup-db
         fieldPaths:
           - spec.jobTemplate.spec.template.spec.containers.[name=backup-db].env.[name=DB_PATH].value
+  
+  - source:
+      kind: ConfigMap
+      name: db-backup-config
+      fieldPath: data.DB_NAME
+    targets:
+      - select:
+          kind: CronJob
+          name: backup-db
+        fieldPaths:
+          - spec.jobTemplate.spec.template.spec.containers.[name=backup-db].env.[name=DB_NAME].value
 
   - source:
       kind: ConfigMap

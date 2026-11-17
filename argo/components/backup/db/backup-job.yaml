@@ -64,7 +64,7 @@ spec:
                   apk add --no-cache rsync openssh-client curl
 
                   echo "Dumping all PostgreSQL databases..."
-                  pg_dumpall --clean --if-exists -h "${DB_HOST}" -U "${DB_USER}" > /tmp/all.sql
+                  pg_dump --clean --if-exists -h "${DB_HOST}" -U "${DB_USER}" -d "${DB_NAME}" > /tmp/all.sql
 
                   echo "Ensuring target directory exists..."
                   ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
@@ -91,6 +91,8 @@ spec:
                 - name: DB_USER
                   value: placeholder
                 - name: DB_PATH
+                  value: placeholder
+                - name: DB_NAME
                   value: placeholder
               volumeMounts:
                 - name: ssh-keys

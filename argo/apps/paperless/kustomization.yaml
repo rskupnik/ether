@@ -31,6 +31,7 @@ configMapGenerator:
       - DB_HOST=paperless-postgresql.paperless.svc.cluster.local
       - DB_USER=paperless
       - DB_PATH=paperless
+      - DB_NAME=paperless
       - DB_SECRET_NAME=db-creds
       - DB_SECRET_KEY=postgres
       - BACKUP_SCHEDULE="0 3 * * *"
