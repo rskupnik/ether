@@ -55,7 +55,7 @@ spec:
                   notify "✅ Immich backup completed"
               envFrom:
                 - secretRef:
-                  name: discord-secrets
+                    name: discord-secrets
               env:
                 - name: PGPASSWORD
                   valueFrom:
