@@ -60,26 +60,56 @@ spec:
 
                   trap 'on_exit "$?"' EXIT
 
-                  echo "Install tools"
-                  apk add --no-cache rsync openssh-client curl
+                  echo "Installing tools..."
+                  apk add --no-cache restic openssh-client curl
 
-                  echo "Dumping all PostgreSQL databases..."
-                  pg_dump --clean --if-exists -h "${DB_HOST}" -U "${DB_USER}" -d "${DB_NAME}" > /tmp/all.sql
+                  echo "Configuring restic..."
+                  export RESTIC_REPOSITORY="sftp:pi@192.168.178.69:/mnt/backup/${DB_PATH}/db-restic"
+                  export RESTIC_SFTP_COMMAND="ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o BatchMode=yes"
 
-                  echo "Ensuring target directory exists..."
-                  ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-                    pi@192.168.178.69 "mkdir -p /mnt/backup/${DB_PATH}/db"
+                  echo "Checking restic repository..."
+                  if ! restic cat config >/dev/null 2>&1; then
+                    # Only initialize if the remote repository is absent.
+                    # Other errors must fail the backup.
+                    if ssh -i /ssh-keys/offsite \
+                      -o StrictHostKeyChecking=no \
+                      -o UserKnownHostsFile=/dev/null \
+                      -o BatchMode=yes \
+                      pi@192.168.178.69 \
+                      "test ! -e '/mnt/backup/${DB_PATH}/db-restic'"; then
+                      echo "Initializing new restic repository..."
+                      restic init
+                    else
+                      echo "Repository unavailable or invalid; refusing to initialize."
+                      exit 1
+                    fi
+                  fi
 
-                  echo "Sending DB dump to remote host..."
-                  rsync -av \
-                    -e "ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
-                    /tmp/all.sql \
-                    "pi@192.168.178.69:/mnt/backup/${DB_PATH}/db/"
+                  echo "Dumping PostgreSQL database..."
+                  pg_dump \
+                    --clean \
+                    --if-exists \
+                    -h "$DB_HOST" \
+                    -U "$DB_USER" \
+                    -d "$DB_NAME" \
+                    -f /tmp/backup.sql
 
-                  echo "Backup completed."
+                  echo "Creating restic snapshot..."
+                  restic backup /tmp/backup.sql --tag postgres
+
+                  echo "Applying retention policy..."
+                  restic forget \
+                    --keep-daily 7 \
+                    --keep-weekly 4 \
+                    --keep-monthly 6 \
+                    --prune
+
+                  echo "PostgreSQL backup completed."
               envFrom:
                 - secretRef:
                     name: discord-secrets
+                - secretRef:
+                    name: restic-secrets
               env:
                 - name: PGPASSWORD
                   valueFrom:
