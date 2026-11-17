@@ -25,6 +25,16 @@ spec:
               command: ["/bin/sh", "-c"]
               args:
                 - |
+                  notify() {
+                    local message="$1"
+
+                    curl -fsS --retry 2 --max-time 10 \
+                      -H "Content-Type: application/json" \
+                      --data-urlencode "content=$message" \
+                      "${DISCORD_BACKUPS_WEBHOOK}?wait=true" \
+                      || echo "WARNING: Discord notification failed"
+                  }
+
                   echo "Install rsync"
                   apk add --no-cache rsync openssh-client
 
@@ -42,7 +52,10 @@ spec:
                     pi@192.168.178.69:/mnt/backup/${DB_PATH}/db/
 
                   echo "Backup completed."
+                  notify "✅ Immich backup completed"
               env:
+                - secretRef:
+                    name: discord-secrets
                 - name: PGPASSWORD
                   valueFrom:
                     secretKeyRef:
