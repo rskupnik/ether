@@ -25,11 +25,12 @@ spec:
               command: ["/bin/sh", "-c"]
               args:
                 - |
+                  set -eu
+
                   notify() {
-                    local message="$1"
+                    message="$1"
 
                     curl -fsS --retry 2 --max-time 10 \
-                      -H "Content-Type: application/json" \
                       --data-urlencode "content=$message" \
                       "${DISCORD_BACKUPS_WEBHOOK}?wait=true" \
                       || echo "WARNING: Discord notification failed"
