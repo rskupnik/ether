@@ -35,8 +35,8 @@ spec:
                       || echo "WARNING: Discord notification failed"
                   }
 
-                  echo "Install rsync"
-                  apk add --no-cache rsync openssh-client
+                  echo "Install tools"
+                  apk add --no-cache rsync openssh-client curl
 
                   echo "Dumping all PostgreSQL databases..."
                   pg_dumpall --clean --if-exists -h ${DB_HOST} -U ${DB_USER} > /tmp/all.sql
