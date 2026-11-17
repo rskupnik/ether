@@ -36,23 +36,35 @@ spec:
                   BACKUP="/tmp/pocket-id.zip"
 
                   notify() {
-                    PRIORITY="$1"
-                    TAG="$2"
-                    MESSAGE="$3"
-                    curl -fsS --insecure --max-time 15 \
-                      -H "Authorization: Bearer ${NTFY_TOKEN}" \
-                      -H "Priority: ${PRIORITY}" \
-                      -H "Tags: ${TAG}" \
-                      -d "${MESSAGE}" \
-                      https://ntfy.myzopotamia.dev/backups || true
+                    status="$1"
+                    message="$2"
+
+                    if [ "$status" = "success" ]; then
+                      webhook="$DISCORD_BACKUPS_WEBHOOK"
+                      message="✅ $message"
+                    else
+                      webhook="$DISCORD_ALERTS_WEBHOOK"
+                      message="❌ <@${DISCORD_USER_ID}> $message"
+                    fi
+
+                    curl -fsS --retry 2 --max-time 10 \
+                      --data-urlencode "content=$message" \
+                      "${webhook}?wait=true" \
+                      || echo "WARNING: Discord notification failed"
                   }
 
                   on_exit() {
-                    CODE="$?"
-                    if [ "$CODE" -ne 0 ]; then
-                      notify high warning "Pocket ID backup FAILED (exit code: ${CODE})"
+                    exit_code="$1"
+
+                    trap - EXIT
+
+                    if [ "$exit_code" -eq 0 ]; then
+                      notify success "Database backup completed: pocket-id"
+                    else
+                      notify failure "Database backup FAILED: pocket-id (exit code: ${exit_code})"
                     fi
                   }
+
                   trap on_exit EXIT
 
                   apk add --no-cache kubectl openssh-client curl unzip
@@ -80,9 +92,10 @@ spec:
                   ssh $SSH_OPTS "$REMOTE" \
                     "mv -f '${REMOTE_DIR}/pocket-id.zip.tmp' '${REMOTE_DIR}/pocket-id.zip'"
 
-                  notify min white_check_mark "Pocket ID backup successful"
                   echo "Pocket ID backup completed."
-              envFrom: []
+              envFrom:
+                - secretRef:
+                    name: discord-secrets
               volumeMounts:
                 - name: ssh-keys
                   mountPath: /ssh-keys
