@@ -53,9 +53,10 @@ spec:
 
                   echo "Backup completed."
                   notify "✅ Immich backup completed"
-              env:
+              envFrom:
                 - secretRef:
-                    name: discord-secrets
+                  name: discord-secrets
+              env:
                 - name: PGPASSWORD
                   valueFrom:
                     secretKeyRef:
