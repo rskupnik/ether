@@ -65,7 +65,7 @@ spec:
                     fi
                   }
 
-                  trap on_exit EXIT
+                  trap 'on_exit "$?"' EXIT
 
                   apk add --no-cache kubectl openssh-client curl unzip
 
