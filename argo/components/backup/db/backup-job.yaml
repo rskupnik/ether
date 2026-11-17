@@ -63,6 +63,8 @@ spec:
                   echo "Install tools"
                   apk add --no-cache rsync openssh-client curl
 
+                  exit 1
+
                   echo "Dumping all PostgreSQL databases..."
                   pg_dumpall --clean --if-exists -h "${DB_HOST}" -U "${DB_USER}" > /tmp/all.sql
 
