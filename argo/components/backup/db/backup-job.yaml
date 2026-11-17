@@ -65,7 +65,7 @@ spec:
 
                   echo "Configuring restic..."
                   export RESTIC_REPOSITORY="sftp:pi@192.168.178.69:/mnt/backup/${DB_PATH}/db-restic"
-                  export RESTIC_SFTP_COMMAND="ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o BatchMode=yes"
+                  export RESTIC_SFTP_COMMAND="ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o BatchMode=yes pi@192.168.178.69 -s sftp"
 
                   echo "Checking restic repository..."
                   if ! restic cat config >/dev/null 2>&1; then
