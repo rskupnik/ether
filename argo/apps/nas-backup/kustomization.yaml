@@ -1,9 +1,5 @@
 namespace: nas-backup
 
-components:
-  - ../../components/ntfy-token
-  - ../../components/offsite-ssh-key
-
 resources:
   - storage.yaml
   - backup-job.yaml
