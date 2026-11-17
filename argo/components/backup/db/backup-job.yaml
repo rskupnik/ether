@@ -24,60 +24,59 @@ spec:
               image: postgres:17-alpine
               command: ["/bin/sh", "-c"]
               args:
-                args:
-                  - |
-                    #!/bin/sh
-                    set -eu
+                - |
+                  #!/bin/sh
+                  set -eu
 
-                    notify() {
-                      status="$1"
-                      message="$2"
+                  notify() {
+                    status="$1"
+                    message="$2"
 
-                      if [ "$status" = "success" ]; then
-                        webhook="$DISCORD_BACKUPS_WEBHOOK"
-                        message="✅ $message"
-                      else
-                        webhook="$DISCORD_ALERTS_WEBHOOK"
-                        message="❌ <@${DISCORD_USER_ID}> $message"
-                      fi
+                    if [ "$status" = "success" ]; then
+                      webhook="$DISCORD_BACKUPS_WEBHOOK"
+                      message="✅ $message"
+                    else
+                      webhook="$DISCORD_ALERTS_WEBHOOK"
+                      message="❌ <@${DISCORD_USER_ID}> $message"
+                    fi
 
-                      curl -fsS --retry 2 --max-time 10 \
-                        --data-urlencode "content=$message" \
-                        "${webhook}?wait=true" \
-                        || echo "WARNING: Discord notification failed"
-                    }
+                    curl -fsS --retry 2 --max-time 10 \
+                      --data-urlencode "content=$message" \
+                      "${webhook}?wait=true" \
+                      || echo "WARNING: Discord notification failed"
+                  }
 
-                    on_exit() {
-                      exit_code="$1"
+                  on_exit() {
+                    exit_code="$1"
 
-                      trap - EXIT
+                    trap - EXIT
 
-                      if [ "$exit_code" -eq 0 ]; then
-                        notify success "Database backup completed: ${DB_PATH}"
-                      else
-                        notify failure "Database backup FAILED: ${DB_PATH} (exit code: ${exit_code})"
-                      fi
-                    }
+                    if [ "$exit_code" -eq 0 ]; then
+                      notify success "Database backup completed: ${DB_PATH}"
+                    else
+                      notify failure "Database backup FAILED: ${DB_PATH} (exit code: ${exit_code})"
+                    fi
+                  }
 
-                    trap 'on_exit "$?"' EXIT
+                  trap 'on_exit "$?"' EXIT
 
-                    echo "Install tools"
-                    apk add --no-cache rsync openssh-client curl
+                  echo "Install tools"
+                  apk add --no-cache rsync openssh-client curl
 
-                    echo "Dumping all PostgreSQL databases..."
-                    pg_dumpall --clean --if-exists -h "${DB_HOST}" -U "${DB_USER}" > /tmp/all.sql
+                  echo "Dumping all PostgreSQL databases..."
+                  pg_dumpall --clean --if-exists -h "${DB_HOST}" -U "${DB_USER}" > /tmp/all.sql
 
-                    echo "Ensuring target directory exists..."
-                    ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-                      pi@192.168.178.69 "mkdir -p /mnt/backup/${DB_PATH}/db"
+                  echo "Ensuring target directory exists..."
+                  ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+                    pi@192.168.178.69 "mkdir -p /mnt/backup/${DB_PATH}/db"
 
-                    echo "Sending DB dump to remote host..."
-                    rsync -av \
-                      -e "ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
-                      /tmp/all.sql \
-                      "pi@192.168.178.69:/mnt/backup/${DB_PATH}/db/"
+                  echo "Sending DB dump to remote host..."
+                  rsync -av \
+                    -e "ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+                    /tmp/all.sql \
+                    "pi@192.168.178.69:/mnt/backup/${DB_PATH}/db/"
 
-                    echo "Backup completed."
+                  echo "Backup completed."
               envFrom:
                 - secretRef:
                     name: discord-secrets
