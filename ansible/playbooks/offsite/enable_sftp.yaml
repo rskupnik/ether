@@ -1,0 +1,25 @@
+---
+- name: Enable SFTP on remote Raspberry Pi
+  hosts: remote_pi
+  become: true
+
+  tasks:
+    - name: Ensure OpenSSH server is installed
+      ansible.builtin.apt:
+        name: openssh-server
+        state: present
+
+    - name: Enable SFTP subsystem
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^\s*#?\s*Subsystem\s+sftp\s+'
+        line: 'Subsystem sftp internal-sftp'
+        state: present
+        validate: '/usr/sbin/sshd -t -f %s'
+      notify: Reload SSH
+
+  handlers:
+    - name: Reload SSH
+      ansible.builtin.service:
+        name: ssh
+        state: reloaded
