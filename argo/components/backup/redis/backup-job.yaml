@@ -25,10 +25,43 @@ spec:
               command: ["/bin/sh", "-c"]
               args:
                 - |
-                  set -e
+                  #!/bin/sh
+                  set -eu
 
-                  echo "Installing rsync and ssh..."
-                  apk add --no-cache rsync openssh-client
+                  notify() {
+                    status="$1"
+                    message="$2"
+
+                    if [ "$status" = "success" ]; then
+                      webhook="$DISCORD_BACKUPS_WEBHOOK"
+                      message="✅ $message"
+                    else
+                      webhook="$DISCORD_ALERTS_WEBHOOK"
+                      message="❌ <@${DISCORD_USER_ID}> $message"
+                    fi
+
+                    curl -fsS --retry 2 --max-time 10 \
+                      --data-urlencode "content=$message" \
+                      "${webhook}?wait=true" \
+                      || echo "WARNING: Discord notification failed"
+                  }
+
+                  on_exit() {
+                    exit_code="$1"
+
+                    trap - EXIT
+
+                    if [ "$exit_code" -eq 0 ]; then
+                      notify success "Database backup completed: ${DB_PATH}"
+                    else
+                      notify failure "Database backup FAILED: ${DB_PATH} (exit code: ${exit_code})"
+                    fi
+                  }
+
+                  trap 'on_exit "$?"' EXIT
+
+                  echo "Install tools"
+                  apk add --no-cache rsync openssh-client curl
 
                   echo "Triggering Redis RDB snapshot..."
                   redis-cli \
@@ -58,6 +91,9 @@ spec:
                     pi@192.168.178.69:/mnt/backup/${DB_PATH}/redis/
 
                   echo "Redis backup completed."
+              envFrom:
+                - secretRef:
+                    name: discord-secrets
               env:
                 - name: DB_PASSWORD
                   valueFrom:
