@@ -61,22 +61,56 @@ spec:
 
                   trap 'on_exit "$?"' EXIT
 
-                  echo "Install rsync and kubectl"
-                  apk add --no-cache rsync openssh-client kubectl curl
+                  echo "Install tools"
+                  apk add --no-cache restic openssh-client kubectl curl
+
+                  echo "Configuring restic..."
+                  export RESTIC_REPOSITORY="sftp:pi@192.168.178.69:/mnt/backup/${DESTINATION_PATH}/data"
 
                   echo "Scaling down"
                   kubectl scale deploy ${DEPLOYMENT_NAME} --replicas=0
                   sleep 6
 
-                  echo "Ensuring target directory exists..."
-                  ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-                    pi@192.168.178.69 "mkdir -p /mnt/backup/${DESTINATION_PATH}"
-                  
-                  echo "Starting data backup..."
-                  rsync -avh --delete \
-                    -e "ssh -i /ssh-keys/offsite -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
-                    /data/ \
-                    pi@192.168.178.69:/mnt/backup/${DESTINATION_PATH}
+                  mkdir -p /root/.ssh
+
+                  cat > /root/.ssh/config <<EOF
+                  Host 192.168.178.69
+                      User pi
+                      IdentityFile /ssh-keys/offsite
+                      StrictHostKeyChecking no
+                      UserKnownHostsFile /dev/null
+                      BatchMode yes
+                  EOF
+
+                  chmod 600 /root/.ssh/config
+
+                  echo "Checking restic repository..."
+                  if ! restic cat config >/dev/null 2>&1; then
+                    # Only initialize if the remote repository is absent.
+                    # Other errors must fail the backup.
+                    if ssh -i /ssh-keys/offsite \
+                      -o StrictHostKeyChecking=no \
+                      -o UserKnownHostsFile=/dev/null \
+                      -o BatchMode=yes \
+                      pi@192.168.178.69 \
+                      "test ! -e '/mnt/backup/${DESTINATION_PATH}/data'"; then
+                      echo "Initializing new restic repository..."
+                      restic init
+                    else
+                      echo "Repository unavailable or invalid; refusing to initialize."
+                      exit 1
+                    fi
+                  fi
+
+                  echo "Creating restic snapshot..."
+                  restic backup /data --tag data
+
+                  echo "Applying retention policy..."
+                  restic forget \
+                    --keep-daily 7 \
+                    --keep-weekly 4 \
+                    --keep-monthly 6 \
+                    --prune
 
                   echo "Scaling up"
                   kubectl scale deploy ${DEPLOYMENT_NAME} --replicas=1
@@ -85,6 +119,8 @@ spec:
               envFrom:
                 - secretRef:
                     name: discord-secrets
+                - secretRef:
+                    name: restic-secrets
               env:
                 - name: DEPLOYMENT_NAME
                   value: placeholder
