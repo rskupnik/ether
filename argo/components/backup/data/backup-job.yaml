@@ -65,7 +65,7 @@ spec:
                   apk add --no-cache restic openssh-client kubectl curl
 
                   echo "Configuring restic..."
-                  export RESTIC_REPOSITORY="sftp:pi@192.168.178.69:/mnt/backup/${DESTINATION_PATH}/data"
+                  export RESTIC_REPOSITORY="sftp:pi@192.168.178.69:/mnt/backup/${DESTINATION_PATH}"
 
                   echo "Scaling down"
                   kubectl scale deploy ${DEPLOYMENT_NAME} --replicas=0
@@ -93,7 +93,7 @@ spec:
                       -o UserKnownHostsFile=/dev/null \
                       -o BatchMode=yes \
                       pi@192.168.178.69 \
-                      "test ! -e '/mnt/backup/${DESTINATION_PATH}/data'"; then
+                      "test ! -e '/mnt/backup/${DESTINATION_PATH}'"; then
                       echo "Initializing new restic repository..."
                       restic init
                     else
